@@ -1,0 +1,305 @@
+/* ============================================================
+   Sodexo Brand Identity System - CSS
+   Basado en "Sistema de Identificación de Marca Corporativa"
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+/* ── Tokens de marca ────────────────────────────────────────── */
+:root {
+  --sdx-blue:   #283897;
+  --sdx-red:    #EE0000;
+  --sdx-dark:   #2A295C;
+  --sdx-sky:    #199CDA;
+  --sdx-green:  #34A866;
+  --sdx-teal:   #228085;
+  --sdx-purple: #915FC8;
+  --sdx-pink:   #DA558C;
+  --sdx-orange: #EF661A;
+  --sdx-yellow: #FCBD4C;
+  --sdx-bronze: #B28B4E;
+}
+
+/* ── Reset básico ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Open Sans', Arial, sans-serif;
+  color: var(--sdx-dark);
+  background: #ffffff;
+}
+
+/* ── Tipografía ─────────────────────────────────────────────── */
+/* Sansa Pro (fuente oficial Sodexo) no está disponible en CDN.
+   Se usa Arial como sustituto según las directrices del Brand Toolkit. */
+h1, h2, h3, h4 {
+  font-family: Arial, sans-serif;
+  letter-spacing: -0.02em;
+  color: var(--sdx-blue);
+}
+
+/* Los títulos de marca se escriben en minúsculas (brand guideline) */
+.brand-title {
+  text-transform: lowercase;
+}
+
+/* ── Transiciones de diapositiva ────────────────────────────── */
+/* "Al pasar a la siguiente: nueva diapositiva apareciendo de izquierda a derecha" */
+
+@keyframes slideInFromLeft {
+  from { transform: translateX(-100%); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+@keyframes slideOutToRight {
+  from { transform: translateX(0);     opacity: 1; }
+  to   { transform: translateX(100%);  opacity: 0; }
+}
+
+@keyframes slideInFromRight {
+  from { transform: translateX(100%);  opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+@keyframes slideOutToLeft {
+  from { transform: translateX(0);     opacity: 1; }
+  to   { transform: translateX(-100%); opacity: 0; }
+}
+
+.slide-container {
+  will-change: transform, opacity;
+}
+
+.slide-enter-next { animation: slideInFromLeft  400ms ease-in-out both; }
+.slide-exit-next  { animation: slideOutToRight  300ms ease-in-out both; }
+.slide-enter-prev { animation: slideInFromRight 400ms ease-in-out both; }
+.slide-exit-prev  { animation: slideOutToLeft   300ms ease-in-out both; }
+
+/* ── Menú lateral ───────────────────────────────────────────── */
+.sidebar {
+  flex-shrink: 0;
+  transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Borde rojo visible cuando el menú está oculto */
+.sidebar-collapsed-bar {
+  position: absolute;
+  inset: 0;
+  background-color: var(--sdx-red);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-collapsed-bar::after {
+  content: '›';
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 700;
+  writing-mode: vertical-rl;
+  letter-spacing: 4px;
+}
+
+.sidebar-inner {
+  position: absolute;
+  inset: 0;
+  background-color: var(--sdx-blue);
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem 1rem;
+  min-width: 220px;
+  transition: opacity 200ms ease;
+}
+
+/* ── Sistema Tarjeta (Sodexo Card) ──────────────────────────── */
+/* Bloque blanco, bordes redondeados, línea de acento roja */
+.sdx-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(40, 56, 151, 0.10);
+  position: relative;
+  overflow: hidden;
+}
+
+.sdx-card--accent-top::before {
+  content: '';
+  display: block;
+  height: 4px;
+  background-color: var(--sdx-red);
+  position: absolute;
+  top: 0; left: 0; right: 0;
+}
+
+.sdx-card--accent-left::before {
+  content: '';
+  display: block;
+  width: 4px;
+  background-color: var(--sdx-red);
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+}
+
+/* ── Navegación menú ────────────────────────────────────────── */
+.nav-btn {
+  width: 100%;
+  text-align: left;
+  padding: 0.7rem 0.875rem;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  color: white;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 180ms ease;
+}
+
+.nav-btn:hover { background: rgba(255,255,255,0.12); }
+
+.nav-btn.active {
+  background: #ffffff;
+  color: var(--sdx-blue);
+  font-weight: 600;
+}
+
+.nav-indicator {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; font-weight: 700;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.5);
+  color: white;
+  transition: all 180ms ease;
+}
+
+.nav-btn.active .nav-indicator {
+  background: var(--sdx-blue);
+  border-color: var(--sdx-blue);
+  color: white;
+}
+
+/* ── Botones de navegación ───────────────────────────────────── */
+.btn-nav {
+  padding: 0.45rem 1.25rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  font-family: 'Open Sans', Arial, sans-serif;
+  transition: all 200ms ease;
+}
+
+.btn-nav:disabled { opacity: 0.35; cursor: default; }
+
+.btn-nav-primary {
+  background-color: var(--sdx-blue);
+  color: white;
+}
+
+.btn-nav-primary:hover:not(:disabled) {
+  background-color: #1e2c7a;
+}
+
+/* ── Indicadores de diapositiva ──────────────────────────────── */
+.slide-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: all 200ms ease;
+  background: #d1d5db;
+  padding: 0;
+}
+
+.slide-dot.active {
+  background: var(--sdx-red);
+  transform: scale(1.5);
+}
+
+/* ── Avatar de equipo ────────────────────────────────────────── */
+.team-avatar {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 auto 1rem;
+  flex-shrink: 0;
+}
+
+/* ── Badge de estado ─────────────────────────────────────────── */
+.status-badge {
+  display: inline-block;
+  padding: 2px 12px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: white;
+}
+
+/* ── Métrica card ────────────────────────────────────────────── */
+.metric-value {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #f5f5f5; }
+::-webkit-scrollbar-thumb { background: var(--sdx-blue); border-radius: 2px; }
+
+/* ── Focus accesible ─────────────────────────────────────────── */
+button:focus-visible { outline: 2px solid var(--sdx-blue); outline-offset: 2px; }
+button:focus:not(:focus-visible) { outline: none; }
+
+/* ── Encabezado azul de ancho completo (brand web guideline) ─── */
+.site-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0.9rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+/* ── Footer con línea de acento roja ─────────────────────────── */
+.slide-footer {
+  border-top: 3px solid var(--sdx-red);
+  padding: 0.7rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  background: #ffffff;
+}
+
+/* ── Link interno ────────────────────────────────────────────── */
+.brand-link {
+  color: var(--sdx-blue);
+  font-size: 0.78rem;
+  text-decoration: underline;
+  display: inline-block;
+  margin-top: 0.5rem;
+  transition: color 180ms;
+}
+.brand-link:hover { color: var(--sdx-red); }
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .site-header { padding: 0.75rem 1rem; }
+  .slide-footer { padding: 0.6rem 1rem; }
+}
