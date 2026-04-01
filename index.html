@@ -561,19 +561,20 @@
       /* Chevron en secuencia horizontal con texto vertical */
       /* El clip-path va en el contenedor (sin rotación → apunta a la derecha).
          El writingMode + rotate van solo en el <span> interno.             */
-      const TIP = 11;
+      const TIP = 22;
 
       const Chevron = ({ label, isFirst }) => (
         <div style={{
           background: colorTeal,
           clipPath: isFirst
             ? `polygon(0 0, calc(100% - ${TIP}px) 0, 100% 50%, calc(100% - ${TIP}px) 100%, 0 100%)`
-            : `polygon(${TIP}px 0, calc(100% - ${TIP}px) 0, 100% 50%, calc(100% - ${TIP}px) 100%, ${TIP}px 100%, 0 50%)`,
+            : `polygon(0 0, calc(100% - ${TIP}px) 0, 100% 50%, calc(100% - ${TIP}px) 100%, 0 100%, ${TIP}px 50%)`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           flex: 1,
           minWidth: 0,
+          marginLeft: isFirst ? 0 : -8,
         }}>
           <span style={{
             color: 'white',
@@ -589,7 +590,7 @@
       );
 
       const PhaseChevrons = ({ steps }) => (
-        <div style={{ flex: 1, padding: '6px 18px 6px 8px', display: 'flex', flexDirection: 'row', gap: 6, minHeight: 0 }}>
+        <div style={{ flex: 1, padding: '6px 18px 6px 8px', display: 'flex', flexDirection: 'row', gap: 4, minHeight: 0 }}>
           {steps.map((s, i) => (
             <Chevron key={i} label={s} isFirst={i === 0} />
           ))}
@@ -1008,8 +1009,8 @@
         const s = CHIP[item.c || ''];
         return (
           <div style={{
-            background: s.bg, border: `1px solid ${s.bd}`, borderRadius: 2,
-            padding: '2px 5px', fontSize: '0.6rem', color: C.dark, lineHeight: 1.3,
+            background: s.bg, border: `1px solid ${s.bd}`, borderRadius: 3,
+            padding: '3px 7px', fontSize: '0.78rem', color: C.dark, lineHeight: 1.35,
           }}>
             {item.l}
           </div>
@@ -1019,8 +1020,8 @@
       const ColHead = ({ title }) => (
         <div style={{
           background: C.blue, color: 'white', fontWeight: 700,
-          fontFamily: 'Arial,sans-serif', fontSize: '0.65rem',
-          padding: '4px 6px', textAlign: 'center', letterSpacing: '0.02em', flexShrink: 0,
+          fontFamily: 'Arial,sans-serif', fontSize: '0.82rem',
+          padding: '5px 8px', textAlign: 'center', letterSpacing: '0.02em', flexShrink: 0,
         }}>
           {title}
         </div>
@@ -1028,20 +1029,21 @@
 
       const GrpName = ({ name }) => (
         <div style={{
-          fontWeight: 700, fontSize: '0.58rem', color: C.blue,
-          borderBottom: `1px solid ${C.red}`, paddingBottom: 1,
-          marginBottom: 2, marginTop: 3, lineHeight: 1.2,
+          fontWeight: 700, fontSize: '0.75rem', color: C.blue,
+          borderBottom: `1px solid ${C.red}`, paddingBottom: 2,
+          marginBottom: 3, marginTop: 4, lineHeight: 1.25,
         }}>
           {name}
         </div>
       );
 
       const BandLabel = ({ text }) => (
-        <div style={{ width: 24, flexShrink: 0, background: C.dark, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: 28, flexShrink: 0, background: C.dark, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
           <span style={{
             color: 'white', fontWeight: 700, fontSize: '0.5rem',
-            letterSpacing: '0.07em', textTransform: 'uppercase',
+            letterSpacing: '0.06em', textTransform: 'uppercase',
             writingMode: 'vertical-rl', transform: 'rotate(180deg)',
+            textAlign: 'center', lineHeight: 1.3,
           }}>{text}</span>
         </div>
       );
@@ -1052,11 +1054,11 @@
           border: '1px solid #E2E8F0', borderRadius: 3, overflow: 'hidden', minWidth: 0,
         }}>
           <ColHead title={col.title} />
-          <div style={{ flex: 1, overflow: 'hidden', padding: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <div style={{ flex: 1, overflow: 'hidden', padding: 4, display: 'flex', flexDirection: 'column', gap: 3 }}>
             {col.groups.map((grp, gi) => (
               <div key={gi}>
                 {grp.name && <GrpName name={grp.name} />}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                   {grp.items.map((item, ii) => <Chip key={ii} item={item} />)}
                 </div>
               </div>
@@ -1079,15 +1081,15 @@
           </div>
 
           {/* Procesos de Dirección */}
-          <div style={{ flexShrink: 0, height: 70, display: 'flex', borderTop: '1px solid #E2E8F0', borderBottom: '1px solid #E2E8F0' }}>
+          <div style={{ flexShrink: 0, height: 90, display: 'flex', borderTop: '1px solid #E2E8F0', borderBottom: '1px solid #E2E8F0' }}>
             <BandLabel text={tp.sectionDir} />
             <div style={{ flex: 1, display: 'flex', gap: 5, padding: '5px 10px', alignItems: 'stretch' }}>
               {tp.dirItems.map((item, i) => (
                 <div key={i} style={{ flex: 1, border: '1px solid #D1D5DB', borderRadius: 3, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ background: C.blue, color: 'white', fontWeight: 700, fontFamily: 'Arial,sans-serif', fontSize: '0.65rem', padding: '5px 6px', textAlign: 'center', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ background: C.blue, color: 'white', fontWeight: 700, fontFamily: 'Arial,sans-serif', fontSize: '0.82rem', padding: '5px 8px', textAlign: 'center', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     {item}
                   </div>
-                  <div style={{ background: '#F3F4F6', color: '#6B7280', fontSize: '0.52rem', padding: '2px 6px', textAlign: 'center' }}>
+                  <div style={{ background: '#F3F4F6', color: '#6B7280', fontSize: '0.68rem', padding: '3px 6px', textAlign: 'center' }}>
                     [{tp.subLabel}]
                   </div>
                 </div>
@@ -1318,6 +1320,393 @@
       );
     }
 
+    /* ── SEGMENTO 8 — Alcance Regional ─────────────────────── */
+    function SegRegionalReach({ t }) {
+      const tr = t.regionalReach;
+
+      const cardColors = [C.green, C.green, C.sky, C.purple];
+
+      const RegionalCard = ({ tag, project, title, text, route, accent }) => (
+        <div style={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          background: 'white',
+          borderRadius: 10,
+          overflow: 'hidden',
+          boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+          minWidth: 0,
+        }}>
+          {/* Barra de acento superior */}
+          <div style={{ height: 5, background: accent, flexShrink: 0 }} />
+          <div style={{ padding: '1.1rem 1.4rem 1.2rem', display: 'flex', flexDirection: 'column', flex: 1, gap: '0.5rem' }}>
+            {/* Tag + Proyecto */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+              <span style={{
+                display: 'inline-block',
+                background: accent,
+                color: 'white',
+                fontSize: 'clamp(0.6rem, 1vw, 0.72rem)',
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                padding: '3px 10px',
+                borderRadius: 4,
+              }}>{tag}</span>
+              {project && (
+                <span style={{
+                  color: C.dark,
+                  fontSize: 'clamp(0.65rem, 1.1vw, 0.78rem)',
+                  fontWeight: 700,
+                  letterSpacing: '0.04em',
+                }}>{project}</span>
+              )}
+            </div>
+
+            {/* Título */}
+            <h3 style={{
+              color: C.dark,
+              fontSize: 'clamp(0.85rem, 1.5vw, 1.05rem)',
+              fontWeight: 700,
+              fontFamily: 'Arial, sans-serif',
+              margin: 0,
+              lineHeight: 1.3,
+            }}>{title}</h3>
+
+            {/* Texto */}
+            <p style={{
+              color: '#374151',
+              fontSize: 'clamp(0.72rem, 1.2vw, 0.88rem)',
+              lineHeight: 1.65,
+              margin: 0,
+              flex: 1,
+            }}>{text}</p>
+
+            {/* Ruta / Estado */}
+            {route && (
+              <div style={{
+                marginTop: 'auto',
+                paddingTop: '0.5rem',
+                borderTop: '1px solid #E5E7EB',
+                color: accent,
+                fontSize: 'clamp(0.65rem, 1.1vw, 0.78rem)',
+                fontWeight: 600,
+                fontStyle: 'italic',
+              }}>{route}</div>
+            )}
+          </div>
+        </div>
+      );
+
+      const cards = [
+        { tag: tr.card1Tag, project: tr.card1Project, title: tr.card1Title, text: tr.card1Text, route: tr.card1Route },
+        { tag: tr.card2Tag, project: tr.card2Project, title: tr.card2Title, text: tr.card2Text, route: tr.card2Route },
+        { tag: tr.card3Tag, project: tr.card3Project, title: tr.card3Title, text: tr.card3Text, route: tr.card3Route },
+        { tag: tr.card4Tag, project: null,             title: tr.card4Title, text: tr.card4Text, route: null },
+      ];
+
+      return (
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+
+          {/* Título + subtítulo */}
+          <div style={{ padding: '0.85rem 1.75rem 0.2rem', flexShrink: 0 }}>
+            <h2 style={{
+              color: C.blue,
+              fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
+              fontWeight: 700,
+              fontFamily: 'Arial, sans-serif',
+              margin: 0,
+            }}>{tr.heading}</h2>
+            <p style={{
+              color: '#6B7280',
+              fontSize: 'clamp(0.78rem, 1.3vw, 0.95rem)',
+              fontStyle: 'italic',
+              margin: '0.3rem 0 0',
+            }}>{tr.subtitle}</p>
+          </div>
+
+          {/* Grid de 4 cards */}
+          <div style={{
+            flex: 1,
+            minHeight: 0,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gridTemplateRows: 'repeat(2, 1fr)',
+            gap: '1rem',
+            padding: '0.6rem 1.75rem 1rem',
+          }}>
+            {cards.map((c, i) => (
+              <RegionalCard
+                key={i}
+                tag={c.tag}
+                project={c.project}
+                title={c.title}
+                text={c.text}
+                route={c.route}
+                accent={cardColors[i]}
+              />
+            ))}
+          </div>
+
+          {/* Acento rojo inferior */}
+          <div style={{ height: 4, background: C.red, flexShrink: 0 }} />
+        </div>
+      );
+    }
+
+    /* ── SEGMENTO 9 — Plataformas Globales ──────────────────── */
+    function SegGlobalPlatforms({ t }) {
+      const tg = t.globalPlatforms;
+
+      const PlatformCard = ({ name, desc, impact, sites, accent }) => (
+        <div style={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          background: 'white',
+          borderRadius: 10,
+          overflow: 'hidden',
+          boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+        }}>
+          {/* Barra de acento superior */}
+          <div style={{ height: 5, background: accent, flexShrink: 0 }} />
+          <div style={{ padding: '1.6rem 2rem 1.8rem', display: 'flex', flexDirection: 'column', flex: 1, gap: '0.75rem' }}>
+            {/* Nombre de plataforma */}
+            <h3 style={{
+              color: C.dark,
+              fontSize: 'clamp(1rem, 2vw, 1.3rem)',
+              fontWeight: 700,
+              fontFamily: 'Arial, sans-serif',
+              margin: 0,
+            }}>{name}</h3>
+
+            {/* Descripción */}
+            <p style={{
+              color: '#374151',
+              fontSize: 'clamp(0.82rem, 1.4vw, 1rem)',
+              lineHeight: 1.7,
+              margin: 0,
+              flex: 1,
+            }}>{desc}</p>
+
+            {/* Indicadores */}
+            <div style={{
+              display: 'flex',
+              gap: '1.5rem',
+              marginTop: 'auto',
+              paddingTop: '0.75rem',
+              borderTop: '1px solid #E5E7EB',
+              flexWrap: 'wrap',
+            }}>
+              {/* Impacto clave */}
+              <div style={{ flex: 1, minWidth: 180 }}>
+                <div style={{
+                  fontSize: 'clamp(0.6rem, 1vw, 0.72rem)',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  color: accent,
+                  marginBottom: 4,
+                }}>{tg.impactLabel}</div>
+                <div style={{
+                  color: '#4B5563',
+                  fontSize: 'clamp(0.75rem, 1.2vw, 0.9rem)',
+                  lineHeight: 1.5,
+                }}>{impact}</div>
+              </div>
+              {/* Sitios activos */}
+              <div style={{ minWidth: 100 }}>
+                <div style={{
+                  fontSize: 'clamp(0.6rem, 1vw, 0.72rem)',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  color: accent,
+                  marginBottom: 4,
+                }}>{tg.sitesLabel}</div>
+                <div style={{
+                  color: C.dark,
+                  fontSize: 'clamp(0.9rem, 1.6vw, 1.15rem)',
+                  fontWeight: 700,
+                }}>{sites}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+      return (
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+
+          {/* Título + subtítulo */}
+          <div style={{ padding: '0.85rem 1.75rem 0.2rem', flexShrink: 0 }}>
+            <h2 style={{
+              color: C.blue,
+              fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
+              fontWeight: 700,
+              fontFamily: 'Arial, sans-serif',
+              margin: 0,
+            }}>{tg.heading}</h2>
+            <p style={{
+              color: '#6B7280',
+              fontSize: 'clamp(0.78rem, 1.3vw, 0.95rem)',
+              fontStyle: 'italic',
+              margin: '0.3rem 0 0',
+            }}>{tg.subtitle}</p>
+          </div>
+
+          {/* Cards lado a lado */}
+          <div style={{
+            flex: 1,
+            minHeight: 0,
+            display: 'flex',
+            gap: '1.5rem',
+            padding: '0.6rem 1.75rem 1.5rem',
+          }}>
+            <PlatformCard
+              name={tg.card1Name}
+              desc={tg.card1Desc}
+              impact={tg.card1Impact}
+              sites={tg.card1Sites}
+              accent={C.sky}
+            />
+            <PlatformCard
+              name={tg.card2Name}
+              desc={tg.card2Desc}
+              impact={tg.card2Impact}
+              sites={tg.card2Sites}
+              accent={C.green}
+            />
+          </div>
+
+          {/* Acento rojo inferior */}
+          <div style={{ height: 4, background: C.red, flexShrink: 0 }} />
+        </div>
+      );
+    }
+
+    /* ── SEGMENTO 10 — Oportunidades de Mejora ─────────────── */
+    function SegImprovements({ t }) {
+      const ti = t.improvements;
+
+      const cardDefs = [
+        { tag: ti.card1Tag, project: null,          title: ti.card1Title, accent: C.yellow },
+        { tag: ti.card2Tag, project: ti.card2Project, title: ti.card2Title, accent: C.red },
+        { tag: ti.card3Tag, project: ti.card3Project, title: ti.card3Title, accent: C.red },
+        { tag: ti.card4Tag, project: null,          title: ti.card4Title, accent: C.purple },
+      ];
+
+      return (
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+
+          {/* Título + subtítulo */}
+          <div style={{ padding: '0.85rem 1.75rem 0.2rem', flexShrink: 0 }}>
+            <h2 style={{
+              color: C.blue,
+              fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
+              fontWeight: 700,
+              fontFamily: 'Arial, sans-serif',
+              margin: 0,
+            }}>{ti.heading}</h2>
+            <p style={{
+              color: '#6B7280',
+              fontSize: 'clamp(0.78rem, 1.3vw, 0.95rem)',
+              fontStyle: 'italic',
+              margin: '0.3rem 0 0',
+            }}>{ti.subtitle}</p>
+          </div>
+
+          {/* Grid 2×2 */}
+          <div style={{
+            flex: 1,
+            minHeight: 0,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gridTemplateRows: 'repeat(2, 1fr)',
+            gap: '1rem',
+            padding: '0.6rem 1.75rem 1rem',
+          }}>
+
+            {/* ── Card 1 — Caso de referencia ── */}
+            <div style={{ display: 'flex', flexDirection: 'column', background: 'white', borderRadius: 10, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
+              <div style={{ height: 5, background: C.yellow, flexShrink: 0 }} />
+              <div style={{ padding: '1.1rem 1.4rem 1.2rem', display: 'flex', flexDirection: 'column', flex: 1, gap: '0.5rem' }}>
+                <span style={{ display: 'inline-block', alignSelf: 'flex-start', background: C.yellow, color: 'white', fontSize: 'clamp(0.6rem, 1vw, 0.72rem)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '3px 10px', borderRadius: 4 }}>{ti.card1Tag}</span>
+                <h3 style={{ color: C.dark, fontSize: 'clamp(0.85rem, 1.5vw, 1.05rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', margin: 0, lineHeight: 1.3 }}>{ti.card1Title}</h3>
+                <p style={{ color: '#374151', fontSize: 'clamp(0.72rem, 1.2vw, 0.88rem)', lineHeight: 1.65, margin: 0, flex: 1 }}>{ti.card1Text}</p>
+              </div>
+            </div>
+
+            {/* ── Card 2 — Centro de Servicios ── */}
+            <div style={{ display: 'flex', flexDirection: 'column', background: 'white', borderRadius: 10, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
+              <div style={{ height: 5, background: C.red, flexShrink: 0 }} />
+              <div style={{ padding: '1.1rem 1.4rem 1.2rem', display: 'flex', flexDirection: 'column', flex: 1, gap: '0.5rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                  <span style={{ display: 'inline-block', background: C.red, color: 'white', fontSize: 'clamp(0.6rem, 1vw, 0.72rem)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '3px 10px', borderRadius: 4 }}>{ti.card2Tag}</span>
+                  <span style={{ color: C.dark, fontSize: 'clamp(0.65rem, 1.1vw, 0.78rem)', fontWeight: 700 }}>{ti.card2Project}</span>
+                </div>
+                <h3 style={{ color: C.dark, fontSize: 'clamp(0.85rem, 1.5vw, 1.05rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', margin: 0, lineHeight: 1.3 }}>{ti.card2Title}</h3>
+                <p style={{ color: '#374151', fontSize: 'clamp(0.72rem, 1.2vw, 0.88rem)', lineHeight: 1.65, margin: 0, flex: 1 }}>{ti.card2Text}</p>
+                <div style={{ marginTop: 'auto', paddingTop: '0.5rem', borderTop: '1px solid #E5E7EB', display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+                  <div>
+                    <div style={{ fontSize: 'clamp(0.6rem, 0.9vw, 0.68rem)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: C.red, marginBottom: 2 }}>{ti.card2Stat1Label}</div>
+                    <div style={{ color: C.dark, fontSize: 'clamp(0.9rem, 1.5vw, 1.1rem)', fontWeight: 700 }}>{ti.card2Stat1}</div>
+                  </div>
+                  <div style={{ flex: 1, minWidth: 120 }}>
+                    <div style={{ fontSize: 'clamp(0.6rem, 0.9vw, 0.68rem)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: C.red, marginBottom: 2 }}>{ti.card2Stat2Label}</div>
+                    <div style={{ color: '#4B5563', fontSize: 'clamp(0.7rem, 1.1vw, 0.82rem)', lineHeight: 1.4 }}>{ti.card2Stat2}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* ── Card 3 — Sotrack ── */}
+            <div style={{ display: 'flex', flexDirection: 'column', background: 'white', borderRadius: 10, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
+              <div style={{ height: 5, background: C.red, flexShrink: 0 }} />
+              <div style={{ padding: '1.1rem 1.4rem 1.2rem', display: 'flex', flexDirection: 'column', flex: 1, gap: '0.5rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                  <span style={{ display: 'inline-block', background: C.red, color: 'white', fontSize: 'clamp(0.6rem, 1vw, 0.72rem)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '3px 10px', borderRadius: 4 }}>{ti.card3Tag}</span>
+                  <span style={{ color: C.dark, fontSize: 'clamp(0.65rem, 1.1vw, 0.78rem)', fontWeight: 700 }}>{ti.card3Project}</span>
+                </div>
+                <h3 style={{ color: C.dark, fontSize: 'clamp(0.85rem, 1.5vw, 1.05rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', margin: 0, lineHeight: 1.3 }}>{ti.card3Title}</h3>
+                <p style={{ color: '#374151', fontSize: 'clamp(0.72rem, 1.2vw, 0.88rem)', lineHeight: 1.65, margin: 0, flex: 1 }}>{ti.card3Text}</p>
+                <div style={{ marginTop: 'auto', paddingTop: '0.5rem', borderTop: '1px solid #E5E7EB', display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+                  <div>
+                    <div style={{ fontSize: 'clamp(0.6rem, 0.9vw, 0.68rem)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: C.red, marginBottom: 2 }}>{ti.card3Stat1Label}</div>
+                    <div style={{ color: C.dark, fontSize: 'clamp(0.9rem, 1.5vw, 1.1rem)', fontWeight: 700 }}>{ti.card3Stat1}</div>
+                  </div>
+                  <div style={{ flex: 1, minWidth: 120 }}>
+                    <div style={{ fontSize: 'clamp(0.6rem, 0.9vw, 0.68rem)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: C.red, marginBottom: 2 }}>{ti.card3Stat2Label}</div>
+                    <div style={{ color: '#4B5563', fontSize: 'clamp(0.7rem, 1.1vw, 0.82rem)', lineHeight: 1.4 }}>{ti.card3Stat2}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* ── Card 4 — Solicitud al liderazgo ── */}
+            <div style={{ display: 'flex', flexDirection: 'column', background: 'white', borderRadius: 10, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
+              <div style={{ height: 5, background: C.purple, flexShrink: 0 }} />
+              <div style={{ padding: '1.1rem 1.4rem 1.2rem', display: 'flex', flexDirection: 'column', flex: 1, gap: '0.5rem' }}>
+                <span style={{ display: 'inline-block', alignSelf: 'flex-start', background: C.purple, color: 'white', fontSize: 'clamp(0.6rem, 1vw, 0.72rem)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '3px 10px', borderRadius: 4 }}>{ti.card4Tag}</span>
+                <h3 style={{ color: C.dark, fontSize: 'clamp(0.85rem, 1.5vw, 1.05rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', margin: 0, lineHeight: 1.3 }}>{ti.card4Title}</h3>
+                <p style={{ color: '#374151', fontSize: 'clamp(0.72rem, 1.2vw, 0.88rem)', lineHeight: 1.65, margin: 0 }}>{ti.card4Intro}</p>
+                <ul style={{ color: '#374151', fontSize: 'clamp(0.72rem, 1.2vw, 0.88rem)', lineHeight: 1.65, margin: 0, paddingLeft: '1.2rem', flex: 1 }}>
+                  {ti.card4Actions.map((a, i) => (
+                    <li key={i} style={{ marginBottom: '0.3rem' }}>{a}</li>
+                  ))}
+                </ul>
+                <div style={{ marginTop: 'auto', paddingTop: '0.5rem', borderTop: '1px solid #E5E7EB', color: C.purple, fontSize: 'clamp(0.72rem, 1.2vw, 0.88rem)', fontWeight: 600, fontStyle: 'italic' }}>{ti.card4Closing}</div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Acento rojo inferior */}
+          <div style={{ height: 4, background: C.red, flexShrink: 0 }} />
+        </div>
+      );
+    }
+
     /* ── Configuración de segmentos ─────────────────────────── */
     const SEGMENTS_CONFIG = [
       { id: 0, Component: SegHome            },
@@ -1328,6 +1717,9 @@
       { id: 5, Component: SegMetrics        },
       { id: 6, Component: SegPortfolio      },
       { id: 7, Component: SegCurrentProjects},
+      { id: 8, Component: SegRegionalReach  },
+      { id: 9, Component: SegGlobalPlatforms},
+      { id: 10, Component: SegImprovements  },
     ];
 
     /* ════════════════════════════════════════════════════════
