@@ -3,7 +3,7 @@
     "langToggle": "EN",
     "pageTitle": "Presentación del Equipo | Sodexo",
     "headerTitle": "presentación del equipo de trabajo",
-    "segments": ["home", "quiénes somos", "qué hacemos", "método de trabajo", "trayectoria del área", "métricas", "portafolio de proyectos"],
+    "segments": ["home", "quiénes somos", "qué hacemos", "método de trabajo", "trayectoria del área", "métricas", "portafolio de proyectos", "proyectos actuales"],
     "sidebarTitle": "Presentación",
     "sidebarSubtitle": "Equipo de trabajo",
     "sidebarClose": "‹ cerrar menú",
@@ -169,13 +169,27 @@
           "groups": []
         }
       ]
+    },
+    "currentProjects": {
+      "heading": "proyectos actuales",
+      "today": "Hoy",
+      "projects": [
+        {"name": "Puntos de Ventas (Reemplazo POS)",       "start": "2024-05-29", "end": "2026-08-31"},
+        {"name": "Venta Empresa Contratista",               "start": "2024-06-14", "end": "2026-06-30"},
+        {"name": "Centro de Servicio – Exámenes Médicos",  "start": "2024-07-29", "end": "2026-04-30"},
+        {"name": "SGPOS",                                   "start": "2024-10-23", "end": "2026-05-29"},
+        {"name": "So Track",                                "start": "2025-04-03", "end": "2026-12-31"},
+        {"name": "Cambio Facturador Electrónico",           "start": "2025-06-24", "end": "2026-05-29"},
+        {"name": "Backlog SoStay",                          "start": "2025-09-29", "end": "2026-08-31"},
+        {"name": "SGP Upgrade",                             "start": "2025-11-07", "end": "2026-08-31"}
+      ]
     }
   },
   "en": {
     "langToggle": "ES",
     "pageTitle": "Team Presentation | Sodexo",
     "headerTitle": "work team presentation",
-    "segments": ["home", "who we are", "what we do", "work method", "area trajectory", "metrics", "project portfolio"],
+    "segments": ["home", "who we are", "what we do", "work method", "area trajectory", "metrics", "project portfolio", "current projects"],
     "sidebarTitle": "Presentation",
     "sidebarSubtitle": "Work team",
     "sidebarClose": "‹ close menu",
@@ -340,6 +354,20 @@
           "title": "Legal Advisory",
           "groups": []
         }
+      ]
+    },
+    "currentProjects": {
+      "heading": "current projects",
+      "today": "Today",
+      "projects": [
+        {"name": "Points of Sale (POS Replacement)",       "start": "2024-05-29", "end": "2026-08-31"},
+        {"name": "Contractor Company Sales",               "start": "2024-06-14", "end": "2026-06-30"},
+        {"name": "Service Center – Medical Exams",         "start": "2024-07-29", "end": "2026-04-30"},
+        {"name": "SGPOS",                                   "start": "2024-10-23", "end": "2026-05-29"},
+        {"name": "So Track",                                "start": "2025-04-03", "end": "2026-12-31"},
+        {"name": "Electronic Billing System Change",       "start": "2025-06-24", "end": "2026-05-29"},
+        {"name": "Backlog SoStay",                          "start": "2025-09-29", "end": "2026-08-31"},
+        {"name": "SGP Upgrade",                             "start": "2025-11-07", "end": "2026-08-31"}
       ]
     }
   }
