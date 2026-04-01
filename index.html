@@ -90,62 +90,234 @@
       );
     }
 
+    /* ── SEGMENTO 0 — Home ──────────────────────────────────── */
+    function SegHome() {
+      return (
+        <div
+          style={{
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: `linear-gradient(135deg, ${C.dark} 0%, ${C.blue} 100%)`,
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
+          {/* Acento decorativo — círculo translúcido */}
+          <div style={{
+            position: 'absolute', top: '-80px', right: '-80px',
+            width: 340, height: 340, borderRadius: '50%',
+            background: 'rgba(255,255,255,0.05)',
+          }} />
+          <div style={{
+            position: 'absolute', bottom: '-60px', left: '-60px',
+            width: 240, height: 240, borderRadius: '50%',
+            background: 'rgba(255,255,255,0.05)',
+          }} />
+          {/* Línea de acento roja inferior */}
+          <div style={{
+            position: 'absolute', bottom: 0, left: 0, right: 0,
+            height: 5, background: C.red,
+          }} />
+
+          {/* Contenido centrado */}
+          <div style={{ textAlign: 'center', padding: '2rem', zIndex: 1 }}>
+            {/* Supra-título */}
+            <p style={{
+              color: 'rgba(255,255,255,0.80)',
+              fontSize: 'clamp(0.85rem, 2vw, 1.1rem)',
+              fontWeight: 600,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              marginBottom: '1.2rem',
+            }}>
+              TDDI &amp; IA — Sodexo Chile
+            </p>
+
+            {/* Título principal */}
+            <h1 style={{
+              color: '#ffffff',
+              fontSize: 'clamp(2.2rem, 6vw, 4rem)',
+              fontWeight: 700,
+              fontFamily: 'Arial, sans-serif',
+              lineHeight: 1.15,
+              margin: '0 0 1.4rem',
+            }}>
+              Transformación con rumbo
+            </h1>
+
+            {/* Separador */}
+            <div style={{
+              width: 60, height: 4, borderRadius: 2,
+              background: C.red,
+              margin: '0 auto 1.4rem',
+            }} />
+
+            {/* Subtítulo */}
+            <p style={{
+              color: 'rgba(255,255,255,0.65)',
+              fontSize: 'clamp(0.9rem, 2vw, 1.15rem)',
+              fontWeight: 400,
+              letterSpacing: '0.06em',
+              margin: 0,
+            }}>
+              abril 2026
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    /* ── Helpers de organigrama ─────────────────────────────── */
+    /* Nodo raíz / nivel superior */
+    function OrgNode({ name, role, color = C.blue, bold = false }) {
+      return (
+        <div style={{
+          background: color,
+          color: '#fff',
+          borderRadius: 6,
+          padding: '4px 10px',
+          display: 'inline-block',
+          fontSize: bold ? '0.72rem' : '0.65rem',
+          fontWeight: bold ? 700 : 600,
+          whiteSpace: 'nowrap',
+          lineHeight: 1.35,
+          textAlign: 'center',
+          maxWidth: 180,
+        }}>
+          <div style={{ fontWeight: 700 }}>{name}</div>
+          {role && <div style={{ fontWeight: 400, opacity: 0.88 }}>{role}</div>}
+        </div>
+      );
+    }
+
+    /* Rama con línea vertical + hijos */
+    function OrgBranch({ children, indent = 12 }) {
+      return (
+        <div style={{ paddingLeft: indent, borderLeft: `2px solid ${C.sky}30`, marginLeft: 6, marginTop: 3 }}>
+          {children}
+        </div>
+      );
+    }
+
+    /* Fila de un hijo con línea horizontal */
+    function OrgRow({ children }) {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 4, position: 'relative' }}>
+          <div style={{ width: 10, height: 2, background: `${C.sky}50`, flexShrink: 0 }} />
+          {children}
+        </div>
+      );
+    }
+
+    /* Badge de cantidad de colaboradores */
+    function ColBadge({ n }) {
+      return (
+        <span style={{
+          background: C.sky, color: '#fff',
+          borderRadius: 10, fontSize: '0.55rem',
+          padding: '1px 5px', marginLeft: 4, fontWeight: 700,
+        }}>{n}</span>
+      );
+    }
+
     /* ── SEGMENTO 1 — Quiénes somos ─────────────────────────── */
     function SegAbout() {
-      const metrics = [
-        { val: '+5',   label: 'años de experiencia',   color: C.sky    },
-        { val: '+20',  label: 'proyectos exitosos',     color: C.green  },
-        { val: '+10',  label: 'clientes satisfechos',   color: C.teal   },
-        { val: '100%', label: 'compromiso del equipo',  color: C.purple },
-      ];
       return (
-        <div className="h-full flex items-center justify-center p-8 md:p-14 overflow-y-auto">
-          <div className="max-w-5xl w-full">
-            <h2
-              className="brand-title"
-              style={{ color: C.blue, fontSize: '2rem', fontWeight: 700, fontFamily: 'Arial,sans-serif', marginBottom: '1.75rem' }}
-            >
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+
+          {/* Cabecera */}
+          <div style={{ padding: '1rem 1.75rem 0.5rem', flexShrink: 0 }}>
+            <h2 style={{ color: C.blue, fontSize: '1.55rem', fontWeight: 700, fontFamily: 'Arial,sans-serif', margin: 0 }}>
               quiénes somos
             </h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              {/* Texto misión */}
-              <Card accent="top" className="p-8">
-                <p style={{ color: C.dark, lineHeight: 1.75, fontSize: '1rem', marginTop: '0.5rem' }}>
-                  Somos un equipo multidisciplinario de Sodexo comprometido con la
-                  transformación digital y la innovación en servicios de bienestar y
-                  calidad de vida.
-                </p>
-                <p style={{ color: C.dark, lineHeight: 1.75, fontSize: '1rem', marginTop: '1rem' }}>
-                  Nuestra misión es generar experiencias que mejoran la vida de las
-                  personas, integrando tecnología, creatividad y empatía en cada
-                  solución que desarrollamos.
-                </p>
-                <div
-                  style={{
-                    marginTop: '1.5rem',
-                    padding: '0.75rem 1rem',
-                    borderRadius: 8,
-                    backgroundColor: '#28389710',
-                    borderLeft: `3px solid ${C.blue}`,
-                  }}
-                >
-                  <p style={{ color: C.blue, fontSize: '0.9rem', fontStyle: 'italic', margin: 0 }}>
-                    "Mejoramos la calidad de vida de quienes servimos, y de quienes
-                    nos ayudan a lograrlo."
-                  </p>
-                </div>
-              </Card>
+          </div>
 
-              {/* Métricas */}
-              <div className="grid grid-cols-2 gap-4">
-                {metrics.map((m, i) => (
-                  <Card key={i} accent="top" className="p-5 text-center flex flex-col items-center justify-center" style={{ minHeight: 110 }}>
-                    <div className="metric-value" style={{ color: m.color }}>{m.val}</div>
-                    <div style={{ color: C.dark, fontSize: '0.8rem', marginTop: 6 }}>{m.label}</div>
-                  </Card>
-                ))}
+          {/* Cuerpo en dos columnas */}
+          <div style={{ flex: 1, display: 'flex', gap: '1.5rem', padding: '0.5rem 1.75rem 1rem', overflow: 'hidden', minHeight: 0 }}>
+
+            {/* ── Columna izquierda — Organigrama ──────────── */}
+            <div style={{
+              flex: '0 0 auto', width: '52%',
+              overflowY: 'auto', paddingRight: 4,
+            }}>
+              <div style={{ fontSize: '0.67rem', color: C.dark, fontWeight: 600, marginBottom: 8, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                Estructura organizacional
               </div>
+
+              {/* Nivel 0 — Director */}
+              <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <OrgNode name="Francisco González" role="Director Service Operation" color={C.dark} bold />
+              </div>
+
+              <OrgBranch indent={10}>
+                {/* Nivel 1 — CIO */}
+                <OrgRow>
+                  <OrgNode name="Marcelo Fernández" role="CIO" color={C.blue} bold />
+                </OrgRow>
+
+                <OrgBranch>
+                  {/* ── Sub-área Proyectos */}
+                  <OrgRow>
+                    <OrgNode name="Área de proyectos" color={C.sky} />
+                  </OrgRow>
+                  <OrgBranch indent={10}>
+                    <OrgRow><OrgNode name="PMO" color={C.teal} /></OrgRow>
+                    <OrgRow><OrgNode name="Arquitecto de soluciones" color={C.teal} /></OrgRow>
+                    <OrgRow>
+                      <OrgNode name="Jefes de proyecto" color={C.teal} />
+                      <ColBadge n="4" />
+                    </OrgRow>
+                    <OrgRow><OrgNode name="Analista programador" color={C.teal} /></OrgRow>
+                  </OrgBranch>
+
+                  {/* ── Sub-área Infraestructura */}
+                  <OrgRow>
+                    <OrgNode name="Infraestructura y seguridad" role="Erwin Morales" color={C.purple} />
+                  </OrgRow>
+                  <OrgBranch indent={10}>
+                    <OrgRow><OrgNode name="Coordinador de seguridad" color={C.pink} /></OrgRow>
+                    <OrgRow>
+                      <OrgNode name="Coordinador de infraestructura" color={C.pink} />
+                      <ColBadge n="2" />
+                    </OrgRow>
+                    <OrgRow>
+                      <OrgNode name="Técnico de soporte" color={C.pink} />
+                      <ColBadge n="3" />
+                    </OrgRow>
+                    <OrgRow>
+                      <OrgNode name="Monitor de infraestructura" color={C.pink} />
+                      <ColBadge n="2" />
+                    </OrgRow>
+                    <OrgRow><OrgNode name="Analista de mesa de ayuda" color={C.pink} /></OrgRow>
+                    <OrgRow><OrgNode name="Asistente IT" color={C.pink} /></OrgRow>
+                  </OrgBranch>
+                </OrgBranch>
+              </OrgBranch>
             </div>
+
+            {/* ── Columna derecha — Frase central ─────────── */}
+            <div style={{
+              flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              borderLeft: `3px solid ${C.red}`,
+              paddingLeft: '1.5rem',
+            }}>
+              <blockquote style={{ margin: 0 }}>
+                <p style={{
+                  color: C.dark,
+                  fontSize: 'clamp(1rem, 2.2vw, 1.45rem)',
+                  fontWeight: 700,
+                  fontFamily: 'Arial, sans-serif',
+                  lineHeight: 1.45,
+                  margin: '0 0 1rem',
+                }}>
+                  "Somos el área que convierte la estrategia tecnológica en resultados concretos — a través de terceros, con control propio."
+                </p>
+                <div style={{ width: 40, height: 3, borderRadius: 2, background: C.red }} />
+              </blockquote>
+            </div>
+
           </div>
         </div>
       );
@@ -234,9 +406,10 @@
 
     /* ── Configuración de segmentos ─────────────────────────── */
     const SEGMENTS = [
-      { id: 0, title: 'quiénes somos',     Component: SegAbout    },
-      { id: 1, title: 'nuestro equipo',    Component: SegTeam     },
-      { id: 2, title: 'nuestros proyectos',Component: SegProjects },
+      { id: 0, title: 'home',               Component: SegHome     },
+      { id: 1, title: 'quiénes somos',      Component: SegAbout    },
+      { id: 2, title: 'nuestro equipo',     Component: SegTeam     },
+      { id: 3, title: 'nuestros proyectos', Component: SegProjects },
     ];
 
     /* ════════════════════════════════════════════════════════
@@ -332,14 +505,18 @@
             >
               {/* Cabecera del menú */}
               <div style={{ borderBottom: '1px solid rgba(255,255,255,0.18)', paddingBottom: '1.1rem', marginBottom: '1.4rem' }}>
-                {/* Logo Sodexo (placeholder — reemplazar con <img src="assets/logo-sodexo.svg"> ) */}
+                {/* Sistema Tarjeta — logo sobre fondo blanco con acento rojo superior */}
                 <div style={{
                   background: 'white', borderRadius: 8, padding: '6px 10px',
-                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  display: 'inline-flex', alignItems: 'center',
                   borderTop: `3px solid ${C.red}`,
                   marginBottom: '0.75rem',
                 }}>
-                  <span style={{ color: C.blue, fontWeight: 800, fontSize: '1rem', letterSpacing: '-0.03em' }}>Sodexo</span>
+                  <img
+                    src="assets/logo.png"
+                    alt="Sodexo"
+                    style={{ height: 32, width: 'auto', display: 'block' }}
+                  />
                 </div>
                 <div style={{ color: 'white', fontWeight: 600, fontSize: '0.82rem' }}>Presentación</div>
                 <div style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.72rem' }}>Equipo de trabajo</div>
