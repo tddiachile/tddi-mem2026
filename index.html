@@ -666,12 +666,342 @@
       );
     }
 
+    /* ── Renderizador del gráfico de trayectoria (D3) ──────── */
+    function renderTrajectoryChart(container, tt) {
+      const data = tt.chartData;
+      const W = container.clientWidth;
+      const H = container.clientHeight;
+      if (!W || !H) return;
+
+      const margin = { top: 18, right: 72, bottom: 46, left: 52 };
+      const w = W - margin.left - margin.right;
+      const h = H - margin.top - margin.bottom;
+
+      d3.select(container).selectAll('svg').remove();
+
+      const svg = d3.select(container)
+        .append('svg').attr('width', W).attr('height', H);
+
+      const g = svg.append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+      /* Escalas */
+      const x = d3.scaleBand()
+        .domain(data.map(d => d.year))
+        .range([0, w]).padding(0.42);
+
+      const maxP = d3.max(data, d => d.projects);
+      const yL = d3.scaleLinear()
+        .domain([0, Math.ceil(maxP / 5) * 5 + 8]).nice()
+        .range([h, 0]);
+
+      const maxC = d3.max(data, d => d.cumulative);
+      const yR = d3.scaleLinear()
+        .domain([0, Math.ceil(maxC / 10) * 10 + 10]).nice()
+        .range([h, 0]);
+
+      /* Líneas de cuadrícula horizontales */
+      g.selectAll('line.hgrid')
+        .data(yL.ticks(6))
+        .join('line')
+        .attr('x1', 0).attr('x2', w)
+        .attr('y1', d => yL(d)).attr('y2', d => yL(d))
+        .attr('stroke', 'rgba(255,255,255,0.1)')
+        .attr('stroke-dasharray', '4,3');
+
+      /* Barras con tope redondeado */
+      const rx = 5;
+      data.forEach(d => {
+        const bx = x(d.year), bw = x.bandwidth();
+        const by = yL(d.projects), bh = h - by;
+        g.append('path')
+          .attr('d', `M${bx},${h} L${bx},${by+rx} Q${bx},${by} ${bx+rx},${by} L${bx+bw-rx},${by} Q${bx+bw},${by} ${bx+bw},${by+rx} L${bx+bw},${h} Z`)
+          .attr('fill', 'rgba(180,200,240,0.32)')
+          .attr('stroke', 'rgba(210,220,255,0.45)')
+          .attr('stroke-width', 1);
+
+        /* Etiqueta de valor sobre la barra */
+        g.append('text')
+          .attr('x', bx + bw / 2).attr('y', by - 7)
+          .attr('text-anchor', 'middle')
+          .attr('fill', 'rgba(255,255,255,0.80)')
+          .attr('font-family', "'Open Sans',Arial,sans-serif")
+          .attr('font-size', '11px').attr('font-weight', '700')
+          .text(d.projects);
+      });
+
+      /* Eje izquierdo */
+      g.append('g')
+        .call(d3.axisLeft(yL).ticks(6).tickSize(0))
+        .call(ag => {
+          ag.select('.domain').attr('stroke', 'rgba(255,255,255,0.2)');
+          ag.selectAll('text').attr('fill','rgba(255,255,255,0.6)')
+            .attr('font-family',"'Open Sans',Arial,sans-serif")
+            .attr('font-size','10px').attr('dx','-3px');
+        });
+
+      /* Eje derecho (rojo) */
+      g.append('g')
+        .attr('transform', `translate(${w},0)`)
+        .call(d3.axisRight(yR).ticks(6).tickSize(0))
+        .call(ag => {
+          ag.select('.domain').attr('stroke','rgba(238,0,0,0.35)');
+          ag.selectAll('text').attr('fill','rgba(238,0,0,0.85)')
+            .attr('font-family',"'Open Sans',Arial,sans-serif")
+            .attr('font-size','10px').attr('dx','3px');
+        });
+
+      /* Eje X */
+      g.append('g')
+        .attr('transform', `translate(0,${h})`)
+        .call(d3.axisBottom(x).tickSize(0))
+        .call(ag => {
+          ag.select('.domain').attr('stroke','rgba(255,255,255,0.2)');
+          ag.selectAll('text').attr('fill','white')
+            .attr('font-family',"'Open Sans',Arial,sans-serif")
+            .attr('font-size','13px').attr('font-weight','600')
+            .attr('dy','1.25em');
+        });
+
+      /* Línea de acumulado histórico */
+      const lineGen = d3.line()
+        .x(d => x(d.year) + x.bandwidth() / 2)
+        .y(d => yR(d.cumulative))
+        .curve(d3.curveCatmullRom.alpha(0.5));
+
+      g.append('path')
+        .datum(data)
+        .attr('fill','none')
+        .attr('stroke','#EE0000')
+        .attr('stroke-width', 2.5)
+        .attr('d', lineGen);
+
+      /* Puntos y etiquetas de la línea */
+      data.forEach(d => {
+        const cx = x(d.year) + x.bandwidth() / 2;
+        const cy = yR(d.cumulative);
+
+        g.append('circle')
+          .attr('cx', cx).attr('cy', cy).attr('r', 5)
+          .attr('fill','#EE0000')
+          .attr('stroke','rgba(255,255,255,0.9)').attr('stroke-width', 2);
+
+        g.append('text')
+          .attr('x', cx + 8).attr('y', cy - 8)
+          .attr('fill','rgba(238,0,0,0.9)')
+          .attr('font-family',"'Open Sans',Arial,sans-serif")
+          .attr('font-size','10px').attr('font-weight','700')
+          .text(d.cumulative);
+      });
+    }
+
+    /* ── SEGMENTO 3 — Trayectoria del área ──────────────────── */
+    function SegTrajectory({ t }) {
+      const tt = t.trajectory;
+      const chartRef = useRef(null);
+
+      useEffect(() => {
+        if (chartRef.current) renderTrajectoryChart(chartRef.current, tt);
+      }, [t]);
+
+      return (
+        <div style={{
+          height: '100%', display: 'flex', flexDirection: 'column',
+          background: `linear-gradient(135deg, ${C.dark} 0%, ${C.blue} 100%)`,
+          position: 'relative', overflow: 'hidden',
+        }}>
+          {/* Círculos decorativos de fondo */}
+          <div style={{ position:'absolute', top:-80, right:-80, width:340, height:340, borderRadius:'50%', background:'rgba(255,255,255,0.04)', pointerEvents:'none' }} />
+          <div style={{ position:'absolute', bottom:-60, left:-60, width:240, height:240, borderRadius:'50%', background:'rgba(255,255,255,0.04)', pointerEvents:'none' }} />
+
+          {/* Encabezado */}
+          <div style={{ padding:'1.1rem 2rem 0.4rem', flexShrink:0, textAlign:'center', zIndex:1 }}>
+            <div style={{
+              display:'inline-block',
+              background:'rgba(255,255,255,0.14)',
+              borderRadius:20, padding:'4px 18px', marginBottom:'0.55rem',
+              color:'rgba(255,255,255,0.88)',
+              fontSize:'0.7rem', fontWeight:700, letterSpacing:'0.15em', textTransform:'uppercase',
+            }}>
+              {tt.supra}
+            </div>
+            <h2 style={{
+              color:'white', margin:0,
+              fontSize:'clamp(1rem,2.4vw,1.45rem)',
+              fontWeight:700, fontFamily:'Arial,sans-serif',
+            }}>
+              {tt.title}
+            </h2>
+          </div>
+
+          {/* Área del gráfico */}
+          <div ref={chartRef} style={{ flex:1, minHeight:0, zIndex:1 }} />
+
+          {/* Leyenda */}
+          <div style={{
+            padding:'0.35rem 2rem 0.9rem',
+            display:'flex', justifyContent:'center', gap:'2.5rem',
+            zIndex:1, flexShrink:0,
+          }}>
+            <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+              <div style={{ width:18, height:14, borderRadius:3, background:'rgba(180,200,240,0.42)', border:'1px solid rgba(210,220,255,0.5)' }} />
+              <span style={{ color:'rgba(255,255,255,0.75)', fontSize:'0.78rem' }}>{tt.legendProjects}</span>
+            </div>
+            <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+              <svg width="28" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="#EE0000" strokeWidth="2.5"/><circle cx="22" cy="6" r="4" fill="#EE0000"/></svg>
+              <span style={{ color:'rgba(255,255,255,0.75)', fontSize:'0.78rem' }}>{tt.legendCumulative}</span>
+            </div>
+          </div>
+
+          {/* Línea de acento roja inferior */}
+          <div style={{ position:'absolute', bottom:0, left:0, right:0, height:4, background:'#EE0000' }} />
+        </div>
+      );
+    }
+
+    /* ── SEGMENTO 5 — Métricas ──────────────────────────────── */
+    function SegMetrics({ t }) {
+      const tm = t.metrics;
+
+      const BigStat = ({ value, label, note }) => (
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            color: C.blue,
+            fontSize: 'clamp(2.8rem, 6vw, 4.2rem)',
+            fontWeight: 700,
+            fontFamily: 'Arial, sans-serif',
+            lineHeight: 1,
+            marginBottom: '0.5rem',
+          }}>
+            {value}
+          </div>
+          <p style={{
+            color: C.blue,
+            fontSize: 'clamp(0.82rem, 1.5vw, 1rem)',
+            fontWeight: 600,
+            margin: '0 0 0.3rem',
+            lineHeight: 1.4,
+          }}>
+            {label}
+          </p>
+          {note && (
+            <p style={{ color: '#6B7280', fontSize: 'clamp(0.62rem, 1.1vw, 0.72rem)', margin: 0 }}>
+              {note}
+            </p>
+          )}
+        </div>
+      );
+
+      return (
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', background: 'white', position: 'relative' }}>
+
+          {/* Cuerpo — dos columnas */}
+          <div style={{ flex: 1, minHeight: 0, display: 'flex' }}>
+
+            {/* Columna izquierda — Métricas */}
+            <div style={{ flex: 1, padding: '2rem 2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '1.5rem' }}>
+              <h2 style={{
+                color: C.blue,
+                fontSize: 'clamp(1.4rem, 3vw, 2rem)',
+                fontWeight: 700,
+                fontFamily: 'Arial, sans-serif',
+                margin: 0,
+              }}>
+                {tm.heading}
+              </h2>
+
+              <BigStat value={tm.stat1Value} label={tm.stat1Label} note={tm.stat1Note} />
+
+              <div style={{ height: 1, background: '#E2E8F0' }} />
+
+              <BigStat value={tm.stat2Value} label={tm.stat2Label} />
+            </div>
+
+            {/* Separador vertical */}
+            <div style={{ width: 1, background: '#E2E8F0', margin: '1.5rem 0' }} />
+
+            {/* Columna derecha — Proveedores + Inversión */}
+            <div style={{ flex: 1, padding: '2rem 2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '1.25rem' }}>
+
+              {/* Proveedores */}
+              <div style={{ textAlign: 'center' }}>
+                <p style={{
+                  color: C.blue,
+                  fontSize: 'clamp(0.9rem, 1.8vw, 1.15rem)',
+                  fontWeight: 700,
+                  fontFamily: 'Arial, sans-serif',
+                  margin: '0 0 0.3rem',
+                  lineHeight: 1.35,
+                }}>
+                  {tm.vendorsTitle}
+                </p>
+                <div style={{
+                  color: C.blue,
+                  fontSize: 'clamp(3.5rem, 8vw, 5.5rem)',
+                  fontWeight: 700,
+                  fontFamily: 'Arial, sans-serif',
+                  lineHeight: 1,
+                }}>
+                  {tm.vendorsCount}
+                </div>
+                <div style={{
+                  color: C.blue,
+                  fontSize: 'clamp(1.4rem, 3.2vw, 2.4rem)',
+                  fontWeight: 700,
+                  fontFamily: 'Arial, sans-serif',
+                  letterSpacing: '0.04em',
+                }}>
+                  {tm.vendorsLabel}
+                </div>
+              </div>
+
+              <div style={{ height: 1, background: '#E2E8F0' }} />
+
+              {/* Inversión */}
+              <div style={{ textAlign: 'center' }}>
+                <p style={{
+                  color: C.blue,
+                  fontSize: 'clamp(0.9rem, 1.8vw, 1.15rem)',
+                  fontWeight: 700,
+                  fontFamily: 'Arial, sans-serif',
+                  margin: '0 0 0.2rem',
+                }}>
+                  {tm.investTitle}
+                </p>
+                <p style={{ color: '#374151', fontSize: 'clamp(0.78rem, 1.4vw, 0.9rem)', margin: '0 0 0.4rem' }}>
+                  {tm.investSub}
+                </p>
+                <div style={{
+                  color: C.blue,
+                  fontSize: 'clamp(2rem, 4.5vw, 3.2rem)',
+                  fontWeight: 700,
+                  fontFamily: 'Arial, sans-serif',
+                  lineHeight: 1.1,
+                }}>
+                  {tm.investValue}
+                </div>
+                <p style={{ color: '#9CA3AF', fontSize: '0.75rem', margin: '0.25rem 0 0', letterSpacing: '0.05em' }}>
+                  {tm.investPeriod}
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Línea de acento roja inferior */}
+          <div style={{ height: 4, background: C.red, flexShrink: 0 }} />
+        </div>
+      );
+    }
+
     /* ── Configuración de segmentos ─────────────────────────── */
     const SEGMENTS_CONFIG = [
-      { id: 0, Component: SegHome      },
-      { id: 1, Component: SegAbout     },
-      { id: 2, Component: SegWhatWeDo  },
-      { id: 3, Component: SegMethod    },
+      { id: 0, Component: SegHome        },
+      { id: 1, Component: SegAbout       },
+      { id: 2, Component: SegWhatWeDo    },
+      { id: 3, Component: SegMethod      },
+      { id: 4, Component: SegTrajectory  },
+      { id: 5, Component: SegMetrics     },
     ];
 
     /* ════════════════════════════════════════════════════════

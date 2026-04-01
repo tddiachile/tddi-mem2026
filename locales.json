@@ -3,7 +3,7 @@
     "langToggle": "EN",
     "pageTitle": "Presentación del Equipo | Sodexo",
     "headerTitle": "presentación del equipo de trabajo",
-    "segments": ["home", "quiénes somos", "qué hacemos", "método de trabajo"],
+    "segments": ["home", "quiénes somos", "qué hacemos", "método de trabajo", "trayectoria del área", "métricas"],
     "sidebarTitle": "Presentación",
     "sidebarSubtitle": "Equipo de trabajo",
     "sidebarClose": "‹ cerrar menú",
@@ -36,6 +36,34 @@
       "itAssistant": "Asistente IT",
       "quote": "Somos el área que convierte la estrategia tecnológica en resultados concretos — a través de terceros, con control propio."
     },
+    "metrics": {
+      "heading": "métricas",
+      "stat1Value": "92,6%",
+      "stat1Label": "De los proyectos cerrados han finalizado con paso a producción",
+      "stat1Note": "7,4% son proyectos rechazados en etapa de evaluación.",
+      "stat2Value": "98%",
+      "stat2Label": "De los proyectos, la inversión es recuperada en el primer año.",
+      "vendorsTitle": "Durante nuestra trayectoria hemos trabajado con",
+      "vendorsCount": "17",
+      "vendorsLabel": "PROVEEDORES",
+      "investTitle": "Total de inversión",
+      "investSub": "Proyectos Cerrados",
+      "investValue": "28.824 UF",
+      "investPeriod": "FY22–FY25"
+    },
+    "trajectory": {
+      "heading": "trayectoria del área",
+      "supra": "TRAYECTORIA DEL ÁREA",
+      "title": "Cuatro años de crecimiento consistente",
+      "legendProjects": "Proyectos cerrados / año",
+      "legendCumulative": "Acumulado histórico",
+      "chartData": [
+        { "year": "FY22", "projects": 4,  "cumulative": 4  },
+        { "year": "FY23", "projects": 25, "cumulative": 29 },
+        { "year": "FY24", "projects": 37, "cumulative": 66 },
+        { "year": "FY25", "projects": 25, "cumulative": 91 }
+      ]
+    },
     "whatWeDo": {
       "heading": "qué hacemos",
       "digitTitle": "Digitalización",
@@ -63,7 +91,7 @@
     "langToggle": "ES",
     "pageTitle": "Team Presentation | Sodexo",
     "headerTitle": "work team presentation",
-    "segments": ["home", "who we are", "what we do", "work method"],
+    "segments": ["home", "who we are", "what we do", "work method", "area trajectory", "metrics"],
     "sidebarTitle": "Presentation",
     "sidebarSubtitle": "Work team",
     "sidebarClose": "‹ close menu",
@@ -95,6 +123,34 @@
       "helpDesk": "Help desk analyst",
       "itAssistant": "IT assistant",
       "quote": "We are the area that turns technology strategy into concrete results — through third parties, with our own control."
+    },
+    "metrics": {
+      "heading": "metrics",
+      "stat1Value": "92.6%",
+      "stat1Label": "Of closed projects have completed with a go-to-production step",
+      "stat1Note": "7.4% are projects rejected at the evaluation stage.",
+      "stat2Value": "98%",
+      "stat2Label": "Of projects, the investment is recovered in the first year.",
+      "vendorsTitle": "Throughout our journey we have worked with",
+      "vendorsCount": "17",
+      "vendorsLabel": "VENDORS",
+      "investTitle": "Total investment",
+      "investSub": "Closed Projects",
+      "investValue": "28,824 UF",
+      "investPeriod": "FY22–FY25"
+    },
+    "trajectory": {
+      "heading": "area trajectory",
+      "supra": "AREA TRAJECTORY",
+      "title": "Four years of consistent growth",
+      "legendProjects": "Closed projects / year",
+      "legendCumulative": "Historic cumulative",
+      "chartData": [
+        { "year": "FY22", "projects": 4,  "cumulative": 4  },
+        { "year": "FY23", "projects": 25, "cumulative": 29 },
+        { "year": "FY24", "projects": 37, "cumulative": 66 },
+        { "year": "FY25", "projects": 25, "cumulative": 91 }
+      ]
     },
     "whatWeDo": {
       "heading": "what we do",
