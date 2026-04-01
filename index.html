@@ -51,6 +51,9 @@
 
   <!-- ── Utilidades no-React ──────────────────────────────────── -->
   <script src="js/utils.js"></script>
+
+  <!-- ── D3.js v7 (organigrama interactivo) ───────────────────── -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
 </head>
 
 <body class="bg-white overflow-hidden" style="font-family:'Open Sans',Arial,sans-serif;color:#2A295C;">
@@ -91,7 +94,8 @@
     }
 
     /* ── SEGMENTO 0 — Home ──────────────────────────────────── */
-    function SegHome() {
+    function SegHome({ t }) {
+      const th = t.home;
       return (
         <div
           style={{
@@ -132,7 +136,7 @@
               textTransform: 'uppercase',
               marginBottom: '1.2rem',
             }}>
-              TDDI &amp; IA — Sodexo Chile
+              {th.supra}
             </p>
 
             {/* Título principal */}
@@ -144,7 +148,7 @@
               lineHeight: 1.15,
               margin: '0 0 1.4rem',
             }}>
-              Transformación con rumbo
+              {th.title}
             </h1>
 
             {/* Separador */}
@@ -162,159 +166,262 @@
               letterSpacing: '0.06em',
               margin: 0,
             }}>
-              abril 2026
+              {th.date}
             </p>
           </div>
         </div>
       );
     }
 
-    /* ── Helpers de organigrama ─────────────────────────────── */
-    /* Nodo raíz / nivel superior */
-    function OrgNode({ name, role, color = C.blue, bold = false }) {
-      return (
-        <div style={{
-          background: color,
-          color: '#fff',
-          borderRadius: 6,
-          padding: '4px 10px',
-          display: 'inline-block',
-          fontSize: bold ? '0.72rem' : '0.65rem',
-          fontWeight: bold ? 700 : 600,
-          whiteSpace: 'nowrap',
-          lineHeight: 1.35,
-          textAlign: 'center',
-          maxWidth: 180,
-        }}>
-          <div style={{ fontWeight: 700 }}>{name}</div>
-          {role && <div style={{ fontWeight: 400, opacity: 0.88 }}>{role}</div>}
-        </div>
-      );
-    }
+    /* ── Renderizador del organigrama top-down (D3) ────────── */
+    function renderOrgChart(container, ta) {
+      /* Dimensiones de nodos */
+      const NW = 158;          /* ancho de cada nodo                      */
+      const NH0 = 42;          /* alto de nodos compactos (niveles 0 y 1) */
+      const S_HEADER = 28;     /* alto del encabezado de área (nivel 2)   */
+      const S_ITEM   = 19;     /* alto por ítem de personal               */
+      const S_PAD    = 5;      /* padding interno antes/después de ítems  */
+      const GAP_H    = 24;     /* gap horizontal entre nodos de nivel 2   */
+      const GAP_V    = 48;     /* gap vertical entre niveles              */
 
-    /* Rama con línea vertical + hijos */
-    function OrgBranch({ children, indent = 12 }) {
-      return (
-        <div style={{ paddingLeft: indent, borderLeft: `2px solid ${C.sky}30`, marginLeft: 6, marginTop: 3 }}>
-          {children}
-        </div>
-      );
-    }
+      /* Staff de cada área (no forman parte de la jerarquía D3) */
+      const proyStaff = [
+        { name: 'PMO',              color: C.teal },
+        { name: ta.solutionsArch,   color: C.teal },
+        { name: ta.projectManagers, color: C.teal, count: 4 },
+        { name: ta.devAnalyst,      color: C.teal },
+      ];
+      const infraStaff = [
+        { name: ta.secCoord,    color: C.pink },
+        { name: ta.infraCoord,  color: C.pink, count: 2 },
+        { name: ta.supportTech, color: C.pink, count: 3 },
+        { name: ta.infraMonitor,color: C.pink, count: 2 },
+        { name: ta.helpDesk,    color: C.pink },
+        { name: ta.itAssistant, color: C.pink },
+      ];
 
-    /* Fila de un hijo con línea horizontal */
-    function OrgRow({ children }) {
-      return (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 4, position: 'relative' }}>
-          <div style={{ width: 10, height: 2, background: `${C.sky}50`, flexShrink: 0 }} />
-          {children}
-        </div>
-      );
-    }
+      const nhArea = staff => S_HEADER + S_PAD + staff.length * S_ITEM + S_PAD;
+      const NH_P = nhArea(proyStaff);   /* ≈ 112 px */
+      const NH_I = nhArea(infraStaff);  /* ≈ 150 px */
 
-    /* Badge de cantidad de colaboradores */
-    function ColBadge({ n }) {
-      return (
-        <span style={{
-          background: C.sky, color: '#fff',
-          borderRadius: 10, fontSize: '0.55rem',
-          padding: '1px 5px', marginLeft: 4, fontWeight: 700,
-        }}>{n}</span>
-      );
+      /* Jerarquía D3 — sólo 3 niveles; staff va en data.staff */
+      const data = {
+        name: 'Francisco González', role: ta.directorRole, color: C.dark, nh: NH0,
+        children: [{
+          name: 'Marcelo Fernández', role: 'CIO', color: C.blue, nh: NH0,
+          children: [
+            { name: ta.projectsArea, color: C.sky,    nh: NH_P, staff: proyStaff },
+            { name: ta.infraSec, role: 'Erwin Morales', color: C.purple, nh: NH_I, staff: infraStaff },
+          ],
+        }],
+      };
+
+      /* Posiciones Y fijas por nivel (top-down manual) */
+      const yL = [0, NH0 + GAP_V, NH0 + GAP_V + NH0 + GAP_V];
+
+      /* D3 tree — sólo calcula la coordenada X (spread horizontal) */
+      const root = d3.hierarchy(data);
+      d3.tree().nodeSize([NW + GAP_H, 1])(root);
+      root.each(d => { d.y = yL[d.depth]; });
+
+      /* ViewBox justo al contenido */
+      let minX = Infinity, maxX = -Infinity;
+      root.each(d => {
+        if (d.x < minX) minX = d.x;
+        if (d.x > maxX) maxX = d.x;
+      });
+      const PAD = 14;
+      const vbX = minX - NW / 2 - PAD;
+      const vbY = -PAD;
+      const vbW = (maxX - minX) + NW + PAD * 2;
+      const vbH = yL[2] + Math.max(NH_P, NH_I) + PAD;
+
+      d3.select(container).selectAll('svg').remove();
+
+      const svg = d3.select(container)
+        .append('svg')
+        .attr('viewBox', `${vbX} ${vbY} ${vbW} ${vbH}`)
+        .attr('preserveAspectRatio', 'xMidYMid meet')
+        .style('width', '100%')
+        .style('height', '100%');
+
+      /* Defs: sombra + clipPaths para esquinas redondeadas en áreas */
+      const defs = svg.append('defs');
+      const flt = defs.append('filter')
+        .attr('id', 'nd-shadow').attr('x','-15%').attr('y','-15%')
+        .attr('width','130%').attr('height','130%');
+      flt.append('feDropShadow')
+        .attr('dx', 0).attr('dy', 1).attr('stdDeviation', 2.5)
+        .attr('flood-color', 'rgba(0,0,0,0.16)');
+
+      /* ── Conectores — curvas Bézier verticales ── */
+      svg.append('g')
+        .selectAll('path')
+        .data(root.links())
+        .join('path')
+        .attr('fill', 'none')
+        .attr('stroke', '#cbd5e1')
+        .attr('stroke-width', 1.5)
+        .attr('d', lk => {
+          const sx = lk.source.x,  sy = lk.source.y + lk.source.data.nh;
+          const tx = lk.target.x,  ty = lk.target.y;
+          const my = (sy + ty) / 2;
+          return `M${sx},${sy} C${sx},${my} ${tx},${my} ${tx},${ty}`;
+        });
+
+      /* ── Nodos ── */
+      root.descendants().forEach((d, i) => {
+        const isArea = d.depth === 2;
+        const nh = d.data.nh;
+        const g  = svg.append('g')
+          .attr('transform', `translate(${d.x - NW / 2},${d.y})`)
+          .attr('filter', 'url(#nd-shadow)');
+
+        if (!isArea) {
+          /* Nodos compactos (director, CIO) */
+          g.append('rect')
+            .attr('width', NW).attr('height', nh).attr('rx', 6)
+            .attr('fill', d.data.color);
+
+          g.append('text')
+            .attr('x', NW / 2).attr('y', d.data.role ? nh / 2 - 6 : nh / 2)
+            .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
+            .attr('fill', 'white')
+            .attr('font-family', "'Open Sans',Arial,sans-serif")
+            .attr('font-size', '9px').attr('font-weight', '700')
+            .text(d.data.name);
+
+          if (d.data.role) {
+            g.append('text')
+              .attr('x', NW / 2).attr('y', nh / 2 + 7)
+              .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
+              .attr('fill', 'rgba(255,255,255,0.78)')
+              .attr('font-family', "'Open Sans',Arial,sans-serif")
+              .attr('font-size', '7.5px')
+              .text(d.data.role);
+          }
+        } else {
+          /* Nodos de área — encabezado coloreado + lista de personal en blanco */
+          const clipId = `clip-area-${i}`;
+          defs.append('clipPath').attr('id', clipId)
+            .append('rect').attr('width', NW).attr('height', nh).attr('rx', 6);
+
+          const gc = g.append('g').attr('clip-path', `url(#${clipId})`);
+
+          /* Fondo blanco (esquinas redondeadas via clipPath) */
+          gc.append('rect').attr('width', NW).attr('height', nh).attr('fill', 'white');
+
+          /* Encabezado coloreado */
+          gc.append('rect').attr('width', NW).attr('height', S_HEADER).attr('fill', d.data.color);
+
+          /* Nombre del área */
+          gc.append('text')
+            .attr('x', NW / 2).attr('y', d.data.role ? S_HEADER / 2 - 5 : S_HEADER / 2)
+            .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
+            .attr('fill', 'white')
+            .attr('font-family', "'Open Sans',Arial,sans-serif")
+            .attr('font-size', '9px').attr('font-weight', '700')
+            .text(d.data.name);
+
+          if (d.data.role) {
+            gc.append('text')
+              .attr('x', NW / 2).attr('y', S_HEADER / 2 + 5)
+              .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
+              .attr('fill', 'rgba(255,255,255,0.82)')
+              .attr('font-family', "'Open Sans',Arial,sans-serif")
+              .attr('font-size', '7px')
+              .text(d.data.role);
+          }
+
+          /* Línea separadora */
+          gc.append('line')
+            .attr('x1', 0).attr('y1', S_HEADER)
+            .attr('x2', NW).attr('y2', S_HEADER)
+            .attr('stroke', '#e2e8f0').attr('stroke-width', 1);
+
+          /* Ítems de personal */
+          d.data.staff.forEach((item, si) => {
+            const iy = S_HEADER + S_PAD + si * S_ITEM + S_ITEM / 2;
+
+            gc.append('circle')
+              .attr('cx', 10).attr('cy', iy).attr('r', 3.5).attr('fill', item.color);
+
+            gc.append('text')
+              .attr('x', 19).attr('y', iy)
+              .attr('dominant-baseline', 'middle')
+              .attr('fill', '#374151')
+              .attr('font-family', "'Open Sans',Arial,sans-serif")
+              .attr('font-size', '8px')
+              .text(item.name);
+
+            if (item.count) {
+              gc.append('circle')
+                .attr('cx', NW - 10).attr('cy', iy).attr('r', 7)
+                .attr('fill', C.sky).attr('stroke', 'white').attr('stroke-width', 1.5);
+              gc.append('text')
+                .attr('x', NW - 10).attr('y', iy + 0.5)
+                .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
+                .attr('fill', 'white')
+                .attr('font-family', "'Open Sans',Arial,sans-serif")
+                .attr('font-size', '7px').attr('font-weight', '700')
+                .text(item.count);
+            }
+          });
+        }
+      });
     }
 
     /* ── SEGMENTO 1 — Quiénes somos ─────────────────────────── */
-    function SegAbout() {
+    function SegAbout({ t }) {
+      const ta = t.about;
+      const chartRef = useRef(null);
+
+      useEffect(() => {
+        if (chartRef.current) renderOrgChart(chartRef.current, ta);
+      }, [t]);
+
       return (
         <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
 
-          {/* Cabecera */}
-          <div style={{ padding: '1rem 1.75rem 0.5rem', flexShrink: 0 }}>
-            <h2 style={{ color: C.blue, fontSize: '1.55rem', fontWeight: 700, fontFamily: 'Arial,sans-serif', margin: 0 }}>
-              quiénes somos
+          {/* Título — ancho completo */}
+          <div style={{ padding: '0.85rem 1.75rem 0.6rem', flexShrink: 0 }}>
+            <h2 style={{ color: C.blue, fontSize: '1.45rem', fontWeight: 700, fontFamily: 'Arial,sans-serif', margin: 0 }}>
+              {ta.heading}
             </h2>
           </div>
 
-          {/* Cuerpo en dos columnas */}
-          <div style={{ flex: 1, display: 'flex', gap: '1.5rem', padding: '0.5rem 1.75rem 1rem', overflow: 'hidden', minHeight: 0 }}>
+          {/* Cuerpo — dos mitades */}
+          <div style={{ flex: 1, minHeight: 0, display: 'flex' }}>
 
-            {/* ── Columna izquierda — Organigrama ──────────── */}
+            {/* Mitad izquierda — organigrama top-down */}
+            <div
+              ref={chartRef}
+              style={{ flex: '0 0 50%', minWidth: 0, padding: '0.25rem 1rem 0.75rem 1.5rem', overflow: 'hidden' }}
+            />
+
+            {/* Separador vertical */}
+            <div style={{ width: 1, background: '#e5e7eb', flexShrink: 0, margin: '0.25rem 0 0.75rem' }} />
+
+            {/* Mitad derecha — frase */}
             <div style={{
-              flex: '0 0 auto', width: '52%',
-              overflowY: 'auto', paddingRight: 4,
-            }}>
-              <div style={{ fontSize: '0.67rem', color: C.dark, fontWeight: 600, marginBottom: 8, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                Estructura organizacional
-              </div>
-
-              {/* Nivel 0 — Director */}
-              <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                <OrgNode name="Francisco González" role="Director Service Operation" color={C.dark} bold />
-              </div>
-
-              <OrgBranch indent={10}>
-                {/* Nivel 1 — CIO */}
-                <OrgRow>
-                  <OrgNode name="Marcelo Fernández" role="CIO" color={C.blue} bold />
-                </OrgRow>
-
-                <OrgBranch>
-                  {/* ── Sub-área Proyectos */}
-                  <OrgRow>
-                    <OrgNode name="Área de proyectos" color={C.sky} />
-                  </OrgRow>
-                  <OrgBranch indent={10}>
-                    <OrgRow><OrgNode name="PMO" color={C.teal} /></OrgRow>
-                    <OrgRow><OrgNode name="Arquitecto de soluciones" color={C.teal} /></OrgRow>
-                    <OrgRow>
-                      <OrgNode name="Jefes de proyecto" color={C.teal} />
-                      <ColBadge n="4" />
-                    </OrgRow>
-                    <OrgRow><OrgNode name="Analista programador" color={C.teal} /></OrgRow>
-                  </OrgBranch>
-
-                  {/* ── Sub-área Infraestructura */}
-                  <OrgRow>
-                    <OrgNode name="Infraestructura y seguridad" role="Erwin Morales" color={C.purple} />
-                  </OrgRow>
-                  <OrgBranch indent={10}>
-                    <OrgRow><OrgNode name="Coordinador de seguridad" color={C.pink} /></OrgRow>
-                    <OrgRow>
-                      <OrgNode name="Coordinador de infraestructura" color={C.pink} />
-                      <ColBadge n="2" />
-                    </OrgRow>
-                    <OrgRow>
-                      <OrgNode name="Técnico de soporte" color={C.pink} />
-                      <ColBadge n="3" />
-                    </OrgRow>
-                    <OrgRow>
-                      <OrgNode name="Monitor de infraestructura" color={C.pink} />
-                      <ColBadge n="2" />
-                    </OrgRow>
-                    <OrgRow><OrgNode name="Analista de mesa de ayuda" color={C.pink} /></OrgRow>
-                    <OrgRow><OrgNode name="Asistente IT" color={C.pink} /></OrgRow>
-                  </OrgBranch>
-                </OrgBranch>
-              </OrgBranch>
-            </div>
-
-            {/* ── Columna derecha — Frase central ─────────── */}
-            <div style={{
-              flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-              borderLeft: `3px solid ${C.red}`,
-              paddingLeft: '1.5rem',
+              flex: 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '1.5rem 2.5rem',
             }}>
               <blockquote style={{ margin: 0 }}>
+                <div style={{ width: 40, height: 4, borderRadius: 2, background: C.red, marginBottom: '1.25rem' }} />
                 <p style={{
                   color: C.dark,
-                  fontSize: 'clamp(1rem, 2.2vw, 1.45rem)',
+                  fontSize: 'clamp(1rem, 2vw, 1.35rem)',
                   fontWeight: 700,
                   fontFamily: 'Arial, sans-serif',
-                  lineHeight: 1.45,
-                  margin: '0 0 1rem',
+                  lineHeight: 1.55,
+                  margin: 0,
                 }}>
-                  "Somos el área que convierte la estrategia tecnológica en resultados concretos — a través de terceros, con control propio."
+                  "{ta.quote}"
                 </p>
-                <div style={{ width: 40, height: 3, borderRadius: 2, background: C.red }} />
               </blockquote>
             </div>
 
@@ -323,105 +430,34 @@
       );
     }
 
-    /* ── SEGMENTO 2 — Nuestro equipo ────────────────────────── */
-    function SegTeam() {
-      const team = [
-        { name: 'Ana García',      role: 'Líder de Proyecto',    color: C.sky    },
-        { name: 'Carlos López',    role: 'Desarrollador Senior',  color: C.green  },
-        { name: 'María Rodríguez', role: 'Diseñadora UX/UI',      color: C.purple },
-        { name: 'Juan Martínez',   role: 'Analista de Datos',     color: C.teal   },
-        { name: 'Laura Sánchez',   role: 'QA Engineer',           color: C.orange },
-        { name: 'Diego Herrera',   role: 'DevOps / Infraestructura', color: C.bronze },
-      ];
-      return (
-        <div className="h-full flex flex-col items-center justify-center p-8 md:p-14 overflow-y-auto">
-          <h2
-            className="brand-title"
-            style={{ color: C.blue, fontSize: '2rem', fontWeight: 700, fontFamily: 'Arial,sans-serif', marginBottom: '1.75rem', alignSelf: 'flex-start', maxWidth: '60rem', width: '100%', margin: '0 auto 1.75rem' }}
-          >
-            nuestro equipo
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-5 max-w-4xl w-full">
-            {team.map((m, i) => (
-              <Card key={i} accent="top" className="p-6 text-center" style={{ paddingTop: '1.25rem' }}>
-                <div
-                  className="team-avatar"
-                  style={{ backgroundColor: m.color }}
-                >
-                  {getInitials(m.name)}
-                </div>
-                <div style={{ color: C.dark, fontWeight: 600, fontSize: '0.9rem' }}>{m.name}</div>
-                <div style={{ color: m.color, fontSize: '0.78rem', marginTop: 4 }}>{m.role}</div>
-                <a href="pages/equipo.html" className="brand-link">ver perfil →</a>
-              </Card>
-            ))}
-          </div>
-        </div>
-      );
-    }
-
-    /* ── SEGMENTO 3 — Nuestros proyectos ────────────────────── */
-    function SegProjects() {
-      const projects = [
-        {
-          name:   'Transformación Digital',
-          desc:   'Modernización de las plataformas de gestión de beneficios corporativos mediante integración de APIs y automatización de procesos.',
-          color:  C.sky,
-          status: 'Completado',
-        },
-        {
-          name:   'Portal de Bienestar',
-          desc:   'Plataforma integral de acceso a beneficios y servicios para colaboradores, con experiencia mobile-first y accesibilidad AA.',
-          color:  C.green,
-          status: 'En curso',
-        },
-        {
-          name:   'Analytics Dashboard',
-          desc:   'Sistema de reportería y visualización de datos en tiempo real para la toma de decisiones estratégicas de servicio.',
-          color:  C.orange,
-          status: 'En planificación',
-        },
-      ];
-      return (
-        <div className="h-full flex flex-col items-center justify-center p-8 md:p-14 overflow-y-auto">
-          <h2
-            className="brand-title"
-            style={{ color: C.blue, fontSize: '2rem', fontWeight: 700, fontFamily: 'Arial,sans-serif', marginBottom: '1.75rem', width: '100%', maxWidth: '60rem', margin: '0 auto 1.75rem' }}
-          >
-            nuestros proyectos
-          </h2>
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl w-full">
-            {projects.map((p, i) => (
-              <Card key={i} accent="left" className="p-6" style={{ paddingLeft: '1.5rem' }}>
-                <div style={{ fontWeight: 700, fontSize: '1.05rem', color: p.color, marginBottom: 10 }}>{p.name}</div>
-                <p style={{ color: C.dark, fontSize: '0.88rem', lineHeight: 1.65, marginBottom: 16 }}>{p.desc}</p>
-                <span className="status-badge" style={{ backgroundColor: p.color }}>{p.status}</span>
-                <a href="pages/proyectos.html" className="brand-link" style={{ display: 'block' }}>ver detalle →</a>
-              </Card>
-            ))}
-          </div>
-        </div>
-      );
-    }
-
     /* ── Configuración de segmentos ─────────────────────────── */
-    const SEGMENTS = [
-      { id: 0, title: 'home',               Component: SegHome     },
-      { id: 1, title: 'quiénes somos',      Component: SegAbout    },
-      { id: 2, title: 'nuestro equipo',     Component: SegTeam     },
-      { id: 3, title: 'nuestros proyectos', Component: SegProjects },
+    const SEGMENTS_CONFIG = [
+      { id: 0, Component: SegHome  },
+      { id: 1, Component: SegAbout },
     ];
 
     /* ════════════════════════════════════════════════════════
        Componente principal — App
        ════════════════════════════════════════════════════════ */
-    function App() {
-      /* Estado de la presentación */
-      const [displayIdx, setDisplayIdx] = useState(0);   /* índice mostrado actualmente */
-      const [animClass,  setAnimClass]  = useState('');  /* clase CSS de animación      */
+    function App({ locales }) {
+      const [lang,       setLang]       = useState('es');
+      const [displayIdx, setDisplayIdx] = useState(0);
+      const [animClass,  setAnimClass]  = useState('');
       const [animating,  setAnimating]  = useState(false);
       const [menuOpen,   setMenuOpen]   = useState(true);
       const menuRef = useRef(null);
+
+      const t        = locales[lang];
+      const SEGMENTS = SEGMENTS_CONFIG.map((s, i) => ({ ...s, title: t.segments[i] }));
+
+      /* ── Sincronizar lang con el documento ──────────────── */
+      useEffect(() => {
+        document.title = t.pageTitle;
+        document.documentElement.lang = lang;
+      }, [lang]);
+
+      /* ── Alternar idioma ────────────────────────────────── */
+      const toggleLang = () => setLang(l => l === 'es' ? 'en' : 'es');
 
       /* ── Navegar a una diapositiva ──────────────────────── */
       const goTo = (idx) => {
@@ -484,7 +520,7 @@
             ref={menuRef}
             className="sidebar"
             style={{ width: menuOpen ? 220 : 8 }}
-            aria-label="Menú de navegación"
+            aria-label={t.ariaOpenMenu}
           >
             {/* Borde rojo (menú oculto) */}
             {!menuOpen && (
@@ -493,7 +529,7 @@
                 onClick={() => setMenuOpen(true)}
                 role="button"
                 tabIndex={0}
-                aria-label="Abrir menú de navegación"
+                aria-label={t.ariaOpenMenu}
                 onKeyDown={e => e.key === 'Enter' && setMenuOpen(true)}
               />
             )}
@@ -505,7 +541,6 @@
             >
               {/* Cabecera del menú */}
               <div style={{ borderBottom: '1px solid rgba(255,255,255,0.18)', paddingBottom: '1.1rem', marginBottom: '1.4rem' }}>
-                {/* Sistema Tarjeta — logo sobre fondo blanco con acento rojo superior */}
                 <div style={{
                   background: 'white', borderRadius: 8, padding: '6px 10px',
                   display: 'inline-flex', alignItems: 'center',
@@ -518,8 +553,8 @@
                     style={{ height: 32, width: 'auto', display: 'block' }}
                   />
                 </div>
-                <div style={{ color: 'white', fontWeight: 600, fontSize: '0.82rem' }}>Presentación</div>
-                <div style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.72rem' }}>Equipo de trabajo</div>
+                <div style={{ color: 'white', fontWeight: 600, fontSize: '0.82rem' }}>{t.sidebarTitle}</div>
+                <div style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.72rem' }}>{t.sidebarSubtitle}</div>
               </div>
 
               {/* Navegación por segmentos */}
@@ -541,9 +576,9 @@
               <button
                 onClick={() => setMenuOpen(false)}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.45)', fontSize: '0.72rem', textAlign: 'left', padding: '0.4rem 0', marginTop: '0.75rem' }}
-                aria-label="Cerrar menú"
+                aria-label={t.ariaCloseMenu}
               >
-                ‹ cerrar menú
+                {t.sidebarClose}
               </button>
             </div>
           </div>
@@ -552,14 +587,43 @@
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
 
             {/* ── Encabezado ─────────────────────────────── */}
-            <header className="site-header">
+            <header
+              className="site-header"
+              style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: '1rem' }}
+            >
+              {/* Título — columna izquierda */}
               <h1
                 className="brand-title"
-                style={{ color: C.blue, fontSize: '1.15rem', fontWeight: 700, fontFamily: 'Arial,sans-serif' }}
+                style={{ color: C.blue, fontSize: '1.15rem', fontWeight: 700, fontFamily: 'Arial,sans-serif', margin: 0 }}
               >
-                presentación del equipo de trabajo
+                {t.headerTitle}
               </h1>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+
+              {/* Botón de idioma — columna central */}
+              <button
+                onClick={toggleLang}
+                aria-label={lang === 'es' ? 'Switch to English' : 'Cambiar a español'}
+                style={{
+                  background: C.blue,
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: 20,
+                  padding: '4px 16px',
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  cursor: 'pointer',
+                  fontFamily: "'Open Sans', Arial, sans-serif",
+                  transition: 'background 180ms ease',
+                }}
+                onMouseEnter={e => e.currentTarget.style.background = '#1e2c7a'}
+                onMouseLeave={e => e.currentTarget.style.background = C.blue}
+              >
+                {t.langToggle}
+              </button>
+
+              {/* Contador — columna derecha */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'flex-end' }}>
                 <span style={{ color: C.dark, fontSize: '0.82rem' }}>
                   {displayIdx + 1} / {SEGMENTS.length}
                 </span>
@@ -575,7 +639,7 @@
                 className={`slide-container ${animClass}`}
                 style={{ position: 'absolute', inset: 0 }}
               >
-                <CurrentSlide />
+                <CurrentSlide t={t} />
               </div>
             </div>
 
@@ -585,9 +649,9 @@
                 onClick={() => goTo(displayIdx - 1)}
                 disabled={displayIdx === 0 || animating}
                 className="btn-nav btn-nav-primary"
-                aria-label="Diapositiva anterior"
+                aria-label={t.ariaPrev}
               >
-                ← anterior
+                {t.prev}
               </button>
 
               {/* Indicadores de posición */}
@@ -597,7 +661,7 @@
                     key={i}
                     onClick={() => goTo(i)}
                     className={`slide-dot ${displayIdx === i ? 'active' : ''}`}
-                    aria-label={`Ir a la diapositiva ${i + 1}: ${SEGMENTS[i].title}`}
+                    aria-label={`${t.ariaGoTo} ${i + 1}: ${SEGMENTS[i].title}`}
                     aria-current={displayIdx === i ? 'step' : undefined}
                   />
                 ))}
@@ -607,9 +671,9 @@
                 onClick={() => goTo(displayIdx + 1)}
                 disabled={displayIdx === SEGMENTS.length - 1 || animating}
                 className="btn-nav btn-nav-primary"
-                aria-label="Siguiente diapositiva"
+                aria-label={t.ariaNext}
               >
-                siguiente →
+                {t.next}
               </button>
             </footer>
           </div>
@@ -617,8 +681,12 @@
       );
     }
 
-    /* ── Montar la app ──────────────────────────────────────── */
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    /* ── Cargar traducciones y montar la app ────────────────── */
+    fetch('locales.json')
+      .then(r => r.json())
+      .then(locales => {
+        ReactDOM.createRoot(document.getElementById('root')).render(<App locales={locales} />);
+      });
   </script>
 </body>
 </html>

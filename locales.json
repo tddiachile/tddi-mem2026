@@ -1,0 +1,78 @@
+{
+  "es": {
+    "langToggle": "EN",
+    "pageTitle": "Presentación del Equipo | Sodexo",
+    "headerTitle": "presentación del equipo de trabajo",
+    "segments": ["home", "quiénes somos"],
+    "sidebarTitle": "Presentación",
+    "sidebarSubtitle": "Equipo de trabajo",
+    "sidebarClose": "‹ cerrar menú",
+    "ariaOpenMenu": "Abrir menú de navegación",
+    "ariaCloseMenu": "Cerrar menú",
+    "prev": "← anterior",
+    "next": "siguiente →",
+    "ariaPrev": "Diapositiva anterior",
+    "ariaNext": "Siguiente diapositiva",
+    "ariaGoTo": "Ir a la diapositiva",
+    "home": {
+      "supra": "TDDI & IA — Sodexo Chile",
+      "title": "Transformación con rumbo",
+      "date": "abril 2026"
+    },
+    "about": {
+      "heading": "quiénes somos",
+      "orgTitle": "Estructura organizacional",
+      "directorRole": "Director Service Operation",
+      "projectsArea": "Área de proyectos",
+      "solutionsArch": "Arquitecto de soluciones",
+      "projectManagers": "Jefes de proyecto",
+      "devAnalyst": "Analista programador",
+      "infraSec": "Infraestructura y seguridad",
+      "secCoord": "Coordinador de seguridad",
+      "infraCoord": "Coordinador de infraestructura",
+      "supportTech": "Técnico de soporte",
+      "infraMonitor": "Monitor de infraestructura",
+      "helpDesk": "Analista de mesa de ayuda",
+      "itAssistant": "Asistente IT",
+      "quote": "Somos el área que convierte la estrategia tecnológica en resultados concretos — a través de terceros, con control propio."
+    }
+  },
+  "en": {
+    "langToggle": "ES",
+    "pageTitle": "Team Presentation | Sodexo",
+    "headerTitle": "work team presentation",
+    "segments": ["home", "who we are"],
+    "sidebarTitle": "Presentation",
+    "sidebarSubtitle": "Work team",
+    "sidebarClose": "‹ close menu",
+    "ariaOpenMenu": "Open navigation menu",
+    "ariaCloseMenu": "Close menu",
+    "prev": "← previous",
+    "next": "next →",
+    "ariaPrev": "Previous slide",
+    "ariaNext": "Next slide",
+    "ariaGoTo": "Go to slide",
+    "home": {
+      "supra": "TDDI & AI — Sodexo Chile",
+      "title": "Transformation with purpose",
+      "date": "April 2026"
+    },
+    "about": {
+      "heading": "who we are",
+      "orgTitle": "Organizational structure",
+      "directorRole": "Service Operation Director",
+      "projectsArea": "Projects area",
+      "solutionsArch": "Solutions architect",
+      "projectManagers": "Project managers",
+      "devAnalyst": "Developer analyst",
+      "infraSec": "Infrastructure & security",
+      "secCoord": "Security coordinator",
+      "infraCoord": "Infrastructure coordinator",
+      "supportTech": "Support technician",
+      "infraMonitor": "Infrastructure monitor",
+      "helpDesk": "Help desk analyst",
+      "itAssistant": "IT assistant",
+      "quote": "We are the area that turns technology strategy into concrete results — through third parties, with our own control."
+    }
+  }
+}
