@@ -3,7 +3,7 @@
     "langToggle": "EN",
     "pageTitle": "Presentación del Equipo | Sodexo",
     "headerTitle": "presentación del equipo de trabajo",
-    "segments": ["home", "quiénes somos", "qué hacemos", "método de trabajo", "trayectoria del área", "métricas"],
+    "segments": ["home", "quiénes somos", "qué hacemos", "método de trabajo", "trayectoria del área", "métricas", "portafolio de proyectos"],
     "sidebarTitle": "Presentación",
     "sidebarSubtitle": "Equipo de trabajo",
     "sidebarClose": "‹ cerrar menú",
@@ -85,13 +85,97 @@
       "evalSteps": ["levantamiento", "licitación"],
       "execSteps": ["planificación", "diseño", "desarrollo"],
       "goLiveSteps": ["producción", "despliegue"]
+    },
+    "portfolio": {
+      "heading": "portafolio de proyectos",
+      "sectionDir": "Procesos de Dirección",
+      "sectionCore": "Procesos Operativos / Core",
+      "sectionSupport": "Procesos de Apoyo",
+      "subLabel": "sistema / mejora",
+      "dirItems": ["Planificación Estratégica", "Relaciones Públicas", "Auditoría", "Fiscalía"],
+      "coreColumns": [
+        {
+          "title": "Segmentos",
+          "groups": [
+            { "name": "Corporate Service", "items": [] },
+            { "name": "Energy & Resources", "items": [{"l":"SoStay","c":"p"},{"l":"Backlog SoStay","c":""}] },
+            { "name": "Health Care", "items": [{"l":"Dashboard Healthcare","c":""},{"l":"SoTrack","c":"p"}] },
+            { "name": "Justice", "items": [{"l":"Reinserción Social","c":""},{"l":"Fichas Médicas","c":""}] }
+          ]
+        },
+        {
+          "title": "Food",
+          "groups": [{ "name": null, "items": [
+            {"l":"AMD – Administrador de Minutas","c":"t"},
+            {"l":"SDXO Guías / SDXO Waste","c":"t"},
+            {"l":"SGP Upgrade","c":"p"},
+            {"l":"Monitor de Precios de Supermercado","c":"t"}
+          ]}]
+        },
+        {
+          "title": "Logística",
+          "groups": [{ "name": null, "items": [
+            {"l":"App Captura de Inventario","c":"t"},
+            {"l":"RIO – Recepción Insumos OnSite","c":"t"},
+            {"l":"Control Ramplas","c":"t"}
+          ]}]
+        },
+        {
+          "title": "Marketing",
+          "groups": [{ "name": null, "items": [{"l":"Puntos de Venta","c":"p"}] }]
+        }
+      ],
+      "supportColumns": [
+        {
+          "title": "Finanzas",
+          "groups": [
+            { "name": null, "items": [{"l":"SPRS","c":""},{"l":"Gestión P&","c":""},{"l":"Migración SOVOS a Factura X","c":"p"}] },
+            { "name": "Gestión Finaciero-Contable", "items": [{"l":"Flujo de Finanzas","c":""}] },
+            { "name": "Controling Presupuesto", "items": [{"l":"Planning Finanzas","c":""}] },
+            { "name": "Cobranza", "items": [{"l":"Venta Empresa Contratista (Desarrollo)","c":""}] }
+          ]
+        },
+        {
+          "title": "Dir. Servicios y Operaciones",
+          "groups": [
+            { "name": "Planta Colina", "items": [{"l":"Captura de Datos – Planta Colina","c":""}] },
+            { "name": null, "items": [{"l":"BIGS","c":""},{"l":"HSEQ","c":""}] },
+            { "name": "Command Center", "items": [{"l":"Centro de Servicios – Exámenes Médicos","c":""},{"l":"Centro de Servicios – Exámenes Microbiológicos","c":""}] }
+          ]
+        },
+        {
+          "title": "Gestión TI",
+          "groups": [{ "name": null, "items": [{"l":"Control y Gestión de Proyectos","c":""}] }]
+        },
+        {
+          "title": "Gestión RRHH",
+          "groups": [{ "name": null, "items": [
+            {"l":"Workflow HR","c":"t"},
+            {"l":"App Autoservicio","c":"t"},
+            {"l":"Control y Gestión de Dotación","c":"t"},
+            {"l":"Gesto Documental","c":"t"},
+            {"l":"Plataforma Total Rewards","c":"t"},
+            {"l":"Certificación Laboral","c":"t"},
+            {"l":"Dashboard Capacitación","c":"t"},
+            {"l":"SGPOS","c":"p"}
+          ]}]
+        },
+        {
+          "title": "Gestión RRLL",
+          "groups": [{ "name": null, "items": [{"l":"Contratos (IA)","c":"p"}] }]
+        },
+        {
+          "title": "Asesoría Jurídica",
+          "groups": []
+        }
+      ]
     }
   },
   "en": {
     "langToggle": "ES",
     "pageTitle": "Team Presentation | Sodexo",
     "headerTitle": "work team presentation",
-    "segments": ["home", "who we are", "what we do", "work method", "area trajectory", "metrics"],
+    "segments": ["home", "who we are", "what we do", "work method", "area trajectory", "metrics", "project portfolio"],
     "sidebarTitle": "Presentation",
     "sidebarSubtitle": "Work team",
     "sidebarClose": "‹ close menu",
@@ -173,6 +257,90 @@
       "evalSteps": ["survey", "tender"],
       "execSteps": ["planning", "design", "development"],
       "goLiveSteps": ["production", "deployment"]
+    },
+    "portfolio": {
+      "heading": "project portfolio",
+      "sectionDir": "Management Processes",
+      "sectionCore": "Operational / Core Processes",
+      "sectionSupport": "Support Processes",
+      "subLabel": "system / improvement",
+      "dirItems": ["Strategic Planning", "Public Relations", "Audit", "Legal / Tax"],
+      "coreColumns": [
+        {
+          "title": "Segments",
+          "groups": [
+            { "name": "Corporate Service", "items": [] },
+            { "name": "Energy & Resources", "items": [{"l":"SoStay","c":"p"},{"l":"Backlog SoStay","c":""}] },
+            { "name": "Health Care", "items": [{"l":"Dashboard Healthcare","c":""},{"l":"SoTrack","c":"p"}] },
+            { "name": "Justice", "items": [{"l":"Reinserción Social","c":""},{"l":"Fichas Médicas","c":""}] }
+          ]
+        },
+        {
+          "title": "Food",
+          "groups": [{ "name": null, "items": [
+            {"l":"AMD – Administrador de Minutas","c":"t"},
+            {"l":"SDXO Guías / SDXO Waste","c":"t"},
+            {"l":"SGP Upgrade","c":"p"},
+            {"l":"Monitor de Precios de Supermercado","c":"t"}
+          ]}]
+        },
+        {
+          "title": "Logistics",
+          "groups": [{ "name": null, "items": [
+            {"l":"App Captura de Inventario","c":"t"},
+            {"l":"RIO – Recepción Insumos OnSite","c":"t"},
+            {"l":"Control Ramplas","c":"t"}
+          ]}]
+        },
+        {
+          "title": "Marketing",
+          "groups": [{ "name": null, "items": [{"l":"Puntos de Venta","c":"p"}] }]
+        }
+      ],
+      "supportColumns": [
+        {
+          "title": "Finance",
+          "groups": [
+            { "name": null, "items": [{"l":"SPRS","c":""},{"l":"Gestión P&","c":""},{"l":"Migración SOVOS a Factura X","c":"p"}] },
+            { "name": "Financial-Accounting Mgmt.", "items": [{"l":"Flujo de Finanzas","c":""}] },
+            { "name": "Budget Controlling", "items": [{"l":"Planning Finanzas","c":""}] },
+            { "name": "Collections", "items": [{"l":"Venta Empresa Contratista (Desarrollo)","c":""}] }
+          ]
+        },
+        {
+          "title": "Dir. Services & Operations",
+          "groups": [
+            { "name": "Planta Colina", "items": [{"l":"Captura de Datos – Planta Colina","c":""}] },
+            { "name": null, "items": [{"l":"BIGS","c":""},{"l":"HSEQ","c":""}] },
+            { "name": "Command Center", "items": [{"l":"Centro de Servicios – Exámenes Médicos","c":""},{"l":"Centro de Servicios – Exámenes Microbiológicos","c":""}] }
+          ]
+        },
+        {
+          "title": "IT Management",
+          "groups": [{ "name": null, "items": [{"l":"Control y Gestión de Proyectos","c":""}] }]
+        },
+        {
+          "title": "HR Management",
+          "groups": [{ "name": null, "items": [
+            {"l":"Workflow HR","c":"t"},
+            {"l":"App Autoservicio","c":"t"},
+            {"l":"Control y Gestión de Dotación","c":"t"},
+            {"l":"Gesto Documental","c":"t"},
+            {"l":"Plataforma Total Rewards","c":"t"},
+            {"l":"Certificación Laboral","c":"t"},
+            {"l":"Dashboard Capacitación","c":"t"},
+            {"l":"SGPOS","c":"p"}
+          ]}]
+        },
+        {
+          "title": "RL Management",
+          "groups": [{ "name": null, "items": [{"l":"Contratos (IA)","c":"p"}] }]
+        },
+        {
+          "title": "Legal Advisory",
+          "groups": []
+        }
+      ]
     }
   }
 }
