@@ -3,7 +3,7 @@
     "langToggle": "EN",
     "pageTitle": "Presentación del Equipo | Sodexo",
     "headerTitle": "presentación del equipo de trabajo",
-    "segments": ["home", "quiénes somos", "qué hacemos", "método de trabajo", "trayectoria del área", "métricas", "portafolio de proyectos", "proyectos actuales", "alcance regional", "plataformas globales", "oportunidades de mejora"],
+    "segments": ["home", "quiénes somos", "qué hacemos", "método de trabajo", "trayectoria del área", "métricas", "portafolio de proyectos", "proyectos actuales", "alcance regional", "plataformas globales", "stack tecnológico", "oportunidades de mejora"],
     "sidebarTitle": "Presentación",
     "sidebarSubtitle": "Equipo de trabajo",
     "sidebarClose": "‹ cerrar menú",
@@ -220,6 +220,52 @@
       "impactLabel": "Impacto clave",
       "sitesLabel": "Sitios activos"
     },
+    "techStack": {
+      "heading": "stack tecnológico",
+      "subtitle": "Tecnología de vanguardia al servicio de la operación.",
+      "aiTitle": "Inteligencia Artificial — En adopción activa",
+      "aiIntro": "Chile no está esperando la IA. Ya la está usando.",
+      "aiColInitiative": "Iniciativa",
+      "aiColDesc": "Descripción",
+      "aiColStatus": "Estado",
+      "aiColTech": "Tecnología",
+      "aiItems": [
+        {
+          "name": "Arqueología de Software",
+          "desc": "Levantamiento, documentación y rediseño de sistemas legacy para eliminar la brecha tecnológica y migrar hacia arquitecturas modernas.",
+          "status": "En ejecución",
+          "statusIcon": "check",
+          "tech": "Claude AI"
+        },
+        {
+          "name": "Chatbot de Procedimientos Internos",
+          "desc": "Asistente conversacional para que la operación consulte procedimientos internos en lenguaje natural, sin depender de documentación estática.",
+          "status": "Fase inicial",
+          "statusIcon": "progress",
+          "tech": "Microsoft Copilot · Azure AI"
+        },
+        {
+          "name": "Chatbot de Convenios Sindicales",
+          "desc": "Asistente especializado para el equipo de Relaciones Laborales, con acceso inteligente a acuerdos y convenios con los distintos sindicatos.",
+          "status": "Fase inicial",
+          "statusIcon": "progress",
+          "tech": "Microsoft Copilot · Azure AI"
+        }
+      ],
+      "iotTitle": "IoT — Operación conectada y trazable",
+      "iotProject": "Control de Temperatura · Planta Colina",
+      "iotPeriod": "2024 – 2025",
+      "iotText": "Digitalización completa del proceso de toma de temperatura en producción. Los datos, antes registrados manualmente, hoy se capturan, almacenan y visualizan en una aplicación web en tiempo real — habilitando control operativo, aseguramiento de calidad y trazabilidad para auditoría.",
+      "iotImpact": "De papel a plataforma. De reacción a prevención.",
+      "devTitle": "Stack de Desarrollo — Tecnología robusta, sin dependencias innecesarias",
+      "devIntro": "Nuestros proyectos se construyen sobre un stack moderno, probado en producción y alineado con estándares de la industria:",
+      "devLayers": [
+        { "layer": "Base de datos", "techs": ["SQL Server", "PostgreSQL", "Redis"] },
+        { "layer": "Backend", "techs": ["Go", "Python", ".NET Core", "JavaScript", "TypeScript"] },
+        { "layer": "Frontend", "techs": ["React", "React Native", "JavaScript"] }
+      ],
+      "devClosing": "Un equipo que no depende de un solo lenguaje ni de un solo paradigma — adaptable a cada necesidad del negocio."
+    },
     "improvements": {
       "heading": "oportunidades de mejora",
       "subtitle": "Dos casos que ilustran un patrón sistémico — y una solicitud concreta al liderazgo global.",
@@ -257,7 +303,7 @@
     "langToggle": "ES",
     "pageTitle": "Team Presentation | Sodexo",
     "headerTitle": "work team presentation",
-    "segments": ["home", "who we are", "what we do", "work method", "area trajectory", "metrics", "project portfolio", "current projects", "regional reach", "global platforms", "improvement opportunities"],
+    "segments": ["home", "who we are", "what we do", "work method", "area trajectory", "metrics", "project portfolio", "current projects", "regional reach", "global platforms", "technology stack", "improvement opportunities"],
     "sidebarTitle": "Presentation",
     "sidebarSubtitle": "Work team",
     "sidebarClose": "‹ close menu",
@@ -473,6 +519,52 @@
       "card2Sites": "40 sites",
       "impactLabel": "Key impact",
       "sitesLabel": "Active sites"
+    },
+    "techStack": {
+      "heading": "technology stack",
+      "subtitle": "Cutting-edge technology at the service of operations.",
+      "aiTitle": "Artificial Intelligence — In active adoption",
+      "aiIntro": "Chile is not waiting for AI. It is already using it.",
+      "aiColInitiative": "Initiative",
+      "aiColDesc": "Description",
+      "aiColStatus": "Status",
+      "aiColTech": "Technology",
+      "aiItems": [
+        {
+          "name": "Software Archaeology",
+          "desc": "Assessment, documentation, and redesign of legacy systems to close the technology gap and migrate to modern architectures.",
+          "status": "In execution",
+          "statusIcon": "check",
+          "tech": "Claude AI"
+        },
+        {
+          "name": "Internal Procedures Chatbot",
+          "desc": "Conversational assistant for operations to query internal procedures in natural language, without relying on static documentation.",
+          "status": "Early phase",
+          "statusIcon": "progress",
+          "tech": "Microsoft Copilot · Azure AI"
+        },
+        {
+          "name": "Union Agreements Chatbot",
+          "desc": "Specialized assistant for the Labor Relations team, with intelligent access to agreements and conventions with different unions.",
+          "status": "Early phase",
+          "statusIcon": "progress",
+          "tech": "Microsoft Copilot · Azure AI"
+        }
+      ],
+      "iotTitle": "IoT — Connected and traceable operations",
+      "iotProject": "Temperature Control · Planta Colina",
+      "iotPeriod": "2024 – 2025",
+      "iotText": "Complete digitalization of the temperature measurement process in production. Data previously recorded manually is now captured, stored, and visualized in a real-time web application — enabling operational control, quality assurance, and audit traceability.",
+      "iotImpact": "From paper to platform. From reaction to prevention.",
+      "devTitle": "Development Stack — Robust technology, no unnecessary dependencies",
+      "devIntro": "Our projects are built on a modern stack, proven in production and aligned with industry standards:",
+      "devLayers": [
+        { "layer": "Database", "techs": ["SQL Server", "PostgreSQL", "Redis"] },
+        { "layer": "Backend", "techs": ["Go", "Python", ".NET Core", "JavaScript", "TypeScript"] },
+        { "layer": "Frontend", "techs": ["React", "React Native", "JavaScript"] }
+      ],
+      "devClosing": "A team that doesn't depend on a single language or paradigm — adaptable to every business need."
     },
     "improvements": {
       "heading": "improvement opportunities",
