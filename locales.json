@@ -3,7 +3,7 @@
     "langToggle": "EN",
     "pageTitle": "Presentación del Equipo | Sodexo",
     "headerTitle": "presentación del equipo de trabajo",
-    "segments": ["home", "quiénes somos"],
+    "segments": ["home", "quiénes somos", "qué hacemos", "método de trabajo"],
     "sidebarTitle": "Presentación",
     "sidebarSubtitle": "Equipo de trabajo",
     "sidebarClose": "‹ cerrar menú",
@@ -35,13 +35,35 @@
       "helpDesk": "Analista de mesa de ayuda",
       "itAssistant": "Asistente IT",
       "quote": "Somos el área que convierte la estrategia tecnológica en resultados concretos — a través de terceros, con control propio."
+    },
+    "whatWeDo": {
+      "heading": "qué hacemos",
+      "digitTitle": "Digitalización",
+      "digitText": "El área de Digitalización es el motor que asegura que la transformación digital realmente funcione. En un modelo donde los desarrollos son tercerizados, su rol es claro: liderar, controlar y garantizar resultados, asegurando que cada iniciativa cumpla plazos, alcance y estándares definidos por el negocio.",
+      "infraTitle": "Infraestructura, Seguridad y Soporte",
+      "infraText": "El área de Infraestructura, Seguridad y Soporte cumple un rol fundamental como habilitador operativo y de continuidad. Infraestructura garantiza la disponibilidad, estabilidad y rendimiento de los sistemas; Seguridad protege la información, gestiona accesos y mitiga riesgos; y Soporte asegura la continuidad del servicio, resolviendo incidentes de manera oportuna y manteniendo la operación diaria de los usuarios."
+    },
+    "method": {
+      "heading": "método de trabajo",
+      "infosec": "seguridad de la información",
+      "mgmtControl": "control de gestión",
+      "phaseInit": "inicio",
+      "phaseEval": "evaluación",
+      "phaseExec": "ejecución",
+      "phaseGoLive": "go live",
+      "gateCommittee": "comité de tecnología",
+      "changeManagement": "change management",
+      "initSteps": ["iniciativa", "definir", "demanda"],
+      "evalSteps": ["levantamiento", "licitación"],
+      "execSteps": ["planificación", "diseño", "desarrollo"],
+      "goLiveSteps": ["producción", "despliegue"]
     }
   },
   "en": {
     "langToggle": "ES",
     "pageTitle": "Team Presentation | Sodexo",
     "headerTitle": "work team presentation",
-    "segments": ["home", "who we are"],
+    "segments": ["home", "who we are", "what we do", "work method"],
     "sidebarTitle": "Presentation",
     "sidebarSubtitle": "Work team",
     "sidebarClose": "‹ close menu",
@@ -73,6 +95,28 @@
       "helpDesk": "Help desk analyst",
       "itAssistant": "IT assistant",
       "quote": "We are the area that turns technology strategy into concrete results — through third parties, with our own control."
+    },
+    "whatWeDo": {
+      "heading": "what we do",
+      "digitTitle": "Digitalization",
+      "digitText": "The Digitalization area is the engine that ensures digital transformation truly works. In a model where developments are outsourced, its role is clear: lead, control, and guarantee results — ensuring every initiative meets the deadlines, scope, and standards defined by the business.",
+      "infraTitle": "Infrastructure, Security & Support",
+      "infraText": "The Infrastructure, Security & Support area plays a fundamental role as an operational and continuity enabler. Infrastructure guarantees the availability, stability, and performance of systems; Security protects information, manages access, and mitigates risks; and Support ensures service continuity, resolving incidents in a timely manner and maintaining day-to-day operations for users."
+    },
+    "method": {
+      "heading": "work method",
+      "infosec": "information security",
+      "mgmtControl": "management control",
+      "phaseInit": "initiation",
+      "phaseEval": "evaluation",
+      "phaseExec": "execution",
+      "phaseGoLive": "go live",
+      "gateCommittee": "technology committee",
+      "changeManagement": "change management",
+      "initSteps": ["initiative", "define", "demand"],
+      "evalSteps": ["survey", "tender"],
+      "execSteps": ["planning", "design", "development"],
+      "goLiveSteps": ["production", "deployment"]
     }
   }
 }

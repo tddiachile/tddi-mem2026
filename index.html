@@ -430,10 +430,248 @@
       );
     }
 
+    /* ── SEGMENTO 2 — Qué hacemos ──────────────────────────── */
+    function SegWhatWeDo({ t }) {
+      const tw = t.whatWeDo;
+
+      const AreaCard = ({ title, text, accent }) => (
+        <div style={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          background: 'white',
+          borderRadius: 10,
+          overflow: 'hidden',
+          boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+        }}>
+          {/* Barra de acento superior */}
+          <div style={{ height: 5, background: accent, flexShrink: 0 }} />
+          <div style={{ padding: '1.4rem 1.75rem 1.6rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
+            {/* Icono-dot + título */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
+              <div style={{ width: 10, height: 10, borderRadius: '50%', background: accent, flexShrink: 0 }} />
+              <h3 style={{
+                color: C.dark,
+                fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+                fontWeight: 700,
+                fontFamily: 'Arial, sans-serif',
+                margin: 0,
+              }}>
+                {title}
+              </h3>
+            </div>
+            {/* Texto */}
+            <p style={{
+              color: '#374151',
+              fontSize: 'clamp(0.82rem, 1.5vw, 1rem)',
+              lineHeight: 1.7,
+              margin: 0,
+              flex: 1,
+            }}>
+              {text}
+            </p>
+          </div>
+        </div>
+      );
+
+      return (
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+
+          {/* Título */}
+          <div style={{ padding: '0.85rem 1.75rem 0.6rem', flexShrink: 0 }}>
+            <h2 style={{ color: C.blue, fontSize: '1.45rem', fontWeight: 700, fontFamily: 'Arial,sans-serif', margin: 0 }}>
+              {tw.heading}
+            </h2>
+          </div>
+
+          {/* Cards */}
+          <div style={{
+            flex: 1,
+            minHeight: 0,
+            display: 'flex',
+            gap: '1.5rem',
+            padding: '0.5rem 1.75rem 1.5rem',
+          }}>
+            <AreaCard title={tw.digitTitle} text={tw.digitText} accent={C.sky} />
+            <AreaCard title={tw.infraTitle} text={tw.infraText} accent={C.purple} />
+          </div>
+
+        </div>
+      );
+    }
+
+    /* ── SEGMENTO 3 — Método de trabajo ─────────────────────── */
+    function SegMethod({ t }) {
+      const tm = t.method;
+
+      const colorPhase  = C.dark;
+      const colorGate   = C.orange;
+      const colorTeal   = C.teal;
+      const colorChange = C.yellow;
+      const colorBanner = '#94A3B8';
+
+      const bannerStyle = (extra = {}) => ({
+        background: colorBanner,
+        color: 'white',
+        textAlign: 'center',
+        padding: '7px 0',
+        fontWeight: 700,
+        fontSize: 'clamp(0.6rem, 1.2vw, 0.78rem)',
+        letterSpacing: '0.14em',
+        textTransform: 'uppercase',
+        flexShrink: 0,
+        ...extra,
+      });
+
+      const phaseHeaderStyle = {
+        background: colorPhase,
+        color: 'white',
+        textAlign: 'center',
+        fontWeight: 700,
+        fontSize: 'clamp(0.6rem, 1.2vw, 0.78rem)',
+        letterSpacing: '0.1em',
+        textTransform: 'uppercase',
+        padding: '7px 8px',
+        flexShrink: 0,
+      };
+
+      /* Bloque vertical (INICIO sub-items y gates) */
+      const VertBlock = ({ label, bg, textColor = 'white', width = 'auto' }) => (
+        <div style={{
+          background: bg,
+          color: textColor,
+          writingMode: 'vertical-rl',
+          transform: 'rotate(180deg)',
+          textTransform: 'uppercase',
+          fontSize: 'clamp(0.5rem, 1vw, 0.65rem)',
+          fontWeight: 700,
+          letterSpacing: '0.06em',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flex: width === 'auto' ? 1 : undefined,
+          width: width !== 'auto' ? width : undefined,
+          padding: '8px 5px',
+          flexShrink: 0,
+        }}>
+          {label}
+        </div>
+      );
+
+      /* Chevron en secuencia horizontal con texto vertical */
+      /* El clip-path va en el contenedor (sin rotación → apunta a la derecha).
+         El writingMode + rotate van solo en el <span> interno.             */
+      const TIP = 11;
+
+      const Chevron = ({ label, isFirst }) => (
+        <div style={{
+          background: colorTeal,
+          clipPath: isFirst
+            ? `polygon(0 0, calc(100% - ${TIP}px) 0, 100% 50%, calc(100% - ${TIP}px) 100%, 0 100%)`
+            : `polygon(${TIP}px 0, calc(100% - ${TIP}px) 0, 100% 50%, calc(100% - ${TIP}px) 100%, ${TIP}px 100%, 0 50%)`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flex: 1,
+          minWidth: 0,
+        }}>
+          <span style={{
+            color: 'white',
+            fontSize: 'clamp(0.72rem, 1.3vw, 0.9rem)',
+            fontWeight: 700,
+            writingMode: 'vertical-rl',
+            transform: 'rotate(180deg)',
+            letterSpacing: '0.05em',
+          }}>
+            {label}
+          </span>
+        </div>
+      );
+
+      const PhaseChevrons = ({ steps }) => (
+        <div style={{ flex: 1, padding: '6px 18px 6px 8px', display: 'flex', flexDirection: 'row', gap: 6, minHeight: 0 }}>
+          {steps.map((s, i) => (
+            <Chevron key={i} label={s} isFirst={i === 0} />
+          ))}
+        </div>
+      );
+
+      return (
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+
+          {/* Título */}
+          <div style={{ padding: '0.85rem 1.75rem 0.6rem', flexShrink: 0 }}>
+            <h2 style={{ color: C.blue, fontSize: '1.45rem', fontWeight: 700, fontFamily: 'Arial,sans-serif', margin: 0 }}>
+              {tm.heading}
+            </h2>
+          </div>
+
+          {/* Diagrama */}
+          <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', padding: '0 1.75rem 1.1rem' }}>
+
+            {/* Banner superior */}
+            <div style={bannerStyle({ borderRadius: '6px 6px 0 0' })}>{tm.infosec}</div>
+
+            {/* Fila de fases */}
+            <div style={{ flex: 1, minHeight: 0, display: 'flex', background: '#EFF3F8', border: '1px solid #e2e8f0', borderTop: 'none', borderBottom: 'none' }}>
+
+              {/* INICIO */}
+              <div style={{ display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
+                <div style={phaseHeaderStyle}>{tm.phaseInit}</div>
+                <div style={{ flex: 1, display: 'flex', gap: 3, padding: 6, minHeight: 0 }}>
+                  {tm.initSteps.map((s, i) => <VertBlock key={i} label={s} bg={colorPhase} />)}
+                </div>
+              </div>
+
+              {/* Gate 1 */}
+              <div style={{ display: 'flex', flexShrink: 0 }}>
+                <VertBlock label={tm.gateCommittee} bg={colorGate} width={30} />
+              </div>
+
+              {/* EVALUACIÓN */}
+              <div style={{ display: 'flex', flexDirection: 'column', flex: '1 1 0', minWidth: 0 }}>
+                <div style={phaseHeaderStyle}>{tm.phaseEval}</div>
+                <PhaseChevrons steps={tm.evalSteps} />
+              </div>
+
+              {/* Gate 2 */}
+              <div style={{ display: 'flex', flexShrink: 0 }}>
+                <VertBlock label={tm.gateCommittee} bg={colorGate} width={30} />
+              </div>
+
+              {/* EJECUCIÓN */}
+              <div style={{ display: 'flex', flexDirection: 'column', flex: '2 1 0', minWidth: 0 }}>
+                <div style={phaseHeaderStyle}>{tm.phaseExec}</div>
+                <PhaseChevrons steps={tm.execSteps} />
+              </div>
+
+              {/* CHANGE MANAGEMENT */}
+              <div style={{ display: 'flex', flexShrink: 0 }}>
+                <VertBlock label={tm.changeManagement} bg={colorChange} textColor={C.dark} width={30} />
+              </div>
+
+              {/* GO LIVE */}
+              <div style={{ display: 'flex', flexDirection: 'column', flex: '1 1 0', minWidth: 0 }}>
+                <div style={phaseHeaderStyle}>{tm.phaseGoLive}</div>
+                <PhaseChevrons steps={tm.goLiveSteps} />
+              </div>
+
+            </div>
+
+            {/* Banner inferior */}
+            <div style={bannerStyle({ borderRadius: '0 0 6px 6px' })}>{tm.mgmtControl}</div>
+
+          </div>
+        </div>
+      );
+    }
+
     /* ── Configuración de segmentos ─────────────────────────── */
     const SEGMENTS_CONFIG = [
-      { id: 0, Component: SegHome  },
-      { id: 1, Component: SegAbout },
+      { id: 0, Component: SegHome      },
+      { id: 1, Component: SegAbout     },
+      { id: 2, Component: SegWhatWeDo  },
+      { id: 3, Component: SegMethod    },
     ];
 
     /* ════════════════════════════════════════════════════════
