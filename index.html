@@ -942,35 +942,6 @@
     function SegMetrics({ t }) {
       const tm = t.metrics;
 
-      const BigStat = ({ value, label, note }) => (
-        <div style={{ textAlign: 'center' }}>
-          <div style={{
-            color: C.blue,
-            fontSize: 'clamp(3.2rem, 7vw, 5rem)',
-            fontWeight: 700,
-            fontFamily: 'Arial, sans-serif',
-            lineHeight: 1,
-            marginBottom: '0.5rem',
-          }}>
-            {value}
-          </div>
-          <p style={{
-            color: C.blue,
-            fontSize: 'clamp(1rem, 1.8vw, 1.25rem)',
-            fontWeight: 600,
-            margin: '0 0 0.3rem',
-            lineHeight: 1.4,
-          }}>
-            {label}
-          </p>
-          {note && (
-            <p style={{ color: '#6B7280', fontSize: 'clamp(0.78rem, 1.3vw, 0.92rem)', margin: 0 }}>
-              {note}
-            </p>
-          )}
-        </div>
-      );
-
       return (
         <div style={{ height: '100%', display: 'flex', flexDirection: 'column', background: 'white', position: 'relative' }}>
 
@@ -979,21 +950,52 @@
 
             {/* Columna izquierda — Métricas */}
             <div style={{ flex: 1, padding: '2rem 2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '1.5rem' }}>
-              <h2 style={{
-                color: C.blue,
-                fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)',
-                fontWeight: 700,
-                fontFamily: 'Arial, sans-serif',
-                margin: 0,
-              }}>
-                {tm.heading}
-              </h2>
 
-              <BigStat value={tm.stat1Value} label={tm.stat1Label} note={tm.stat1Note} />
+              {/* Aprobados vs Rechazados */}
+              <div style={{ textAlign: 'center' }}>
+                <p style={{
+                  color: C.dark, fontSize: 'clamp(0.9rem, 1.6vw, 1.15rem)',
+                  fontWeight: 700, fontFamily: 'Arial, sans-serif',
+                  margin: '0 0 1rem', letterSpacing: '0.02em',
+                }}>
+                  {tm.stat1Subtitle}
+                </p>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: 'clamp(1.5rem, 4vw, 3rem)', alignItems: 'center' }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{
+                      color: C.green, fontSize: 'clamp(2.8rem, 6vw, 4.2rem)',
+                      fontWeight: 700, fontFamily: 'Arial, sans-serif', lineHeight: 1,
+                    }}>{tm.stat1Approved}</div>
+                    <p style={{ color: '#374151', fontSize: 'clamp(0.78rem, 1.3vw, 0.95rem)', fontWeight: 600, margin: '0.3rem 0 0' }}>
+                      {tm.stat1ApprovedLabel}
+                    </p>
+                  </div>
+                  <div style={{ width: 2, height: 60, background: '#E2E8F0', flexShrink: 0 }} />
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{
+                      color: C.red, fontSize: 'clamp(2.8rem, 6vw, 4.2rem)',
+                      fontWeight: 700, fontFamily: 'Arial, sans-serif', lineHeight: 1,
+                    }}>{tm.stat1Rejected}</div>
+                    <p style={{ color: '#374151', fontSize: 'clamp(0.78rem, 1.3vw, 0.95rem)', fontWeight: 600, margin: '0.3rem 0 0' }}>
+                      {tm.stat1RejectedLabel}
+                    </p>
+                  </div>
+                </div>
+              </div>
 
               <div style={{ height: 1, background: '#E2E8F0' }} />
 
-              <BigStat value={tm.stat2Value} label={tm.stat2Label} />
+              {/* Recuperación de inversión */}
+              <div style={{ textAlign: 'center' }}>
+                <div style={{
+                  color: C.blue, fontSize: 'clamp(3.2rem, 7vw, 5rem)',
+                  fontWeight: 700, fontFamily: 'Arial, sans-serif', lineHeight: 1, marginBottom: '0.5rem',
+                }}>{tm.stat2Value}</div>
+                <p style={{
+                  color: C.blue, fontSize: 'clamp(1rem, 1.8vw, 1.25rem)',
+                  fontWeight: 600, margin: 0, lineHeight: 1.4,
+                }}>{tm.stat2Label}</p>
+              </div>
             </div>
 
             {/* Separador vertical */}
@@ -1025,7 +1027,7 @@
                 </div>
                 <div style={{
                   color: C.blue,
-                  fontSize: 'clamp(1.6rem, 3.5vw, 2.8rem)',
+                  fontSize: 'clamp(1.05rem, 2vw, 1.35rem)',
                   fontWeight: 700,
                   fontFamily: 'Arial, sans-serif',
                   letterSpacing: '0.04em',
@@ -2065,7 +2067,7 @@
     }
 
     /* ── Cargar traducciones y montar la app ────────────────── */
-    fetch('locales.json?v=11')
+    fetch('locales.json?v=12')
       .then(r => r.json())
       .then(locales => {
         ReactDOM.createRoot(document.getElementById('root')).render(<App locales={locales} />);
