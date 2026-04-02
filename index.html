@@ -759,7 +759,7 @@
       const H = container.clientHeight;
       if (!W || !H) return;
 
-      const margin = { top: 18, right: 72, bottom: 46, left: 52 };
+      const margin = { top: 12, right: 56, bottom: 36, left: 44 };
       const w = W - margin.left - margin.right;
       const h = H - margin.top - margin.bottom;
 
@@ -774,16 +774,16 @@
       /* Escalas */
       const x = d3.scaleBand()
         .domain(data.map(d => d.year))
-        .range([0, w]).padding(0.42);
+        .range([0, w]).padding(0.35);
 
       const maxP = d3.max(data, d => d.projects);
       const yL = d3.scaleLinear()
-        .domain([0, Math.ceil(maxP / 5) * 5 + 8]).nice()
+        .domain([0, Math.ceil(maxP / 10) * 10 + 15]).nice()
         .range([h, 0]);
 
       const maxC = d3.max(data, d => d.cumulative);
       const yR = d3.scaleLinear()
-        .domain([0, Math.ceil(maxC / 10) * 10 + 10]).nice()
+        .domain([0, Math.ceil(maxC / 25) * 25]).nice()
         .range([h, 0]);
 
       /* Líneas de cuadrícula horizontales */
@@ -792,27 +792,37 @@
         .join('line')
         .attr('x1', 0).attr('x2', w)
         .attr('y1', d => yL(d)).attr('y2', d => yL(d))
-        .attr('stroke', 'rgba(255,255,255,0.1)')
-        .attr('stroke-dasharray', '4,3');
+        .attr('stroke', '#E5E7EB')
+        .attr('stroke-dasharray', '3,3');
 
-      /* Barras con tope redondeado */
-      const rx = 5;
+      /* Área de relleno rosa bajo la línea acumulada */
+      const areaGen = d3.area()
+        .x(d => x(d.year) + x.bandwidth() / 2)
+        .y0(h)
+        .y1(d => yR(d.cumulative))
+        .curve(d3.curveCatmullRom.alpha(0.5));
+
+      g.append('path')
+        .datum(data)
+        .attr('fill', 'rgba(238,0,0,0.06)')
+        .attr('d', areaGen);
+
+      /* Barras sólidas azules con tope redondeado */
+      const rx = 4;
       data.forEach(d => {
         const bx = x(d.year), bw = x.bandwidth();
-        const by = yL(d.projects), bh = h - by;
+        const by = yL(d.projects);
         g.append('path')
           .attr('d', `M${bx},${h} L${bx},${by+rx} Q${bx},${by} ${bx+rx},${by} L${bx+bw-rx},${by} Q${bx+bw},${by} ${bx+bw},${by+rx} L${bx+bw},${h} Z`)
-          .attr('fill', 'rgba(180,200,240,0.32)')
-          .attr('stroke', 'rgba(210,220,255,0.45)')
-          .attr('stroke-width', 1);
+          .attr('fill', '#283897');
 
-        /* Etiqueta de valor sobre la barra */
+        /* Etiqueta de valor DENTRO de la barra (blanco, bold) */
         g.append('text')
-          .attr('x', bx + bw / 2).attr('y', by - 7)
+          .attr('x', bx + bw / 2).attr('y', by + (h - by) / 2 + 5)
           .attr('text-anchor', 'middle')
-          .attr('fill', 'rgba(255,255,255,0.80)')
+          .attr('fill', 'white')
           .attr('font-family', "'Open Sans',Arial,sans-serif")
-          .attr('font-size', '11px').attr('font-weight', '700')
+          .attr('font-size', '14px').attr('font-weight', '700')
           .text(d.projects);
       });
 
@@ -820,21 +830,21 @@
       g.append('g')
         .call(d3.axisLeft(yL).ticks(6).tickSize(0))
         .call(ag => {
-          ag.select('.domain').attr('stroke', 'rgba(255,255,255,0.2)');
-          ag.selectAll('text').attr('fill','rgba(255,255,255,0.6)')
+          ag.select('.domain').attr('stroke', '#D1D5DB');
+          ag.selectAll('text').attr('fill','#6B7280')
             .attr('font-family',"'Open Sans',Arial,sans-serif")
-            .attr('font-size','10px').attr('dx','-3px');
+            .attr('font-size','11px').attr('dx','-4px');
         });
 
       /* Eje derecho (rojo) */
       g.append('g')
         .attr('transform', `translate(${w},0)`)
-        .call(d3.axisRight(yR).ticks(6).tickSize(0))
+        .call(d3.axisRight(yR).ticks(5).tickSize(0))
         .call(ag => {
-          ag.select('.domain').attr('stroke','rgba(238,0,0,0.35)');
-          ag.selectAll('text').attr('fill','rgba(238,0,0,0.85)')
+          ag.select('.domain').attr('stroke','rgba(238,0,0,0.25)');
+          ag.selectAll('text').attr('fill','rgba(238,0,0,0.7)')
             .attr('font-family',"'Open Sans',Arial,sans-serif")
-            .attr('font-size','10px').attr('dx','3px');
+            .attr('font-size','11px').attr('dx','4px');
         });
 
       /* Eje X */
@@ -842,14 +852,14 @@
         .attr('transform', `translate(0,${h})`)
         .call(d3.axisBottom(x).tickSize(0))
         .call(ag => {
-          ag.select('.domain').attr('stroke','rgba(255,255,255,0.2)');
-          ag.selectAll('text').attr('fill','white')
+          ag.select('.domain').attr('stroke','#D1D5DB');
+          ag.selectAll('text').attr('fill','#2A295C')
             .attr('font-family',"'Open Sans',Arial,sans-serif")
             .attr('font-size','13px').attr('font-weight','600')
-            .attr('dy','1.25em');
+            .attr('dy','1.1em');
         });
 
-      /* Línea de acumulado histórico */
+      /* Línea de acumulado histórico (roja) */
       const lineGen = d3.line()
         .x(d => x(d.year) + x.bandwidth() / 2)
         .y(d => yR(d.cumulative))
@@ -869,19 +879,19 @@
 
         g.append('circle')
           .attr('cx', cx).attr('cy', cy).attr('r', 5)
-          .attr('fill','#EE0000')
-          .attr('stroke','rgba(255,255,255,0.9)').attr('stroke-width', 2);
+          .attr('fill','white')
+          .attr('stroke','#EE0000').attr('stroke-width', 2.5);
 
         g.append('text')
-          .attr('x', cx + 8).attr('y', cy - 8)
-          .attr('fill','rgba(238,0,0,0.9)')
+          .attr('x', cx + 10).attr('y', cy - 8)
+          .attr('fill','#EE0000')
           .attr('font-family',"'Open Sans',Arial,sans-serif")
-          .attr('font-size','10px').attr('font-weight','700')
+          .attr('font-size','12px').attr('font-weight','700')
           .text(d.cumulative);
       });
     }
 
-    /* ── SEGMENTO 3 — Trayectoria del área ──────────────────── */
+    /* ── SEGMENTO 4 — Trayectoria del área ──────────────────── */
     function SegTrajectory({ t }) {
       const tt = t.trajectory;
       const chartRef = useRef(null);
@@ -893,27 +903,13 @@
       return (
         <div style={{
           height: '100%', display: 'flex', flexDirection: 'column',
-          background: `linear-gradient(135deg, ${C.dark} 0%, ${C.blue} 100%)`,
-          position: 'relative', overflow: 'hidden',
+          background: '#ffffff', overflow: 'hidden',
         }}>
-          {/* Círculos decorativos de fondo */}
-          <div style={{ position:'absolute', top:-80, right:-80, width:340, height:340, borderRadius:'50%', background:'rgba(255,255,255,0.04)', pointerEvents:'none' }} />
-          <div style={{ position:'absolute', bottom:-60, left:-60, width:240, height:240, borderRadius:'50%', background:'rgba(255,255,255,0.04)', pointerEvents:'none' }} />
-
-          {/* Encabezado */}
-          <div style={{ padding:'1.1rem 2rem 0.4rem', flexShrink:0, textAlign:'center', zIndex:1 }}>
-            <div style={{
-              display:'inline-block',
-              background:'rgba(255,255,255,0.14)',
-              borderRadius:20, padding:'4px 18px', marginBottom:'0.55rem',
-              color:'rgba(255,255,255,0.88)',
-              fontSize:'0.7rem', fontWeight:700, letterSpacing:'0.15em', textTransform:'uppercase',
-            }}>
-              {tt.supra}
-            </div>
+          {/* Título */}
+          <div style={{ padding:'0.7rem 2rem 0', flexShrink:0 }}>
             <h2 style={{
-              color:'white', margin:0,
-              fontSize:'clamp(1rem,2.4vw,1.45rem)',
+              color: C.dark, margin:0,
+              fontSize:'clamp(1.1rem, 2.4vw, 1.5rem)',
               fontWeight:700, fontFamily:'Arial,sans-serif',
             }}>
               {tt.title}
@@ -921,26 +917,23 @@
           </div>
 
           {/* Área del gráfico */}
-          <div ref={chartRef} style={{ flex:1, minHeight:0, zIndex:1 }} />
+          <div ref={chartRef} style={{ flex:1, minHeight:0, padding: '0 0.5rem' }} />
 
           {/* Leyenda */}
           <div style={{
-            padding:'0.35rem 2rem 0.9rem',
+            padding:'0.3rem 2rem 0.8rem',
             display:'flex', justifyContent:'center', gap:'2.5rem',
-            zIndex:1, flexShrink:0,
+            flexShrink:0,
           }}>
             <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-              <div style={{ width:18, height:14, borderRadius:3, background:'rgba(180,200,240,0.42)', border:'1px solid rgba(210,220,255,0.5)' }} />
-              <span style={{ color:'rgba(255,255,255,0.75)', fontSize:'0.78rem' }}>{tt.legendProjects}</span>
+              <div style={{ width:14, height:14, borderRadius:'50%', background: C.blue }} />
+              <span style={{ color:'#6B7280', fontSize:'0.82rem' }}>{tt.legendProjects}</span>
             </div>
             <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-              <svg width="28" height="12"><line x1="0" y1="6" x2="18" y2="6" stroke="#EE0000" strokeWidth="2.5"/><circle cx="22" cy="6" r="4" fill="#EE0000"/></svg>
-              <span style={{ color:'rgba(255,255,255,0.75)', fontSize:'0.78rem' }}>{tt.legendCumulative}</span>
+              <div style={{ width:14, height:14, borderRadius:'50%', background:'white', border:'2.5px solid #EE0000' }} />
+              <span style={{ color:'#6B7280', fontSize:'0.82rem' }}>{tt.legendCumulative}</span>
             </div>
           </div>
-
-          {/* Línea de acento roja inferior */}
-          <div style={{ position:'absolute', bottom:0, left:0, right:0, height:4, background:'#EE0000' }} />
         </div>
       );
     }
@@ -2072,7 +2065,7 @@
     }
 
     /* ── Cargar traducciones y montar la app ────────────────── */
-    fetch('locales.json?v=10')
+    fetch('locales.json?v=11')
       .then(r => r.json())
       .then(locales => {
         ReactDOM.createRoot(document.getElementById('root')).render(<App locales={locales} />);

@@ -59,9 +59,9 @@
       "legendCumulative": "Acumulado histórico",
       "chartData": [
         { "year": "FY22", "projects": 4,  "cumulative": 4  },
-        { "year": "FY23", "projects": 25, "cumulative": 29 },
-        { "year": "FY24", "projects": 37, "cumulative": 66 },
-        { "year": "FY25", "projects": 25, "cumulative": 91 }
+        { "year": "FY23", "projects": 21, "cumulative": 25 },
+        { "year": "FY24", "projects": 37, "cumulative": 62 },
+        { "year": "FY25", "projects": 25, "cumulative": 87 }
       ]
     },
     "whatWeDo": {
@@ -447,9 +447,9 @@
       "legendCumulative": "Historic cumulative",
       "chartData": [
         { "year": "FY22", "projects": 4,  "cumulative": 4  },
-        { "year": "FY23", "projects": 25, "cumulative": 29 },
-        { "year": "FY24", "projects": 37, "cumulative": 66 },
-        { "year": "FY25", "projects": 25, "cumulative": 91 }
+        { "year": "FY23", "projects": 21, "cumulative": 25 },
+        { "year": "FY24", "projects": 37, "cumulative": 62 },
+        { "year": "FY25", "projects": 25, "cumulative": 87 }
       ]
     },
     "whatWeDo": {
