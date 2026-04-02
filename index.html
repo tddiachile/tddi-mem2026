@@ -997,120 +997,133 @@
 
     /* ── SEGMENTO 6 — Portafolio de proyectos ──────────────── */
     function SegPortfolio({ t }) {
-      const tp = t.portfolio;
+      const tp = t.portfolioMap;
 
-      const CHIP = {
-        t: { bg: '#D0EDE8', bd: '#90C4BB' },
-        p: { bg: '#FCD8CC', bd: '#E8A08A' },
-        '': { bg: '#FFFFFF', bd: '#D1D5DB' },
+      /* Colores por área — gradientes cálidos como en la imagen de referencia */
+      const AREA_STYLE = {
+        rrhh: { bg: 'linear-gradient(135deg, #B8860B 0%, #DAA520 100%)', text: '#fff' },
+        seg:  { bg: 'linear-gradient(135deg, #283897 0%, #3B4CC0 100%)', text: '#fff' },
+        food: { bg: 'linear-gradient(135deg, #D2691E 0%, #EF8633 100%)', text: '#fff' },
+        fin:  { bg: 'linear-gradient(135deg, #9E7B2F 0%, #C4A24E 100%)', text: '#fff' },
+        log:  { bg: 'linear-gradient(135deg, #228085 0%, #2BA5AB 100%)', text: '#fff' },
+        ops:  { bg: 'linear-gradient(135deg, #2A295C 0%, #3D3B8E 100%)', text: '#fff' },
+        mkt:  { bg: 'linear-gradient(135deg, #DA558C 0%, #E87EAB 100%)', text: '#fff' },
+        ti:   { bg: 'linear-gradient(135deg, #34A866 0%, #4CC985 100%)', text: '#fff' },
+        rrll: { bg: 'linear-gradient(135deg, #915FC8 0%, #AB82D8 100%)', text: '#fff' },
       };
 
-      const Chip = ({ item }) => {
-        const s = CHIP[item.c || ''];
+      const AreaBlock = ({ area, style: extraStyle }) => {
+        const count = area.chips.length;
+        const s = AREA_STYLE[area.id] || AREA_STYLE.seg;
+        const label = count > 2 ? `${count} ${tp.countLabel}` : `${count} ${tp.countLabelShort}`;
+
         return (
           <div style={{
-            background: s.bg, border: `1px solid ${s.bd}`, borderRadius: 3,
-            padding: '3px 7px', fontSize: '0.78rem', color: C.dark, lineHeight: 1.35,
+            background: s.bg,
+            borderRadius: 12,
+            padding: 'clamp(0.7rem, 1.5vw, 1.1rem)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            overflow: 'hidden',
+            position: 'relative',
+            minWidth: 0,
+            minHeight: 0,
+            ...extraStyle,
           }}>
-            {item.l}
+            {/* Header: nombre + badge */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.5rem' }}>
+              <h3 style={{
+                color: s.text,
+                fontSize: 'clamp(1rem, 1.8vw, 1.4rem)',
+                fontWeight: 700,
+                fontFamily: 'Arial, sans-serif',
+                margin: 0,
+                lineHeight: 1.2,
+              }}>{area.name}</h3>
+              <span style={{
+                background: 'rgba(255,255,255,0.25)',
+                color: s.text,
+                fontSize: 'clamp(0.65rem, 1vw, 0.8rem)',
+                fontWeight: 700,
+                padding: '3px 10px',
+                borderRadius: 20,
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
+              }}>{label}</span>
+            </div>
+
+            {/* Chips de proyectos */}
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '0.35rem',
+              marginTop: 'auto',
+              paddingTop: '0.5rem',
+            }}>
+              {area.chips.map((chip, i) => (
+                <span key={i} style={{
+                  background: chip.a ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.2)',
+                  color: s.text,
+                  fontSize: 'clamp(0.62rem, 1vw, 0.78rem)',
+                  fontWeight: chip.a ? 700 : 600,
+                  padding: '3px 9px',
+                  borderRadius: 4,
+                  border: chip.a ? '1.5px solid rgba(255,255,255,0.7)' : '1px solid rgba(255,255,255,0.3)',
+                  whiteSpace: 'nowrap',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 4,
+                }}>{chip.a && <span style={{ fontSize: '0.7em' }}>✅</span>}{chip.l}</span>
+              ))}
+            </div>
           </div>
         );
       };
 
-      const ColHead = ({ title }) => (
-        <div style={{
-          background: C.blue, color: 'white', fontWeight: 700,
-          fontFamily: 'Arial,sans-serif', fontSize: '0.82rem',
-          padding: '5px 8px', textAlign: 'center', letterSpacing: '0.02em', flexShrink: 0,
-        }}>
-          {title}
-        </div>
-      );
-
-      const GrpName = ({ name }) => (
-        <div style={{
-          fontWeight: 700, fontSize: '0.75rem', color: C.blue,
-          borderBottom: `1px solid ${C.red}`, paddingBottom: 2,
-          marginBottom: 3, marginTop: 4, lineHeight: 1.25,
-        }}>
-          {name}
-        </div>
-      );
-
-      const BandLabel = ({ text }) => (
-        <div style={{ width: 28, flexShrink: 0, background: C.dark, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-          <span style={{
-            color: 'white', fontWeight: 700, fontSize: '0.5rem',
-            letterSpacing: '0.06em', textTransform: 'uppercase',
-            writingMode: 'vertical-rl', transform: 'rotate(180deg)',
-            textAlign: 'center', lineHeight: 1.3,
-          }}>{text}</span>
-        </div>
-      );
-
-      const ColBox = ({ col, flex }) => (
-        <div style={{
-          flex, display: 'flex', flexDirection: 'column',
-          border: '1px solid #E2E8F0', borderRadius: 3, overflow: 'hidden', minWidth: 0,
-        }}>
-          <ColHead title={col.title} />
-          <div style={{ flex: 1, overflow: 'hidden', padding: 4, display: 'flex', flexDirection: 'column', gap: 3 }}>
-            {col.groups.map((grp, gi) => (
-              <div key={gi}>
-                {grp.name && <GrpName name={grp.name} />}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                  {grp.items.map((item, ii) => <Chip key={ii} item={item} />)}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-
-      const coreFlex  = [1.5, 1, 1, 1];
-      const suppFlex  = [1.4, 1.3, 0.9, 1.8, 0.9, 0.8];
+      /* Buscar área por id */
+      const a = (id) => tp.areas.find(x => x.id === id);
 
       return (
-        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', background: 'white', overflow: 'hidden', position: 'relative' }}>
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', background: '#F1F5F9', overflow: 'hidden' }}>
 
           {/* Título */}
-          <div style={{ padding: '0.5rem 1.5rem 0.3rem', flexShrink: 0 }}>
-            <h2 style={{ color: C.blue, fontSize: 'clamp(1rem,2.2vw,1.25rem)', fontWeight: 700, fontFamily: 'Arial,sans-serif', margin: 0 }}>
-              {tp.heading}
-            </h2>
+          <div style={{ padding: '0.7rem 1.75rem 0.4rem', flexShrink: 0 }}>
+            <h2 style={{
+              color: C.blue,
+              fontSize: 'clamp(1.3rem, 2.8vw, 1.8rem)',
+              fontWeight: 700,
+              fontFamily: 'Arial, sans-serif',
+              margin: 0,
+            }}>{tp.heading}</h2>
           </div>
 
-          {/* Procesos de Dirección */}
-          <div style={{ flexShrink: 0, height: 90, display: 'flex', borderTop: '1px solid #E2E8F0', borderBottom: '1px solid #E2E8F0' }}>
-            <BandLabel text={tp.sectionDir} />
-            <div style={{ flex: 1, display: 'flex', gap: 5, padding: '5px 10px', alignItems: 'stretch' }}>
-              {tp.dirItems.map((item, i) => (
-                <div key={i} style={{ flex: 1, border: '1px solid #D1D5DB', borderRadius: 3, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ background: C.blue, color: 'white', fontWeight: 700, fontFamily: 'Arial,sans-serif', fontSize: '0.82rem', padding: '5px 8px', textAlign: 'center', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {item}
-                  </div>
-                  <div style={{ background: '#F3F4F6', color: '#6B7280', fontSize: '0.68rem', padding: '3px 6px', textAlign: 'center' }}>
-                    [{tp.subLabel}]
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          {/* Treemap grid */}
+          <div style={{
+            flex: 1,
+            minHeight: 0,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(6, 1fr)',
+            gridTemplateRows: '1.8fr 1.8fr 1.2fr 1.2fr 1.1fr',
+            gap: '0.55rem',
+            padding: '0 1.75rem 0.8rem',
+          }}>
+            {/* Fila 1-2: RRHH (izq, alto) | Segmentos (der arriba) */}
+            <AreaBlock area={a('rrhh')} style={{ gridColumn: '1 / 4', gridRow: '1 / 3' }} />
+            <AreaBlock area={a('seg')}  style={{ gridColumn: '4 / 7', gridRow: '1 / 2' }} />
 
-          {/* Procesos Operativos / Core */}
-          <div style={{ flex: '1.35 1 0', display: 'flex', minHeight: 0, borderBottom: '1px solid #E2E8F0' }}>
-            <BandLabel text={tp.sectionCore} />
-            <div style={{ flex: 1, display: 'flex', gap: 5, padding: '5px 10px', minHeight: 0 }}>
-              {tp.coreColumns.map((col, ci) => <ColBox key={ci} col={col} flex={coreFlex[ci] || 1} />)}
-            </div>
-          </div>
+            {/* Fila 2 derecha: Food */}
+            <AreaBlock area={a('food')} style={{ gridColumn: '4 / 7', gridRow: '2 / 3' }} />
 
-          {/* Procesos de Apoyo */}
-          <div style={{ flex: '1 1 0', display: 'flex', minHeight: 0 }}>
-            <BandLabel text={tp.sectionSupport} />
-            <div style={{ flex: 1, display: 'flex', gap: 5, padding: '5px 10px', minHeight: 0 }}>
-              {tp.supportColumns.map((col, ci) => <ColBox key={ci} col={col} flex={suppFlex[ci] || 1} />)}
-            </div>
+            {/* Fila 3-4: Finanzas (izq, alto) | Logística + Operaciones apilados (der) */}
+            <AreaBlock area={a('fin')}  style={{ gridColumn: '1 / 4', gridRow: '3 / 5' }} />
+            <AreaBlock area={a('log')}  style={{ gridColumn: '4 / 7', gridRow: '3 / 4' }} />
+            <AreaBlock area={a('ops')}  style={{ gridColumn: '4 / 7', gridRow: '4 / 5' }} />
+
+            {/* Fila 5: Marketing | Gestión TI | Gestión RRLL */}
+            <AreaBlock area={a('mkt')}  style={{ gridColumn: '1 / 3', gridRow: '5 / 6' }} />
+            <AreaBlock area={a('ti')}   style={{ gridColumn: '3 / 5', gridRow: '5 / 6' }} />
+            <AreaBlock area={a('rrll')} style={{ gridColumn: '5 / 7', gridRow: '5 / 6' }} />
           </div>
 
           {/* Acento rojo inferior */}
@@ -1982,21 +1995,21 @@
               style={{ opacity: menuOpen ? 1 : 0, pointerEvents: menuOpen ? 'auto' : 'none' }}
             >
               {/* Cabecera del menú */}
-              <div style={{ borderBottom: '1px solid rgba(255,255,255,0.18)', paddingBottom: '1.1rem', marginBottom: '1.4rem' }}>
+              <div style={{ borderBottom: '1px solid rgba(255,255,255,0.18)', paddingBottom: '0.4rem', marginBottom: '0.35rem' }}>
                 <div style={{
-                  background: 'white', borderRadius: 8, padding: '6px 10px',
+                  background: 'white', borderRadius: 5, padding: '3px 7px',
                   display: 'inline-flex', alignItems: 'center',
-                  borderTop: `3px solid ${C.red}`,
-                  marginBottom: '0.75rem',
+                  borderTop: `2px solid ${C.red}`,
+                  marginBottom: '0.3rem',
                 }}>
                   <img
                     src="assets/logo.png"
                     alt="Sodexo"
-                    style={{ height: 32, width: 'auto', display: 'block' }}
+                    style={{ height: 22, width: 'auto', display: 'block' }}
                   />
                 </div>
-                <div style={{ color: 'white', fontWeight: 600, fontSize: '0.82rem' }}>{t.sidebarTitle}</div>
-                <div style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.72rem' }}>{t.sidebarSubtitle}</div>
+                <div style={{ color: 'white', fontWeight: 600, fontSize: '0.64rem' }}>{t.sidebarTitle}</div>
+                <div style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.56rem' }}>{t.sidebarSubtitle}</div>
               </div>
 
               {/* Navegación por segmentos */}
@@ -2017,7 +2030,7 @@
               {/* Cerrar menú */}
               <button
                 onClick={() => setMenuOpen(false)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.45)', fontSize: '0.72rem', textAlign: 'left', padding: '0.4rem 0', marginTop: '0.75rem' }}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.45)', fontSize: '0.58rem', textAlign: 'left', padding: '0.25rem 0', marginTop: '0.3rem' }}
                 aria-label={t.ariaCloseMenu}
               >
                 {t.sidebarClose}
@@ -2124,7 +2137,7 @@
     }
 
     /* ── Cargar traducciones y montar la app ────────────────── */
-    fetch('locales.json')
+    fetch('locales.json?v=4')
       .then(r => r.json())
       .then(locales => {
         ReactDOM.createRoot(document.getElementById('root')).render(<App locales={locales} />);
