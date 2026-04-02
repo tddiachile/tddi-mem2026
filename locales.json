@@ -3,7 +3,7 @@
     "langToggle": "EN",
     "pageTitle": "Presentación del Equipo | Sodexo",
     "headerTitle": "presentación del equipo de trabajo",
-    "segments": ["home", "quiénes somos", "método de trabajo", "trayectoria del área", "métricas", "portafolio de proyectos", "proyectos actuales", "alcance regional", "plataformas globales", "oportunidades de mejora"],
+    "segments": ["home", "quiénes somos", "método de trabajo", "trayectoria del área", "métricas", "proyectos con impacto", "proyectos actuales", "alcance regional", "plataformas globales", "oportunidades de mejora"],
     "sidebarTitle": "Presentación",
     "sidebarSubtitle": "Equipo de trabajo",
     "sidebarClose": "‹ cerrar menú",
@@ -165,15 +165,14 @@
       "countLabelShort": "proy.",
       "activeLabel": "activo",
       "areas": [
-        { "id": "rrhh", "name": "Gestión RRHH", "chips": [{"l":"Workflow HR"},{"l":"App Autoservicio"},{"l":"Control Dotación"},{"l":"Gestor Documental"},{"l":"Total Rewards"},{"l":"Certificación Laboral"},{"l":"Dashboard Capacitación"},{"l":"SGPOS","a":true}] },
-        { "id": "seg",  "name": "Segmentos",     "chips": [{"l":"SoStay"},{"l":"Backlog SoStay","a":true},{"l":"Dashboard Healthcare"},{"l":"SoTrack","a":true},{"l":"Reinserción Social"},{"l":"Fichas Médicas"}] },
         { "id": "food", "name": "Food",           "chips": [{"l":"AMD – Minutas"},{"l":"SDXO Guías"},{"l":"SDXO Waste"},{"l":"SGP Upgrade","a":true},{"l":"Monitor Precios"}] },
-        { "id": "fin",  "name": "Finanzas",       "chips": [{"l":"SPRS"},{"l":"Gestión P&L"},{"l":"Flujo de Finanzas"},{"l":"Planning Finanzas"},{"l":"Migración SOVOS","a":true},{"l":"Venta Contratista","a":true}] },
+        { "id": "fm",   "name": "FM",             "chips": [{"l":"SMS"},{"l":"Keystone"}] },
+        { "id": "mkt",  "name": "Marketing",      "chips": [{"l":"Puntos de Venta","a":true}] },
+        { "id": "seg",  "name": "Segmentos",      "chips": [{"l":"SoStay"},{"l":"Backlog SoStay","a":true},{"l":"Dashboard Healthcare"},{"l":"SoTrack","a":true},{"l":"Reinserción Social"},{"l":"Fichas Médicas"}] },
         { "id": "log",  "name": "Logística",      "chips": [{"l":"App Inventario"},{"l":"RIO OnSite"},{"l":"Control Ramplas"}] },
         { "id": "ops",  "name": "Operaciones",    "chips": [{"l":"Planta Colina"},{"l":"Exámenes Médicos"},{"l":"Exámenes Microb.","a":true}] },
-        { "id": "mkt",  "name": "Marketing",      "chips": [{"l":"Puntos de Venta","a":true}] },
-        { "id": "ti",   "name": "Gestión TI",     "chips": [{"l":"Control Proyectos"}] },
-        { "id": "rrll", "name": "Gestión RRLL",   "chips": [{"l":"Contratos (IA)","a":true}] }
+        { "id": "fin",  "name": "Finanzas",       "chips": [{"l":"SPRS"},{"l":"Gestión P&L"},{"l":"Flujo de Finanzas"},{"l":"Planning Finanzas"},{"l":"Migración SOVOS","a":true},{"l":"Venta Contratista","a":true}] },
+        { "id": "rrhh", "name": "Gestión RRHH",   "chips": [{"l":"Workflow HR"},{"l":"App Autoservicio"},{"l":"Control Dotación"},{"l":"Gestor Documental"},{"l":"Total Rewards"},{"l":"Certificación Laboral"},{"l":"Dashboard Capacitación"},{"l":"SGPOS","a":true},{"l":"Chatbot Contratos Colectivos","a":true}] }
       ]
     },
     "portfolio": {
@@ -393,7 +392,7 @@
     "langToggle": "ES",
     "pageTitle": "Team Presentation | Sodexo",
     "headerTitle": "work team presentation",
-    "segments": ["home", "who we are", "work method", "area trajectory", "metrics", "project portfolio", "current projects", "regional reach", "global platforms", "improvement opportunities"],
+    "segments": ["home", "who we are", "work method", "area trajectory", "metrics", "high-impact projects", "current projects", "regional reach", "global platforms", "improvement opportunities"],
     "sidebarTitle": "Presentation",
     "sidebarSubtitle": "Work team",
     "sidebarClose": "‹ close menu",
@@ -555,15 +554,14 @@
       "countLabelShort": "proj.",
       "activeLabel": "active",
       "areas": [
-        { "id": "rrhh", "name": "HR Management",    "chips": [{"l":"Workflow HR"},{"l":"Self-Service App"},{"l":"Staffing Control"},{"l":"Document Mgmt."},{"l":"Total Rewards"},{"l":"Labor Certification"},{"l":"Training Dashboard"},{"l":"SGPOS","a":true}] },
-        { "id": "seg",  "name": "Segments",          "chips": [{"l":"SoStay"},{"l":"Backlog SoStay","a":true},{"l":"Dashboard Healthcare"},{"l":"SoTrack","a":true},{"l":"Social Reintegration"},{"l":"Medical Records"}] },
         { "id": "food", "name": "Food",              "chips": [{"l":"AMD – Menus"},{"l":"SDXO Guides"},{"l":"SDXO Waste"},{"l":"SGP Upgrade","a":true},{"l":"Price Monitor"}] },
-        { "id": "fin",  "name": "Finance",           "chips": [{"l":"SPRS"},{"l":"P&L Mgmt."},{"l":"Finance Flow"},{"l":"Finance Planning"},{"l":"SOVOS Migration","a":true},{"l":"Contractor Sales","a":true}] },
+        { "id": "fm",   "name": "FM",                "chips": [{"l":"SMS"},{"l":"Keystone"}] },
+        { "id": "mkt",  "name": "Marketing",         "chips": [{"l":"Points of Sale","a":true}] },
+        { "id": "seg",  "name": "Segments",           "chips": [{"l":"SoStay"},{"l":"Backlog SoStay","a":true},{"l":"Dashboard Healthcare"},{"l":"SoTrack","a":true},{"l":"Social Reintegration"},{"l":"Medical Records"}] },
         { "id": "log",  "name": "Logistics",         "chips": [{"l":"Inventory App"},{"l":"RIO OnSite"},{"l":"Dock Control"}] },
         { "id": "ops",  "name": "Operations",        "chips": [{"l":"Planta Colina"},{"l":"Medical Exams"},{"l":"Microbiology Exams","a":true}] },
-        { "id": "mkt",  "name": "Marketing",         "chips": [{"l":"Points of Sale","a":true}] },
-        { "id": "ti",   "name": "IT Management",     "chips": [{"l":"Project Control"}] },
-        { "id": "rrll", "name": "RL Management",     "chips": [{"l":"Contracts (AI)","a":true}] }
+        { "id": "fin",  "name": "Finance",           "chips": [{"l":"SPRS"},{"l":"P&L Mgmt."},{"l":"Finance Flow"},{"l":"Finance Planning"},{"l":"SOVOS Migration","a":true},{"l":"Contractor Sales","a":true}] },
+        { "id": "rrhh", "name": "HR Management",     "chips": [{"l":"Workflow HR"},{"l":"Self-Service App"},{"l":"Staffing Control"},{"l":"Document Mgmt."},{"l":"Total Rewards"},{"l":"Labor Certification"},{"l":"Training Dashboard"},{"l":"SGPOS","a":true},{"l":"Union Agreements Chatbot","a":true}] }
       ]
     },
     "portfolio": {

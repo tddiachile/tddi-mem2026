@@ -1079,17 +1079,16 @@
     function SegPortfolio({ t }) {
       const tp = t.portfolioMap;
 
-      /* Colores por área — gradientes cálidos como en la imagen de referencia */
+      /* Colores por área — gradientes cálidos */
       const AREA_STYLE = {
-        rrhh: { bg: 'linear-gradient(135deg, #B8860B 0%, #DAA520 100%)', text: '#fff' },
-        seg:  { bg: 'linear-gradient(135deg, #283897 0%, #3B4CC0 100%)', text: '#fff' },
         food: { bg: 'linear-gradient(135deg, #D2691E 0%, #EF8633 100%)', text: '#fff' },
-        fin:  { bg: 'linear-gradient(135deg, #9E7B2F 0%, #C4A24E 100%)', text: '#fff' },
+        fm:   { bg: 'linear-gradient(135deg, #34A866 0%, #4CC985 100%)', text: '#fff' },
+        mkt:  { bg: 'linear-gradient(135deg, #DA558C 0%, #E87EAB 100%)', text: '#fff' },
+        seg:  { bg: 'linear-gradient(135deg, #283897 0%, #3B4CC0 100%)', text: '#fff' },
         log:  { bg: 'linear-gradient(135deg, #228085 0%, #2BA5AB 100%)', text: '#fff' },
         ops:  { bg: 'linear-gradient(135deg, #2A295C 0%, #3D3B8E 100%)', text: '#fff' },
-        mkt:  { bg: 'linear-gradient(135deg, #DA558C 0%, #E87EAB 100%)', text: '#fff' },
-        ti:   { bg: 'linear-gradient(135deg, #34A866 0%, #4CC985 100%)', text: '#fff' },
-        rrll: { bg: 'linear-gradient(135deg, #915FC8 0%, #AB82D8 100%)', text: '#fff' },
+        fin:  { bg: 'linear-gradient(135deg, #9E7B2F 0%, #C4A24E 100%)', text: '#fff' },
+        rrhh: { bg: 'linear-gradient(135deg, #B8860B 0%, #DAA520 100%)', text: '#fff' },
       };
 
       const AreaBlock = ({ area, style: extraStyle }) => {
@@ -1167,43 +1166,31 @@
       return (
         <div style={{ height: '100%', display: 'flex', flexDirection: 'column', background: '#F1F5F9', overflow: 'hidden' }}>
 
-          {/* Título */}
-          <div style={{ padding: '0.7rem 1.75rem 0.4rem', flexShrink: 0 }}>
-            <h2 style={{
-              color: C.blue,
-              fontSize: 'clamp(1.3rem, 2.8vw, 1.8rem)',
-              fontWeight: 700,
-              fontFamily: 'Arial, sans-serif',
-              margin: 0,
-            }}>{tp.heading}</h2>
-          </div>
-
-          {/* Treemap grid */}
+          {/* Treemap grid — proporcional a cantidad de proyectos */}
           <div style={{
             flex: 1,
             minHeight: 0,
             display: 'grid',
-            gridTemplateColumns: 'repeat(6, 1fr)',
-            gridTemplateRows: '1.8fr 1.8fr 1.2fr 1.2fr 1.1fr',
-            gap: '0.55rem',
-            padding: '0 1.75rem 0.8rem',
+            gridTemplateColumns: 'repeat(12, 1fr)',
+            gridTemplateRows: '5fr 6fr 6fr 5fr',
+            gap: '0.5rem',
+            padding: '0.6rem 1.75rem 0.8rem',
           }}>
-            {/* Fila 1-2: RRHH (izq, alto) | Segmentos (der arriba) */}
-            <AreaBlock area={a('rrhh')} style={{ gridColumn: '1 / 4', gridRow: '1 / 3' }} />
-            <AreaBlock area={a('seg')}  style={{ gridColumn: '4 / 7', gridRow: '1 / 2' }} />
+            {/* Fila 1: Food(5) | FM(2) | Marketing(1) → 7:3:2 */}
+            <AreaBlock area={a('food')} style={{ gridColumn: '1 / 8',  gridRow: '1 / 2' }} />
+            <AreaBlock area={a('fm')}   style={{ gridColumn: '8 / 11', gridRow: '1 / 2' }} />
+            <AreaBlock area={a('mkt')}  style={{ gridColumn: '11 / 13',gridRow: '1 / 2' }} />
 
-            {/* Fila 2 derecha: Food */}
-            <AreaBlock area={a('food')} style={{ gridColumn: '4 / 7', gridRow: '2 / 3' }} />
+            {/* Fila 2: Segmentos(6) | Logística(3) → 8:4 */}
+            <AreaBlock area={a('seg')}  style={{ gridColumn: '1 / 9',  gridRow: '2 / 3' }} />
+            <AreaBlock area={a('log')}  style={{ gridColumn: '9 / 13', gridRow: '2 / 3' }} />
 
-            {/* Fila 3-4: Finanzas (izq, alto) | Logística + Operaciones apilados (der) */}
-            <AreaBlock area={a('fin')}  style={{ gridColumn: '1 / 4', gridRow: '3 / 5' }} />
-            <AreaBlock area={a('log')}  style={{ gridColumn: '4 / 7', gridRow: '3 / 4' }} />
-            <AreaBlock area={a('ops')}  style={{ gridColumn: '4 / 7', gridRow: '4 / 5' }} />
+            {/* Fila 3: Operaciones(3) | Finanzas(6) → 4:8 */}
+            <AreaBlock area={a('ops')}  style={{ gridColumn: '1 / 5',  gridRow: '3 / 4' }} />
+            <AreaBlock area={a('fin')}  style={{ gridColumn: '5 / 13', gridRow: '3 / 4' }} />
 
-            {/* Fila 5: Marketing | Gestión TI | Gestión RRLL */}
-            <AreaBlock area={a('mkt')}  style={{ gridColumn: '1 / 3', gridRow: '5 / 6' }} />
-            <AreaBlock area={a('ti')}   style={{ gridColumn: '3 / 5', gridRow: '5 / 6' }} />
-            <AreaBlock area={a('rrll')} style={{ gridColumn: '5 / 7', gridRow: '5 / 6' }} />
+            {/* Fila 4: RRHH(9) — ancho completo */}
+            <AreaBlock area={a('rrhh')} style={{ gridColumn: '1 / 13', gridRow: '4 / 5' }} />
           </div>
 
           {/* Acento rojo inferior */}
@@ -2067,7 +2054,7 @@
     }
 
     /* ── Cargar traducciones y montar la app ────────────────── */
-    fetch('locales.json?v=12')
+    fetch('locales.json?v=13')
       .then(r => r.json())
       .then(locales => {
         ReactDOM.createRoot(document.getElementById('root')).render(<App locales={locales} />);
