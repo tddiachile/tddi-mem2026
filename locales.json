@@ -261,16 +261,17 @@
     },
     "currentProjects": {
       "heading": "proyectos actuales",
-      "today": "Hoy",
+      "colSegment": "Segmento",
+      "colProject": "Nombre del proyecto",
       "projects": [
-        {"name": "Puntos de Ventas (Reemplazo POS)",       "start": "2024-05-29", "end": "2026-08-31"},
-        {"name": "Venta Empresa Contratista",               "start": "2024-06-14", "end": "2026-06-30"},
-        {"name": "Centro de Servicio – Exámenes Médicos",  "start": "2024-07-29", "end": "2026-04-30"},
-        {"name": "SGPOS",                                   "start": "2024-10-23", "end": "2026-05-29"},
-        {"name": "So Track",                                "start": "2025-04-03", "end": "2026-12-31"},
-        {"name": "Cambio Facturador Electrónico",           "start": "2025-06-24", "end": "2026-05-29"},
-        {"name": "Backlog SoStay",                          "start": "2025-09-29", "end": "2026-08-31"},
-        {"name": "SGP Upgrade",                             "start": "2025-11-07", "end": "2026-08-31"}
+        {"segment": "Marketing",           "name": "POS – Retail",                                "start": "2024-05-29", "end": "2026-08-31"},
+        {"segment": "Finanzas",            "name": "Automatización de Ticket",                    "start": "2024-06-14", "end": "2026-06-30"},
+        {"segment": "Transversal",         "name": "Centro de Servicios – Exámenes Microbiológicos", "start": "2024-07-29", "end": "2026-04-30"},
+        {"segment": "HR",                  "name": "Gestión de Haberes E&R",                      "start": "2024-10-23", "end": "2026-05-29"},
+        {"segment": "Health Care",         "name": "Gestión de tareas salud",                     "start": "2025-04-03", "end": "2026-12-31"},
+        {"segment": "Finanzas",            "name": "Facturador Electrónico",                      "start": "2025-06-24", "end": "2026-05-29"},
+        {"segment": "Finanzas",            "name": "Mejora Evolutivo SoStay",                     "start": "2025-09-29", "end": "2026-08-31"},
+        {"segment": "Service Operations",  "name": "Upgrade Food Platform",                       "start": "2025-11-07", "end": "2026-08-31"}
       ]
     },
     "regionalReach": {
@@ -650,16 +651,17 @@
     },
     "currentProjects": {
       "heading": "current projects",
-      "today": "Today",
+      "colSegment": "Segment",
+      "colProject": "Project name",
       "projects": [
-        {"name": "Points of Sale (POS Replacement)",       "start": "2024-05-29", "end": "2026-08-31"},
-        {"name": "Contractor Company Sales",               "start": "2024-06-14", "end": "2026-06-30"},
-        {"name": "Service Center – Medical Exams",         "start": "2024-07-29", "end": "2026-04-30"},
-        {"name": "SGPOS",                                   "start": "2024-10-23", "end": "2026-05-29"},
-        {"name": "So Track",                                "start": "2025-04-03", "end": "2026-12-31"},
-        {"name": "Electronic Billing System Change",       "start": "2025-06-24", "end": "2026-05-29"},
-        {"name": "Backlog SoStay",                          "start": "2025-09-29", "end": "2026-08-31"},
-        {"name": "SGP Upgrade",                             "start": "2025-11-07", "end": "2026-08-31"}
+        {"segment": "Marketing",           "name": "POS – Retail",                                "start": "2024-05-29", "end": "2026-08-31"},
+        {"segment": "Finance",             "name": "Ticket Automation",                            "start": "2024-06-14", "end": "2026-06-30"},
+        {"segment": "Cross-functional",    "name": "Service Center – Microbiology Exams",          "start": "2024-07-29", "end": "2026-04-30"},
+        {"segment": "HR",                  "name": "E&R Compensation Management",                  "start": "2024-10-23", "end": "2026-05-29"},
+        {"segment": "Health Care",         "name": "Health Task Management",                       "start": "2025-04-03", "end": "2026-12-31"},
+        {"segment": "Finance",             "name": "Electronic Billing",                           "start": "2025-06-24", "end": "2026-05-29"},
+        {"segment": "Finance",             "name": "SoStay Evolutionary Improvement",              "start": "2025-09-29", "end": "2026-08-31"},
+        {"segment": "Service Operations",  "name": "Upgrade Food Platform",                        "start": "2025-11-07", "end": "2026-08-31"}
       ]
     },
     "regionalReach": {
