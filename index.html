@@ -371,68 +371,15 @@
       });
     }
 
-    /* ── SEGMENTO 1 — Quiénes somos ─────────────────────────── */
+    /* ── SEGMENTO 1 — Quiénes somos + Qué hacemos ────────────── */
     function SegAbout({ t }) {
       const ta = t.about;
+      const tw = t.whatWeDo;
       const chartRef = useRef(null);
 
       useEffect(() => {
         if (chartRef.current) renderOrgChart(chartRef.current, ta);
       }, [t]);
-
-      return (
-        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-
-          {/* Título — ancho completo */}
-          <div style={{ padding: '0.85rem 1.75rem 0.6rem', flexShrink: 0 }}>
-            <h2 style={{ color: C.blue, fontSize: '1.45rem', fontWeight: 700, fontFamily: 'Arial,sans-serif', margin: 0 }}>
-              {ta.heading}
-            </h2>
-          </div>
-
-          {/* Cuerpo — dos mitades */}
-          <div style={{ flex: 1, minHeight: 0, display: 'flex' }}>
-
-            {/* Mitad izquierda — organigrama top-down */}
-            <div
-              ref={chartRef}
-              style={{ flex: '0 0 50%', minWidth: 0, padding: '0.25rem 1rem 0.75rem 1.5rem', overflow: 'hidden' }}
-            />
-
-            {/* Separador vertical */}
-            <div style={{ width: 1, background: '#e5e7eb', flexShrink: 0, margin: '0.25rem 0 0.75rem' }} />
-
-            {/* Mitad derecha — frase */}
-            <div style={{
-              flex: 1,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '1.5rem 2.5rem',
-            }}>
-              <blockquote style={{ margin: 0 }}>
-                <div style={{ width: 40, height: 4, borderRadius: 2, background: C.red, marginBottom: '1.25rem' }} />
-                <p style={{
-                  color: C.dark,
-                  fontSize: 'clamp(1rem, 2vw, 1.35rem)',
-                  fontWeight: 700,
-                  fontFamily: 'Arial, sans-serif',
-                  lineHeight: 1.55,
-                  margin: 0,
-                }}>
-                  "{ta.quote}"
-                </p>
-              </blockquote>
-            </div>
-
-          </div>
-        </div>
-      );
-    }
-
-    /* ── SEGMENTO 2 — Qué hacemos ──────────────────────────── */
-    function SegWhatWeDo({ t }) {
-      const tw = t.whatWeDo;
 
       const AreaCard = ({ title, text, accent }) => (
         <div style={{
@@ -444,15 +391,13 @@
           overflow: 'hidden',
           boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
         }}>
-          {/* Barra de acento superior */}
-          <div style={{ height: 5, background: accent, flexShrink: 0 }} />
-          <div style={{ padding: '1.4rem 1.75rem 1.6rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
-            {/* Icono-dot + título */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
-              <div style={{ width: 10, height: 10, borderRadius: '50%', background: accent, flexShrink: 0 }} />
+          <div style={{ height: 4, background: accent, flexShrink: 0 }} />
+          <div style={{ padding: '0.8rem 1.2rem 1rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.6rem' }}>
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: accent, flexShrink: 0 }} />
               <h3 style={{
                 color: C.dark,
-                fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+                fontSize: 'clamp(0.8rem, 1.4vw, 1rem)',
                 fontWeight: 700,
                 fontFamily: 'Arial, sans-serif',
                 margin: 0,
@@ -460,11 +405,10 @@
                 {title}
               </h3>
             </div>
-            {/* Texto */}
             <p style={{
               color: '#374151',
-              fontSize: 'clamp(0.82rem, 1.5vw, 1rem)',
-              lineHeight: 1.7,
+              fontSize: 'clamp(0.68rem, 1.1vw, 0.82rem)',
+              lineHeight: 1.6,
               margin: 0,
               flex: 1,
             }}>
@@ -477,25 +421,52 @@
       return (
         <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
 
-          {/* Título */}
-          <div style={{ padding: '0.85rem 1.75rem 0.6rem', flexShrink: 0 }}>
-            <h2 style={{ color: C.blue, fontSize: '1.45rem', fontWeight: 700, fontFamily: 'Arial,sans-serif', margin: 0 }}>
-              {tw.heading}
-            </h2>
+          {/* Cuerpo — dos mitades */}
+          <div style={{ flex: 1, minHeight: 0, display: 'flex' }}>
+
+            {/* Mitad izquierda — organigrama top-down */}
+            <div
+              ref={chartRef}
+              style={{ flex: '0 0 50%', minWidth: 0, padding: '0.5rem 1rem 0.5rem 1.5rem', overflow: 'hidden' }}
+            />
+
+            {/* Separador vertical */}
+            <div style={{ width: 1, background: '#e5e7eb', flexShrink: 0, margin: '0.25rem 0 0.5rem' }} />
+
+            {/* Mitad derecha — qué hacemos */}
+            <div style={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.8rem',
+              padding: '0.8rem 1.5rem',
+              justifyContent: 'center',
+            }}>
+              <AreaCard title={tw.digitTitle} text={tw.digitText} accent={C.sky} />
+              <AreaCard title={tw.infraTitle} text={tw.infraText} accent={C.purple} />
+            </div>
+
           </div>
 
-          {/* Cards */}
+          {/* Pie — frase */}
           <div style={{
-            flex: 1,
-            minHeight: 0,
-            display: 'flex',
-            gap: '1.5rem',
-            padding: '0.5rem 1.75rem 1.5rem',
+            padding: '0.5rem 1.75rem 0.6rem',
+            flexShrink: 0,
+            borderTop: '1px solid #e5e7eb',
           }}>
-            <AreaCard title={tw.digitTitle} text={tw.digitText} accent={C.sky} />
-            <AreaCard title={tw.infraTitle} text={tw.infraText} accent={C.purple} />
+            <p style={{
+              color: C.dark,
+              fontSize: 'clamp(0.72rem, 1.2vw, 0.9rem)',
+              fontWeight: 600,
+              fontFamily: 'Arial, sans-serif',
+              fontStyle: 'italic',
+              lineHeight: 1.5,
+              margin: 0,
+              textAlign: 'center',
+            }}>
+              "{ta.quote}"
+            </p>
           </div>
-
         </div>
       );
     }
@@ -1879,16 +1850,15 @@
     const SEGMENTS_CONFIG = [
       { id: 0,  Component: SegHome            },
       { id: 1,  Component: SegAbout           },
-      { id: 2,  Component: SegWhatWeDo        },
-      { id: 3,  Component: SegMethod          },
-      { id: 4,  Component: SegTrajectory      },
-      { id: 5,  Component: SegMetrics         },
-      { id: 6,  Component: SegPortfolio       },
-      { id: 7,  Component: SegCurrentProjects },
-      { id: 8,  Component: SegRegionalReach   },
-      { id: 9,  Component: SegGlobalPlatforms },
-      { id: 10, Component: SegTechStack       },
-      { id: 11, Component: SegImprovements    },
+      { id: 2,  Component: SegMethod          },
+      { id: 3,  Component: SegTrajectory      },
+      { id: 4,  Component: SegMetrics         },
+      { id: 5,  Component: SegPortfolio       },
+      { id: 6,  Component: SegCurrentProjects },
+      { id: 7,  Component: SegRegionalReach   },
+      { id: 8,  Component: SegGlobalPlatforms },
+      { id: 9,  Component: SegTechStack       },
+      { id: 10, Component: SegImprovements    },
     ];
 
     /* ════════════════════════════════════════════════════════
@@ -2051,7 +2021,7 @@
                 className="brand-title"
                 style={{ color: C.blue, fontSize: '1.15rem', fontWeight: 700, fontFamily: 'Arial,sans-serif', margin: 0 }}
               >
-                {t.headerTitle}
+                {SEGMENTS[displayIdx].title}
               </h1>
 
               {/* Botón de idioma — columna central */}
@@ -2137,7 +2107,7 @@
     }
 
     /* ── Cargar traducciones y montar la app ────────────────── */
-    fetch('locales.json?v=4')
+    fetch('locales.json?v=5')
       .then(r => r.json())
       .then(locales => {
         ReactDOM.createRoot(document.getElementById('root')).render(<App locales={locales} />);
