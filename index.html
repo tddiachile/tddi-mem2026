@@ -1425,136 +1425,140 @@
       );
     }
 
-    /* ── SEGMENTO 8 — Alcance Regional ─────────────────────── */
+    /* ── Renderizador diagrama Sankey (Alcance Regional) ────── */
+    function renderSankey(container, tr) {
+      const apps = tr.apps;
+      const countries = tr.countries;
+      const links = tr.links;
+
+      const W = container.clientWidth;
+      const H = container.clientHeight;
+      if (!W || !H) return;
+
+      d3.select(container).selectAll('svg').remove();
+
+      const svg = d3.select(container)
+        .append('svg').attr('width', W).attr('height', H);
+
+      const pad = { top: 10, bottom: 10, left: 0, right: 0 };
+      const colW = 140;       /* ancho de cada nodo */
+      const gap = W - colW * 2 - pad.left - pad.right;
+      const xL = pad.left;
+      const xR = W - colW - pad.right;
+
+      const appH = (H - pad.top - pad.bottom) / apps.length;
+      const ctrH = (H - pad.top - pad.bottom) / countries.length;
+      const nodePad = 4;
+
+      /* Posiciones Y */
+      const appY = (i) => pad.top + i * appH;
+      const ctrY = (i) => pad.top + i * ctrH;
+
+      /* Nodos izquierda — Apps */
+      apps.forEach((app, i) => {
+        const y = appY(i);
+        const g = svg.append('g');
+        g.append('rect')
+          .attr('x', xL).attr('y', y + nodePad)
+          .attr('width', colW).attr('height', appH - nodePad * 2)
+          .attr('rx', 6).attr('fill', 'white')
+          .attr('stroke', '#D1D5DB').attr('stroke-width', 1);
+        g.append('text')
+          .attr('x', xL + 10).attr('y', y + appH / 2 - 4)
+          .attr('dominant-baseline', 'central')
+          .attr('fill', C.dark)
+          .attr('font-family', "'Open Sans',Arial,sans-serif")
+          .attr('font-size', '12px').attr('font-weight', '700')
+          .text(app.name);
+        g.append('text')
+          .attr('x', xL + 10).attr('y', y + appH / 2 + 10)
+          .attr('dominant-baseline', 'central')
+          .attr('fill', '#6B7280')
+          .attr('font-family', "'Open Sans',Arial,sans-serif")
+          .attr('font-size', '9px')
+          .text(app.desc.length > 30 ? app.desc.slice(0, 28) + '…' : app.desc);
+      });
+
+      /* Nodos derecha — Países */
+      const CTR_COLORS = { 'LATAM': C.blue, 'México': C.green, 'Mexico': C.green, 'Colombia': C.orange, 'Perú': C.purple, 'Peru': C.purple };
+      countries.forEach((ctr, i) => {
+        const y = ctrY(i);
+        const col = CTR_COLORS[ctr] || C.dark;
+        const g = svg.append('g');
+        g.append('rect')
+          .attr('x', xR).attr('y', y + nodePad)
+          .attr('width', colW).attr('height', ctrH - nodePad * 2)
+          .attr('rx', 6).attr('fill', col);
+        g.append('text')
+          .attr('x', xR + colW / 2).attr('y', y + ctrH / 2)
+          .attr('text-anchor', 'middle')
+          .attr('dominant-baseline', 'central')
+          .attr('fill', 'white')
+          .attr('font-family', "Arial,sans-serif")
+          .attr('font-size', '13px').attr('font-weight', '700')
+          .attr('letter-spacing', '0.06em')
+          .text(ctr.toUpperCase());
+      });
+
+      /* Links — curvas estilizadas */
+      const EVAL_COLOR = '#EF661A';
+      const IMPL_COLOR = C.green;
+      const bandW = 12;
+
+      links.forEach(link => {
+        const ai = apps.findIndex(a => a.name === link.app);
+        const ci = countries.findIndex(c => c === link.country);
+        if (ai < 0 || ci < 0) return;
+
+        const y1 = appY(ai) + appH / 2;
+        const y2 = ctrY(ci) + ctrH / 2;
+        const x1 = xL + colW;
+        const x2 = xR;
+        const mx = (x1 + x2) / 2;
+        const color = link.stage === 'eval' ? EVAL_COLOR : IMPL_COLOR;
+
+        svg.append('path')
+          .attr('d', `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`)
+          .attr('fill', 'none')
+          .attr('stroke', color)
+          .attr('stroke-width', bandW)
+          .attr('opacity', 0.25);
+
+        svg.append('path')
+          .attr('d', `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`)
+          .attr('fill', 'none')
+          .attr('stroke', color)
+          .attr('stroke-width', 3)
+          .attr('opacity', 0.85);
+      });
+    }
+
+    /* ── SEGMENTO 8 — Sistemas Exportados a Región ──────────── */
     function SegRegionalReach({ t }) {
       const tr = t.regionalReach;
+      const chartRef = useRef(null);
 
-      const cardColors = [C.green, C.green, C.sky, C.purple];
-
-      const RegionalCard = ({ tag, project, title, text, route, accent }) => (
-        <div style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          background: 'white',
-          borderRadius: 10,
-          overflow: 'hidden',
-          boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
-          minWidth: 0,
-        }}>
-          {/* Barra de acento superior */}
-          <div style={{ height: 5, background: accent, flexShrink: 0 }} />
-          <div style={{ padding: '1.1rem 1.4rem 1.2rem', display: 'flex', flexDirection: 'column', flex: 1, gap: '0.5rem' }}>
-            {/* Tag + Proyecto */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-              <span style={{
-                display: 'inline-block',
-                background: accent,
-                color: 'white',
-                fontSize: 'clamp(0.72rem, 1.2vw, 0.85rem)',
-                fontWeight: 700,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                padding: '4px 12px',
-                borderRadius: 4,
-              }}>{tag}</span>
-              {project && (
-                <span style={{
-                  color: C.dark,
-                  fontSize: 'clamp(0.8rem, 1.3vw, 0.95rem)',
-                  fontWeight: 700,
-                  letterSpacing: '0.04em',
-                }}>{project}</span>
-              )}
-            </div>
-
-            {/* Título */}
-            <h3 style={{
-              color: C.dark,
-              fontSize: 'clamp(1rem, 1.8vw, 1.25rem)',
-              fontWeight: 700,
-              fontFamily: 'Arial, sans-serif',
-              margin: 0,
-              lineHeight: 1.3,
-            }}>{title}</h3>
-
-            {/* Texto */}
-            <p style={{
-              color: '#374151',
-              fontSize: 'clamp(0.85rem, 1.4vw, 1.05rem)',
-              lineHeight: 1.6,
-              margin: 0,
-              flex: 1,
-            }}>{text}</p>
-
-            {/* Ruta / Estado */}
-            {route && (
-              <div style={{
-                marginTop: 'auto',
-                paddingTop: '0.5rem',
-                borderTop: '1px solid #E5E7EB',
-                color: accent,
-                fontSize: 'clamp(0.78rem, 1.3vw, 0.95rem)',
-                fontWeight: 600,
-                fontStyle: 'italic',
-              }}>{route}</div>
-            )}
-          </div>
-        </div>
-      );
-
-      const cards = [
-        { tag: tr.card1Tag, project: tr.card1Project, title: tr.card1Title, text: tr.card1Text, route: tr.card1Route },
-        { tag: tr.card2Tag, project: tr.card2Project, title: tr.card2Title, text: tr.card2Text, route: tr.card2Route },
-        { tag: tr.card3Tag, project: tr.card3Project, title: tr.card3Title, text: tr.card3Text, route: tr.card3Route },
-        { tag: tr.card4Tag, project: null,             title: tr.card4Title, text: tr.card4Text, route: null },
-      ];
+      useEffect(() => {
+        if (chartRef.current) renderSankey(chartRef.current, tr);
+      }, [t]);
 
       return (
-        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden', background: '#F8FAFC' }}>
 
-          {/* Título + subtítulo */}
-          <div style={{ padding: '0.85rem 1.75rem 0.2rem', flexShrink: 0 }}>
-            <h2 style={{
-              color: C.blue,
-              fontSize: 'clamp(1.3rem, 2.8vw, 1.8rem)',
-              fontWeight: 700,
-              fontFamily: 'Arial, sans-serif',
-              margin: 0,
-            }}>{tr.heading}</h2>
-            <p style={{
-              color: '#6B7280',
-              fontSize: 'clamp(0.9rem, 1.5vw, 1.1rem)',
-              fontStyle: 'italic',
-              margin: '0.3rem 0 0',
-            }}>{tr.subtitle}</p>
+          {/* Leyenda */}
+          <div style={{ padding: '0.5rem 1.75rem 0.2rem', flexShrink: 0, display: 'flex', gap: '1.5rem', justifyContent: 'flex-end' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <div style={{ width: 24, height: 6, borderRadius: 3, background: '#EF661A' }} />
+              <span style={{ color: '#6B7280', fontSize: '0.75rem', fontWeight: 600 }}>{tr.legendEval}</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <div style={{ width: 24, height: 6, borderRadius: 3, background: C.green }} />
+              <span style={{ color: '#6B7280', fontSize: '0.75rem', fontWeight: 600 }}>{tr.legendImpl}</span>
+            </div>
           </div>
 
-          {/* Grid de 4 cards */}
-          <div style={{
-            flex: 1,
-            minHeight: 0,
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gridTemplateRows: 'repeat(2, 1fr)',
-            gap: '1rem',
-            padding: '0.6rem 1.75rem 1rem',
-          }}>
-            {cards.map((c, i) => (
-              <RegionalCard
-                key={i}
-                tag={c.tag}
-                project={c.project}
-                title={c.title}
-                text={c.text}
-                route={c.route}
-                accent={cardColors[i]}
-              />
-            ))}
-          </div>
-
-          {/* Acento rojo inferior */}
-          <div style={{ height: 4, background: C.red, flexShrink: 0 }} />
+          {/* Diagrama Sankey */}
+          <div ref={chartRef} style={{ flex: 1, minHeight: 0, padding: '0 1.5rem 0.5rem' }} />
         </div>
       );
     }
@@ -2079,7 +2083,7 @@
     }
 
     /* ── Cargar traducciones y montar la app ────────────────── */
-    fetch('locales.json?v=15')
+    fetch('locales.json?v=16')
       .then(r => r.json())
       .then(locales => {
         ReactDOM.createRoot(document.getElementById('root')).render(<App locales={locales} />);
