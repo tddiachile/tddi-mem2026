@@ -471,168 +471,282 @@
       );
     }
 
-    /* ── SEGMENTO 3 — Método de trabajo ─────────────────────── */
+    /* ── SEGMENTO 3 — Método de trabajo ───────────────────────── */
     function SegMethod({ t }) {
       const tm = t.method;
+      const wf = tm.workflow || [];
 
-      const colorPhase  = C.dark;
-      const colorGate   = C.orange;
-      const colorTeal   = C.teal;
-      const colorChange = C.yellow;
-      const colorBanner = '#94A3B8';
-
-      const bannerStyle = (extra = {}) => ({
-        background: colorBanner,
-        color: 'white',
-        textAlign: 'center',
-        padding: '7px 0',
-        fontWeight: 700,
-        fontSize: 'clamp(0.6rem, 1.2vw, 0.78rem)',
-        letterSpacing: '0.14em',
-        textTransform: 'uppercase',
-        flexShrink: 0,
-        ...extra,
-      });
-
-      const phaseHeaderStyle = {
-        background: colorPhase,
-        color: 'white',
-        textAlign: 'center',
-        fontWeight: 700,
-        fontSize: 'clamp(0.6rem, 1.2vw, 0.78rem)',
-        letterSpacing: '0.1em',
-        textTransform: 'uppercase',
-        padding: '7px 8px',
-        flexShrink: 0,
+      const ICONS = {
+        briefcase: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: '55%', height: '55%' }}>
+            <rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" /><path d="M2 13h20" />
+          </svg>
+        ),
+        bank: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: '55%', height: '55%' }}>
+            <polygon points="12 2 2 7 22 7" /><rect x="4" y="10" width="2" height="8" /><rect x="9" y="10" width="2" height="8" /><rect x="14" y="10" width="2" height="8" /><rect x="19" y="10" width="2" height="8" /><rect x="2" y="19" width="20" height="2" />
+          </svg>
+        ),
+        globe: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: '55%', height: '55%' }}>
+            <circle cx="12" cy="12" r="10" /><path d="M2 12h20" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+          </svg>
+        ),
+        gear: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: '55%', height: '55%' }}>
+            <circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          </svg>
+        ),
       };
 
-      /* Bloque vertical (INICIO sub-items y gates) */
-      const VertBlock = ({ label, bg, textColor = 'white', width = 'auto' }) => (
+      /* Tarjeta individual del workflow */
+      const WorkflowCard = ({ step }) => (
         <div style={{
-          background: bg,
-          color: textColor,
-          writingMode: 'vertical-rl',
-          transform: 'rotate(180deg)',
-          textTransform: 'uppercase',
-          fontSize: 'clamp(0.5rem, 1vw, 0.65rem)',
-          fontWeight: 700,
-          letterSpacing: '0.06em',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flex: width === 'auto' ? 1 : undefined,
-          width: width !== 'auto' ? width : undefined,
-          padding: '8px 5px',
-          flexShrink: 0,
+          flex: 1, background: 'white', borderRadius: 10, border: '2px dashed #D1D5DB',
+          padding: 'clamp(0.4rem, 0.8vw, 0.7rem)', display: 'flex', flexDirection: 'column', alignItems: 'center',
+          minHeight: 0, overflow: 'hidden',
         }}>
-          {label}
-        </div>
-      );
-
-      /* Chevron en secuencia horizontal con texto vertical */
-      /* El clip-path va en el contenedor (sin rotación → apunta a la derecha).
-         El writingMode + rotate van solo en el <span> interno.             */
-      const TIP = 22;
-
-      const Chevron = ({ label, isFirst }) => (
-        <div style={{
-          background: colorTeal,
-          clipPath: isFirst
-            ? `polygon(0 0, calc(100% - ${TIP}px) 0, 100% 50%, calc(100% - ${TIP}px) 100%, 0 100%)`
-            : `polygon(0 0, calc(100% - ${TIP}px) 0, 100% 50%, calc(100% - ${TIP}px) 100%, 0 100%, ${TIP}px 50%)`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flex: 1,
-          minWidth: 0,
-          marginLeft: isFirst ? 0 : -8,
-        }}>
-          <span style={{
-            color: 'white',
-            fontSize: 'clamp(0.72rem, 1.3vw, 0.9rem)',
-            fontWeight: 700,
-            writingMode: 'vertical-rl',
-            transform: 'rotate(180deg)',
-            letterSpacing: '0.05em',
+          {/* Icono */}
+          <div style={{
+            width: 'clamp(28px, 3.5vw, 42px)', height: 'clamp(28px, 3.5vw, 42px)', borderRadius: '50%',
+            background: step.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            marginBottom: '0.3rem', flexShrink: 0,
           }}>
-            {label}
-          </span>
+            {ICONS[step.icon]}
+          </div>
+
+          {/* Título */}
+          <h4 style={{
+            color: step.iconBg, fontSize: 'clamp(0.55rem, 1vw, 0.78rem)', fontWeight: 700,
+            textTransform: 'uppercase', textAlign: 'center', margin: '0 0 0.2rem', lineHeight: 1.25,
+          }}>{step.title}</h4>
+
+          {/* Texto */}
+          <p style={{
+            color: '#374151', fontSize: 'clamp(0.48rem, 0.8vw, 0.68rem)', lineHeight: 1.45,
+            textAlign: 'center', margin: '0 0 0.3rem', flex: 1,
+          }}>{step.text}</p>
+
+          {/* Miembros del comité */}
+          {step.members && (
+            <div style={{ width: '100%', borderTop: '1px solid #E5E7EB', paddingTop: '0.25rem', marginBottom: '0.2rem' }}>
+              <div style={{
+                color: '#9CA3AF', fontSize: 'clamp(0.42rem, 0.65vw, 0.55rem)', fontWeight: 700,
+                textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.15rem',
+              }}>{tm.composedBy}</div>
+              {step.members.map((m, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 1 }}>
+                  <div style={{ width: 4, height: 4, borderRadius: '50%', background: step.iconBg, flexShrink: 0 }} />
+                  <span style={{ color: '#374151', fontSize: 'clamp(0.42rem, 0.7vw, 0.6rem)' }}>{m}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Badges */}
+          {step.badges && (
+            <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'center' }}>
+              {step.badges.map((b, i) => (
+                <span key={i} style={{
+                  background: C.teal, color: 'white', borderRadius: 12,
+                  padding: '2px 8px', fontSize: 'clamp(0.42rem, 0.7vw, 0.6rem)', fontWeight: 700,
+                }}>{b}</span>
+              ))}
+            </div>
+          )}
         </div>
       );
 
-      const PhaseChevrons = ({ steps }) => (
-        <div style={{ flex: 1, padding: '6px 18px 6px 8px', display: 'flex', flexDirection: 'row', gap: 4, minHeight: 0 }}>
-          {steps.map((s, i) => (
-            <Chevron key={i} label={s} isFirst={i === 0} />
-          ))}
+      /* Conector entre tarjetas: flecha simple o gate (aprobado / no continúa) */
+      const Connector = ({ gate }) => (
+        <div style={{
+          flexShrink: 0, display: 'flex', flexDirection: 'column',
+          alignItems: 'center', justifyContent: 'center',
+          padding: '0 clamp(2px, 0.3vw, 6px)', gap: 3, minWidth: 'clamp(46px, 5vw, 72px)',
+        }}>
+          {gate ? (
+            <>
+              {/* Aprobado — flecha verde */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                <span style={{ color: C.green, fontSize: 'clamp(0.42rem, 0.7vw, 0.6rem)', fontWeight: 700, whiteSpace: 'nowrap' }}>✓ {tm.approved}</span>
+                <span style={{ color: C.green, fontSize: 'clamp(0.65rem, 1vw, 0.9rem)' }}>▸▸</span>
+              </div>
+              {/* No continúa — indicador rojo */}
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 3,
+                background: 'white', border: '1px solid #E5E7EB', borderRadius: 4,
+                padding: '2px 6px',
+              }}>
+                <span style={{ color: C.red, fontSize: 'clamp(0.55rem, 0.85vw, 0.75rem)', fontWeight: 700 }}>✕</span>
+                <span style={{ color: C.red, fontSize: 'clamp(0.4rem, 0.65vw, 0.56rem)', fontWeight: 600, whiteSpace: 'nowrap' }}>{tm.notContinue}</span>
+              </div>
+            </>
+          ) : (
+            <span style={{ color: '#9CA3AF', fontSize: 'clamp(0.9rem, 1.3vw, 1.2rem)' }}>→</span>
+          )}
         </div>
       );
 
       return (
-        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative' }}>
 
-          {/* Título */}
-          <div style={{ padding: '0.85rem 1.75rem 0.6rem', flexShrink: 0 }}>
-            <h2 style={{ color: C.blue, fontSize: '1.45rem', fontWeight: 700, fontFamily: 'Arial,sans-serif', margin: 0 }}>
-              {tm.heading}
-            </h2>
+          {/* ── Mitad superior: workflow ── */}
+          <div style={{
+            flex: 1, minHeight: 0, display: 'flex',
+            padding: 'clamp(0.4rem, 1vw, 0.8rem) clamp(0.8rem, 2vw, 1.5rem)',
+            alignItems: 'stretch',
+          }}>
+            {wf.map((step, i) => (
+              <React.Fragment key={i}>
+                {/* Columna: etiqueta + tarjeta */}
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 0 }}>
+                  <div style={{
+                    color: '#6B7280', fontSize: 'clamp(0.52rem, 0.9vw, 0.7rem)', fontWeight: 700,
+                    textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.35rem', textAlign: 'center',
+                  }}>{step.label}</div>
+                  <WorkflowCard step={step} />
+                </div>
+                {/* Conector entre tarjetas */}
+                {i < wf.length - 1 && <Connector gate={step.gate} />}
+              </React.Fragment>
+            ))}
           </div>
 
-          {/* Diagrama */}
-          <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', padding: '0 1.75rem 1.1rem' }}>
+          {/* Separador */}
+          <div style={{ height: 1, background: '#e5e7eb', flexShrink: 0, margin: '0 1.75rem' }} />
 
-            {/* Banner superior */}
-            <div style={bannerStyle({ borderRadius: '6px 6px 0 0' })}>{tm.infosec}</div>
+          {/* ── Mitad inferior: stack summary + botón ver detalle ── */}
+          <div style={{
+            flex: 1, minHeight: 0, position: 'relative',
+            display: 'flex', flexDirection: 'column',
+            padding: 'clamp(0.3rem, 0.7vw, 0.5rem) clamp(0.8rem, 2vw, 1.5rem) clamp(0.3rem, 0.7vw, 0.5rem)',
+          }}>
+            {/* Cards del stack */}
+            <div style={{ flex: 1, minHeight: 0, display: 'flex', gap: 'clamp(0.3rem, 0.7vw, 0.6rem)' }}>
+              {(tm.stackSummary || []).map((card, ci) => {
+                const STACK_SVGS = [
+                  /* No Code — rayo / low-code */
+                  <svg key="nc" viewBox="0 0 48 48" fill="none" style={{ width: '100%', height: '100%' }}>
+                    <rect x="8" y="6" width="32" height="28" rx="3" fill="#FEF3C7" stroke="#FCBD4C" strokeWidth="2"/>
+                    <path d="M26 10l-8 12h8l-2 10 8-12h-8l2-10z" fill="#FCBD4C"/>
+                    <rect x="16" y="38" width="16" height="3" rx="1.5" fill="#FCBD4C" opacity="0.5"/>
+                  </svg>,
+                  /* Desarrollos — pantalla con código */
+                  <svg key="dev" viewBox="0 0 48 48" fill="none" style={{ width: '100%', height: '100%' }}>
+                    <rect x="4" y="8" width="40" height="26" rx="3" fill="#E0F2FE" stroke="#199CDA" strokeWidth="2"/>
+                    <path d="M15 17l-5 5 5 5" stroke="#199CDA" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M33 17l5 5-5 5" stroke="#199CDA" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M27 15l-6 14" stroke="#199CDA" strokeWidth="2" strokeLinecap="round"/>
+                    <rect x="16" y="38" width="16" height="3" rx="1.5" fill="#199CDA" opacity="0.4"/>
+                  </svg>,
+                  /* IoT — sensor / termómetro */
+                  <svg key="iot" viewBox="0 0 48 48" fill="none" style={{ width: '100%', height: '100%' }}>
+                    <circle cx="24" cy="34" r="8" fill="#D1FAE5" stroke="#34A866" strokeWidth="2"/>
+                    <rect x="21" y="8" width="6" height="20" rx="3" fill="#D1FAE5" stroke="#34A866" strokeWidth="2"/>
+                    <circle cx="24" cy="34" r="3" fill="#34A866"/>
+                    <path d="M30 12h4M30 16h3M30 20h4" stroke="#34A866" strokeWidth="1.5" strokeLinecap="round"/>
+                    <circle cx="38" cy="10" r="2.5" fill="none" stroke="#34A866" strokeWidth="1.2"/>
+                    <path d="M40.8 7.2l1-1M40.8 12.8l1 1M42 10h1.5" stroke="#34A866" strokeWidth="1" strokeLinecap="round"/>
+                  </svg>,
+                  /* IA — cerebro / red neuronal */
+                  <svg key="ai" viewBox="0 0 48 48" fill="none" style={{ width: '100%', height: '100%' }}>
+                    <circle cx="24" cy="14" r="6" fill="#F3E8FF" stroke="#915FC8" strokeWidth="2"/>
+                    <circle cx="12" cy="26" r="5" fill="#F3E8FF" stroke="#915FC8" strokeWidth="2"/>
+                    <circle cx="36" cy="26" r="5" fill="#F3E8FF" stroke="#915FC8" strokeWidth="2"/>
+                    <circle cx="18" cy="38" r="4" fill="#F3E8FF" stroke="#915FC8" strokeWidth="2"/>
+                    <circle cx="30" cy="38" r="4" fill="#F3E8FF" stroke="#915FC8" strokeWidth="2"/>
+                    <path d="M24 20v-1M19 16l-4 6M29 16l4 6M14 30l3 5M34 30l-3 5M22 38h4" stroke="#915FC8" strokeWidth="1.5" strokeLinecap="round"/>
+                    <circle cx="24" cy="14" r="2" fill="#915FC8" opacity="0.4"/>
+                    <circle cx="12" cy="26" r="2" fill="#915FC8" opacity="0.4"/>
+                    <circle cx="36" cy="26" r="2" fill="#915FC8" opacity="0.4"/>
+                  </svg>,
+                ];
 
-            {/* Fila de fases */}
-            <div style={{ flex: 1, minHeight: 0, display: 'flex', background: '#EFF3F8', border: '1px solid #e2e8f0', borderTop: 'none', borderBottom: 'none' }}>
+                return (
+                <div key={ci} style={{
+                  flex: 1, background: 'white', borderRadius: 8, overflow: 'hidden',
+                  boxShadow: '0 1px 8px rgba(0,0,0,0.06)', display: 'flex', flexDirection: 'column',
+                }}>
+                  <div style={{ height: 4, background: card.accent, flexShrink: 0 }} />
+                  <div style={{ padding: 'clamp(0.3rem, 0.6vw, 0.55rem) clamp(0.4rem, 0.8vw, 0.7rem)', flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+                    <h4 style={{
+                      color: C.dark, fontSize: 'clamp(0.55rem, 0.95vw, 0.78rem)', fontWeight: 700,
+                      fontFamily: 'Arial, sans-serif', margin: '0 0 0.2rem', textTransform: 'uppercase',
+                    }}>{card.title}</h4>
 
-              {/* INICIO */}
-              <div style={{ display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
-                <div style={phaseHeaderStyle}>{tm.phaseInit}</div>
-                <div style={{ flex: 1, display: 'flex', gap: 3, padding: 6, minHeight: 0 }}>
-                  {tm.initSteps.map((s, i) => <VertBlock key={i} label={s} bg={colorPhase} />)}
+                    {/* Descripción */}
+                    {card.desc && (
+                      <p style={{
+                        color: '#374151', fontSize: 'clamp(0.45rem, 0.75vw, 0.65rem)', lineHeight: 1.45,
+                        margin: '0 0 0.25rem',
+                      }}>{card.desc}</p>
+                    )}
+
+                    {/* Items con estado (AI) */}
+                    {card.items && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                        {card.items.map((item, ii) => (
+                          <div key={ii} style={{ display: 'flex', flexDirection: 'column' }}>
+                            <span style={{
+                              color: '#374151', fontSize: 'clamp(0.4rem, 0.68vw, 0.58rem)', lineHeight: 1.4,
+                            }}>• {item.text}</span>
+                            <span style={{
+                              color: item.status.includes('ejecución') || item.status.includes('execution') ? C.green : C.sky,
+                              fontSize: 'clamp(0.38rem, 0.6vw, 0.52rem)', fontWeight: 700, fontStyle: 'italic',
+                              marginLeft: '0.6rem',
+                            }}>({item.status})</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Stack tags */}
+                    {card.stack && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 3, marginTop: card.items ? 'clamp(0.2rem, 0.4vw, 0.3rem)' : 0 }}>
+                        {card.stack.map((s, si) => (
+                          <span key={si} style={{
+                            background: '#F0F4F8', border: '1px solid #E2E8F0', borderRadius: 4,
+                            padding: '2px 6px', fontSize: 'clamp(0.4rem, 0.65vw, 0.56rem)',
+                            color: C.dark, fontWeight: 600,
+                          }}>{s}</span>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Ilustración */}
+                    <div style={{
+                      marginTop: 'auto', paddingTop: 'clamp(0.2rem, 0.4vw, 0.35rem)',
+                      display: 'flex', justifyContent: 'center', alignItems: 'flex-end',
+                      flexShrink: 0, opacity: 0.85,
+                    }}>
+                      <div style={{ width: 'clamp(28px, 3.5vw, 44px)', height: 'clamp(28px, 3.5vw, 44px)' }}>
+                        {STACK_SVGS[ci]}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-
-              {/* Gate 1 */}
-              <div style={{ display: 'flex', flexShrink: 0 }}>
-                <VertBlock label={tm.gateCommittee} bg={colorGate} width={30} />
-              </div>
-
-              {/* EVALUACIÓN */}
-              <div style={{ display: 'flex', flexDirection: 'column', flex: '1 1 0', minWidth: 0 }}>
-                <div style={phaseHeaderStyle}>{tm.phaseEval}</div>
-                <PhaseChevrons steps={tm.evalSteps} />
-              </div>
-
-              {/* Gate 2 */}
-              <div style={{ display: 'flex', flexShrink: 0 }}>
-                <VertBlock label={tm.gateCommittee} bg={colorGate} width={30} />
-              </div>
-
-              {/* EJECUCIÓN */}
-              <div style={{ display: 'flex', flexDirection: 'column', flex: '2 1 0', minWidth: 0 }}>
-                <div style={phaseHeaderStyle}>{tm.phaseExec}</div>
-                <PhaseChevrons steps={tm.execSteps} />
-              </div>
-
-              {/* CHANGE MANAGEMENT */}
-              <div style={{ display: 'flex', flexShrink: 0 }}>
-                <VertBlock label={tm.changeManagement} bg={colorChange} textColor={C.dark} width={30} />
-              </div>
-
-              {/* GO LIVE */}
-              <div style={{ display: 'flex', flexDirection: 'column', flex: '1 1 0', minWidth: 0 }}>
-                <div style={phaseHeaderStyle}>{tm.phaseGoLive}</div>
-                <PhaseChevrons steps={tm.goLiveSteps} />
-              </div>
-
+                );
+              })}
             </div>
 
-            {/* Banner inferior */}
-            <div style={bannerStyle({ borderRadius: '0 0 6px 6px' })}>{tm.mgmtControl}</div>
-
+            {/* Botón ver detalle — esquina inferior derecha */}
+            <a
+              href="pages/metodo_trabajo.html"
+              style={{
+                position: 'absolute', bottom: 'clamp(0.3rem, 0.7vw, 0.5rem)', right: 'clamp(0.8rem, 2vw, 1.5rem)',
+                display: 'inline-flex', alignItems: 'center', gap: 4,
+                background: C.blue, color: '#ffffff',
+                padding: '0.25rem 0.8rem', borderRadius: 4,
+                fontSize: 'clamp(0.5rem, 0.75vw, 0.65rem)', fontWeight: 700,
+                textDecoration: 'none', letterSpacing: '0.03em',
+                transition: 'background 180ms ease',
+                zIndex: 2,
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = '#1e2c7a'}
+              onMouseLeave={e => e.currentTarget.style.background = C.blue}
+            >
+              {tm.viewDetail || 'ver detalle →'}
+            </a>
           </div>
         </div>
       );
@@ -1693,158 +1807,6 @@
 
     /* ── SEGMENTO 10 — Stack Tecnológico ────────────────────── */
 
-    /* Mapa de logos dev (devicon CDN) */
-    const DEV_ICONS = {
-      'SQL Server':   'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-plain.svg',
-      'PostgreSQL':   'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg',
-      'Redis':        'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg',
-      'Go':           'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg',
-      'Python':       'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg',
-      '.NET Core':    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg',
-      'JavaScript':   'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg',
-      'TypeScript':   'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg',
-      'React':        'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
-      'React Native': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
-    };
-
-    function SegTechStack({ t }) {
-      const ts = t.techStack;
-
-      const sectionTitleStyle = (accent) => ({
-        display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem',
-      });
-
-      const SectionBadge = ({ icon, text, bg }) => (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <span style={{ fontSize: '1.15rem' }}>{icon}</span>
-          <span style={{
-            fontSize: 'clamp(0.82rem, 1.3vw, 1rem)', fontWeight: 700,
-            textTransform: 'uppercase', letterSpacing: '0.06em', color: C.dark,
-          }}>{text}</span>
-        </div>
-      );
-
-      const statusColor = (icon) => icon === 'check' ? C.green : C.sky;
-      const statusEmoji = (icon) => icon === 'check' ? '✅' : '🔄';
-
-      return (
-        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-
-          {/* Título + subtítulo */}
-          <div style={{ padding: '0.7rem 1.75rem 0.15rem', flexShrink: 0 }}>
-            <h2 style={{ color: C.blue, fontSize: 'clamp(1.3rem, 2.8vw, 1.8rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', margin: 0 }}>{ts.heading}</h2>
-            <p style={{ color: '#6B7280', fontSize: 'clamp(0.85rem, 1.4vw, 1.05rem)', fontStyle: 'italic', margin: '0.2rem 0 0' }}>{ts.subtitle}</p>
-          </div>
-
-          {/* Contenido — 2 columnas: izquierda (AI + IoT) | derecha (Dev Stack) */}
-          <div style={{ flex: 1, minHeight: 0, display: 'flex', gap: '1rem', padding: '0.4rem 1.75rem 0.8rem', overflow: 'hidden' }}>
-
-            {/* ── Columna izquierda: AI + IoT ── */}
-            <div style={{ flex: '1.4 1 0', display: 'flex', flexDirection: 'column', gap: '0.7rem', minHeight: 0, overflow: 'auto' }}>
-
-              {/* AI Section */}
-              <div style={{ background: 'white', borderRadius: 8, boxShadow: '0 1px 8px rgba(0,0,0,0.06)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ height: 4, background: C.purple, flexShrink: 0 }} />
-                <div style={{ padding: '0.7rem 1rem 0.6rem' }}>
-                  <SectionBadge icon="🤖" text={ts.aiTitle} />
-                  <p style={{ color: C.dark, fontSize: 'clamp(0.82rem, 1.3vw, 1rem)', fontWeight: 600, margin: '0.3rem 0 0.5rem', fontStyle: 'italic' }}>{ts.aiIntro}</p>
-
-                  {/* Tabla AI */}
-                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 'clamp(0.75rem, 1.2vw, 0.9rem)' }}>
-                    <thead>
-                      <tr style={{ background: C.dark, color: 'white' }}>
-                        {[ts.aiColInitiative, ts.aiColDesc, ts.aiColStatus, ts.aiColTech].map((h, i) => (
-                          <th key={i} style={{ padding: '6px 10px', fontWeight: 700, textAlign: 'left', fontSize: 'clamp(0.7rem, 1.1vw, 0.85rem)', letterSpacing: '0.03em' }}>{h}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {ts.aiItems.map((item, i) => (
-                        <tr key={i} style={{ background: i % 2 === 0 ? '#F9FAFB' : 'white', borderBottom: '1px solid #E5E7EB' }}>
-                          <td style={{ padding: '6px 10px', fontWeight: 700, color: C.dark, whiteSpace: 'nowrap' }}>{item.name}</td>
-                          <td style={{ padding: '6px 10px', color: '#374151', lineHeight: 1.45 }}>{item.desc}</td>
-                          <td style={{ padding: '6px 10px', whiteSpace: 'nowrap' }}>
-                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, color: statusColor(item.statusIcon), fontWeight: 600 }}>
-                              <span style={{ fontSize: '0.85rem' }}>{statusEmoji(item.statusIcon)}</span> {item.status}
-                            </span>
-                          </td>
-                          <td style={{ padding: '6px 10px', color: '#4B5563', fontWeight: 600, whiteSpace: 'nowrap' }}>{item.tech}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              {/* IoT Section */}
-              <div style={{ background: 'white', borderRadius: 8, boxShadow: '0 1px 8px rgba(0,0,0,0.06)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ height: 4, background: C.green, flexShrink: 0 }} />
-                <div style={{ padding: '0.7rem 1rem 0.6rem' }}>
-                  <SectionBadge icon="📡" text={ts.iotTitle} />
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', margin: '0.35rem 0 0.3rem' }}>
-                    <span style={{ fontWeight: 700, color: C.dark, fontSize: 'clamp(0.85rem, 1.3vw, 1.05rem)' }}>{ts.iotProject}</span>
-                    <span style={{ color: '#6B7280', fontSize: 'clamp(0.75rem, 1.1vw, 0.88rem)' }}>({ts.iotPeriod})</span>
-                  </div>
-                  <p style={{ color: '#374151', fontSize: 'clamp(0.82rem, 1.3vw, 1rem)', lineHeight: 1.6, margin: '0 0 0.4rem' }}>{ts.iotText}</p>
-                  <div style={{ borderTop: '1px solid #E5E7EB', paddingTop: '0.4rem', color: C.green, fontSize: 'clamp(0.82rem, 1.3vw, 1rem)', fontWeight: 600, fontStyle: 'italic' }}>{ts.iotImpact}</div>
-                </div>
-              </div>
-            </div>
-
-            {/* ── Columna derecha: Dev Stack ── */}
-            <div style={{ flex: '1 1 0', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-              <div style={{ background: 'white', borderRadius: 8, boxShadow: '0 1px 8px rgba(0,0,0,0.06)', overflow: 'hidden', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                <div style={{ height: 4, background: C.sky, flexShrink: 0 }} />
-                <div style={{ padding: '0.7rem 1rem 0.6rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                  <SectionBadge icon="🛠️" text={ts.devTitle} />
-                  <p style={{ color: '#374151', fontSize: 'clamp(0.82rem, 1.3vw, 1rem)', lineHeight: 1.55, margin: '0.3rem 0 0.6rem' }}>{ts.devIntro}</p>
-
-                  {/* Capas del stack */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', flex: 1 }}>
-                    {ts.devLayers.map((layer, li) => (
-                      <div key={li}>
-                        <div style={{
-                          fontSize: 'clamp(0.72rem, 1.1vw, 0.85rem)', fontWeight: 700,
-                          textTransform: 'uppercase', letterSpacing: '0.08em',
-                          color: C.sky, marginBottom: '0.4rem',
-                        }}>{layer.layer}</div>
-                        <div style={{ display: 'flex', gap: '0.55rem', flexWrap: 'wrap' }}>
-                          {layer.techs.map((tech, ti) => (
-                            <div key={ti} style={{
-                              display: 'flex', alignItems: 'center', gap: 8,
-                              background: '#F0F4F8', border: '1px solid #E2E8F0',
-                              borderRadius: 6, padding: '8px 12px',
-                            }}>
-                              {DEV_ICONS[tech] && (
-                                <img src={DEV_ICONS[tech]} alt={tech}
-                                  style={{ width: 26, height: 26, objectFit: 'contain' }}
-                                  onError={(e) => { e.target.style.display = 'none'; }}
-                                />
-                              )}
-                              <span style={{
-                                fontSize: 'clamp(0.82rem, 1.3vw, 0.98rem)',
-                                fontWeight: 600, color: C.dark,
-                              }}>{tech}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Cierre */}
-                  <div style={{ marginTop: 'auto', paddingTop: '0.6rem', borderTop: '1px solid #E5E7EB', color: C.sky, fontSize: 'clamp(0.82rem, 1.3vw, 1rem)', fontWeight: 600, fontStyle: 'italic' }}>{ts.devClosing}</div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          {/* Acento rojo inferior */}
-          <div style={{ height: 4, background: C.red, flexShrink: 0 }} />
-        </div>
-      );
-    }
 
     /* ── Configuración de segmentos ─────────────────────────── */
     const SEGMENTS_CONFIG = [
@@ -1857,8 +1819,7 @@
       { id: 6,  Component: SegCurrentProjects },
       { id: 7,  Component: SegRegionalReach   },
       { id: 8,  Component: SegGlobalPlatforms },
-      { id: 9,  Component: SegTechStack       },
-      { id: 10, Component: SegImprovements    },
+      { id: 9,  Component: SegImprovements    },
     ];
 
     /* ════════════════════════════════════════════════════════
@@ -1866,7 +1827,11 @@
        ════════════════════════════════════════════════════════ */
     function App({ locales }) {
       const [lang,       setLang]       = useState('es');
-      const [displayIdx, setDisplayIdx] = useState(0);
+      const [displayIdx, setDisplayIdx] = useState(() => {
+        const m = window.location.hash.match(/^#slide-(\d+)$/);
+        if (m) { const idx = parseInt(m[1], 10); if (idx >= 0 && idx < SEGMENTS_CONFIG.length) return idx; }
+        return 0;
+      });
       const [animClass,  setAnimClass]  = useState('');
       const [animating,  setAnimating]  = useState(false);
       const [menuOpen,   setMenuOpen]   = useState(true);
@@ -2107,7 +2072,7 @@
     }
 
     /* ── Cargar traducciones y montar la app ────────────────── */
-    fetch('locales.json?v=5')
+    fetch('locales.json?v=10')
       .then(r => r.json())
       .then(locales => {
         ReactDOM.createRoot(document.getElementById('root')).render(<App locales={locales} />);

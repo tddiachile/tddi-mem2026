@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Método de trabajo y stack tecnológico — Sodexo TDDI" />
+  <title>Método de Trabajo | Sodexo</title>
+
+  <!-- ── Tailwind CSS via CDN ─────────────────────────────────── -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'sdx-blue':   '#283897',
+            'sdx-red':    '#EE0000',
+            'sdx-dark':   '#2A295C',
+            'sdx-sky':    '#199CDA',
+            'sdx-green':  '#34A866',
+            'sdx-teal':   '#228085',
+            'sdx-purple': '#915FC8',
+            'sdx-pink':   '#DA558C',
+            'sdx-orange': '#EF661A',
+            'sdx-yellow': '#FCBD4C',
+            'sdx-bronze': '#B28B4E',
+          },
+          fontFamily: {
+            body:  ['Open Sans', 'Arial', 'sans-serif'],
+            title: ['Arial', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- ── Google Fonts ──────────────────────────────────────────── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      font-family: 'Open Sans', Arial, sans-serif;
+      color: #2A295C;
+      background: #f8fafc;
+    }
+    h1, h2, h3, h4 {
+      font-family: Arial, sans-serif;
+      letter-spacing: -0.02em;
+      color: #283897;
+    }
+    .brand-title { text-transform: lowercase; }
+
+    /* Header */
+    .site-header {
+      background: white;
+      border-top: 4px solid #EE0000;
+      padding: 0.8rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    /* Section */
+    .section {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 3px solid #283897;
+      display: inline-block;
+    }
+
+    /* Cards */
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .card-accent {
+      height: 4px;
+      flex-shrink: 0;
+    }
+
+    /* Method diagram */
+    .method-diagram {
+      display: flex;
+      flex-direction: column;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .method-banner {
+      background: #94A3B8;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .method-phases {
+      display: flex;
+      background: #EFF3F8;
+      border: 1px solid #e2e8f0;
+      border-top: none;
+      border-bottom: none;
+      min-height: 260px;
+    }
+    .phase-header {
+      background: #2A295C;
+      color: white;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 8px 10px;
+    }
+    .vert-block {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 6px;
+      color: white;
+    }
+    .chevron-area {
+      flex: 1;
+      padding: 8px 18px 8px 10px;
+      display: flex;
+      gap: 5px;
+      min-height: 0;
+    }
+    .chevron {
+      background: #228085;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      min-width: 0;
+    }
+    .chevron span {
+      color: white;
+      font-size: 0.92rem;
+      font-weight: 700;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      letter-spacing: 0.05em;
+    }
+
+    /* Table */
+    .ai-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .ai-table thead tr {
+      background: #2A295C;
+      color: white;
+    }
+    .ai-table th {
+      padding: 8px 12px;
+      font-weight: 700;
+      text-align: left;
+      font-size: 0.85rem;
+      letter-spacing: 0.03em;
+    }
+    .ai-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    .ai-table tbody tr:nth-child(even) { background: #F9FAFB; }
+
+    /* Dev stack badges */
+    .tech-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #F0F4F8;
+      border: 1px solid #E2E8F0;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-weight: 600;
+      color: #2A295C;
+      font-size: 0.95rem;
+    }
+    .tech-badge img {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+    }
+    .layer-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #199CDA;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Back link */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #283897;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    /* Footer */
+    .site-footer {
+      background: #2A295C;
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 1.2rem 2rem;
+      font-size: 0.82rem;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── Header ────────────────────────────────────────────────── -->
+  <header class="site-header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <img src="../assets/logo.png" alt="Sodexo" style="height: 28px; width: auto;" />
+      <h1 class="brand-title" style="font-size: 1.15rem; font-weight: 700; margin: 0;">
+        método de trabajo
+      </h1>
+    </div>
+    <a href="../index.html#slide-2" class="back-link">
+      ← volver a la presentación
+    </a>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       SECCIÓN 1 — Método de trabajo
+       ══════════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title brand-title">método de trabajo</h2>
+
+    <div class="card">
+      <div class="card-accent" style="background: #283897;"></div>
+      <div style="padding: 1.5rem;">
+
+        <!-- Diagrama de método -->
+        <div class="method-diagram">
+
+          <!-- Banner superior -->
+          <div class="method-banner" style="border-radius: 6px 6px 0 0;">seguridad de la información</div>
+
+          <!-- Fila de fases -->
+          <div class="method-phases">
+
+            <!-- INICIO -->
+            <div style="display: flex; flex-direction: column; flex-shrink: 0;">
+              <div class="phase-header">inicio</div>
+              <div style="flex: 1; display: flex; gap: 3px; padding: 6px; min-height: 0;">
+                <div class="vert-block" style="background: #2A295C; flex: 1;">iniciativa</div>
+                <div class="vert-block" style="background: #2A295C; flex: 1;">definir</div>
+                <div class="vert-block" style="background: #2A295C; flex: 1;">demanda</div>
+              </div>
+            </div>
+
+            <!-- Gate 1 -->
+            <div style="display: flex; flex-shrink: 0;">
+              <div class="vert-block" style="background: #EF661A; width: 34px;">comité de tecnología</div>
+            </div>
+
+            <!-- EVALUACIÓN -->
+            <div style="display: flex; flex-direction: column; flex: 1 1 0; min-width: 0;">
+              <div class="phase-header">evaluación</div>
+              <div class="chevron-area">
+                <div class="chevron" style="clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%);"><span>levantamiento</span></div>
+                <div class="chevron" style="clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%, 22px 50%); margin-left: -8px;"><span>licitación</span></div>
+              </div>
+            </div>
+
+            <!-- Gate 2 -->
+            <div style="display: flex; flex-shrink: 0;">
+              <div class="vert-block" style="background: #EF661A; width: 34px;">comité de tecnología</div>
+            </div>
+
+            <!-- EJECUCIÓN -->
+            <div style="display: flex; flex-direction: column; flex: 2 1 0; min-width: 0;">
+              <div class="phase-header">ejecución</div>
+              <div class="chevron-area">
+                <div class="chevron" style="clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%);"><span>planificación</span></div>
+                <div class="chevron" style="clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%, 22px 50%); margin-left: -8px;"><span>diseño</span></div>
+                <div class="chevron" style="clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%, 22px 50%); margin-left: -8px;"><span>desarrollo</span></div>
+              </div>
+            </div>
+
+            <!-- CHANGE MANAGEMENT -->
+            <div style="display: flex; flex-shrink: 0;">
+              <div class="vert-block" style="background: #FCBD4C; color: #2A295C; width: 34px;">change management</div>
+            </div>
+
+            <!-- GO LIVE -->
+            <div style="display: flex; flex-direction: column; flex: 1 1 0; min-width: 0;">
+              <div class="phase-header">go live</div>
+              <div class="chevron-area">
+                <div class="chevron" style="clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%);"><span>producción</span></div>
+                <div class="chevron" style="clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%, 22px 50%); margin-left: -8px;"><span>despliegue</span></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Banner inferior -->
+          <div class="method-banner" style="border-radius: 0 0 6px 6px;">control de gestión</div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       SECCIÓN 2 — Stack tecnológico
+       ══════════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title brand-title">stack tecnológico</h2>
+    <p style="color: #6B7280; font-style: italic; margin: -1rem 0 1.5rem; font-size: 1.05rem;">
+      Tecnología de vanguardia al servicio de la operación.
+    </p>
+
+    <!-- ── AI ──────────────────────────────────────────────────── -->
+    <div class="card" style="margin-bottom: 1.5rem;">
+      <div class="card-accent" style="background: #915FC8;"></div>
+      <div style="padding: 1.2rem 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <span style="font-size: 1.2rem;">🤖</span>
+          <span style="font-size: 1.05rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #2A295C;">
+            Inteligencia Artificial — En adopción activa
+          </span>
+        </div>
+        <p style="color: #2A295C; font-weight: 600; font-style: italic; margin-bottom: 1rem; font-size: 1rem;">
+          Chile no está esperando la IA. Ya la está usando.
+        </p>
+
+        <table class="ai-table">
+          <thead>
+            <tr>
+              <th>Iniciativa</th>
+              <th>Descripción</th>
+              <th>Estado</th>
+              <th>Tecnología</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight: 700; white-space: nowrap;">Arqueología de Software</td>
+              <td style="line-height: 1.5;">Levantamiento, documentación y rediseño de sistemas legacy para eliminar la brecha tecnológica y migrar hacia arquitecturas modernas.</td>
+              <td style="white-space: nowrap;"><span style="color: #34A866; font-weight: 600;">✅ En ejecución</span></td>
+              <td style="font-weight: 600; white-space: nowrap;">Claude AI</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; white-space: nowrap;">Chatbot de Procedimientos Internos</td>
+              <td style="line-height: 1.5;">Asistente conversacional para que la operación consulte procedimientos internos en lenguaje natural, sin depender de documentación estática.</td>
+              <td style="white-space: nowrap;"><span style="color: #199CDA; font-weight: 600;">🔄 Fase inicial</span></td>
+              <td style="font-weight: 600; white-space: nowrap;">Microsoft Copilot · Azure AI</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; white-space: nowrap;">Chatbot de Convenios Sindicales</td>
+              <td style="line-height: 1.5;">Asistente especializado para el equipo de Relaciones Laborales, con acceso inteligente a acuerdos y convenios con los distintos sindicatos.</td>
+              <td style="white-space: nowrap;"><span style="color: #199CDA; font-weight: 600;">🔄 Fase inicial</span></td>
+              <td style="font-weight: 600; white-space: nowrap;">Microsoft Copilot · Azure AI</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── IoT ─────────────────────────────────────────────────── -->
+    <div class="card" style="margin-bottom: 1.5rem;">
+      <div class="card-accent" style="background: #34A866;"></div>
+      <div style="padding: 1.2rem 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <span style="font-size: 1.2rem;">📡</span>
+          <span style="font-size: 1.05rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #2A295C;">
+            IoT — Operación conectada y trazable
+          </span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 0.5rem; margin: 0.4rem 0 0.4rem;">
+          <span style="font-weight: 700; color: #2A295C; font-size: 1.05rem;">Control de Temperatura · Planta Colina</span>
+          <span style="color: #6B7280; font-size: 0.9rem;">(2024 – 2025)</span>
+        </div>
+        <p style="color: #374151; font-size: 1rem; line-height: 1.65; margin-bottom: 0.6rem;">
+          Digitalización completa del proceso de toma de temperatura en producción. Los datos, antes registrados manualmente, hoy se capturan, almacenan y visualizan en una aplicación web en tiempo real — habilitando control operativo, aseguramiento de calidad y trazabilidad para auditoría.
+        </p>
+        <div style="border-top: 1px solid #E5E7EB; padding-top: 0.5rem; color: #34A866; font-size: 1rem; font-weight: 600; font-style: italic;">
+          De papel a plataforma. De reacción a prevención.
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Dev Stack ───────────────────────────────────────────── -->
+    <div class="card">
+      <div class="card-accent" style="background: #199CDA;"></div>
+      <div style="padding: 1.2rem 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <span style="font-size: 1.2rem;">🛠️</span>
+          <span style="font-size: 1.05rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #2A295C;">
+            Stack de Desarrollo — Tecnología robusta, sin dependencias innecesarias
+          </span>
+        </div>
+        <p style="color: #374151; font-size: 1rem; line-height: 1.55; margin-bottom: 1.2rem;">
+          Nuestros proyectos se construyen sobre un stack moderno, probado en producción y alineado con estándares de la industria:
+        </p>
+
+        <!-- Base de datos -->
+        <div style="margin-bottom: 1.2rem;">
+          <div class="layer-label">Base de datos</div>
+          <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+            <div class="tech-badge">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-plain.svg" alt="SQL Server" onerror="this.style.display='none'" />
+              SQL Server
+            </div>
+            <div class="tech-badge">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" onerror="this.style.display='none'" />
+              PostgreSQL
+            </div>
+            <div class="tech-badge">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" alt="Redis" onerror="this.style.display='none'" />
+              Redis
+            </div>
+          </div>
+        </div>
+
+        <!-- Backend -->
+        <div style="margin-bottom: 1.2rem;">
+          <div class="layer-label">Backend</div>
+          <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+            <div class="tech-badge">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg" alt="Go" onerror="this.style.display='none'" />
+              Go
+            </div>
+            <div class="tech-badge">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" onerror="this.style.display='none'" />
+              Python
+            </div>
+            <div class="tech-badge">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg" alt=".NET Core" onerror="this.style.display='none'" />
+              .NET Core
+            </div>
+            <div class="tech-badge">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" onerror="this.style.display='none'" />
+              JavaScript
+            </div>
+            <div class="tech-badge">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript" onerror="this.style.display='none'" />
+              TypeScript
+            </div>
+          </div>
+        </div>
+
+        <!-- Frontend -->
+        <div style="margin-bottom: 1rem;">
+          <div class="layer-label">Frontend</div>
+          <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+            <div class="tech-badge">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" onerror="this.style.display='none'" />
+              React
+            </div>
+            <div class="tech-badge">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React Native" onerror="this.style.display='none'" />
+              React Native
+            </div>
+            <div class="tech-badge">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" onerror="this.style.display='none'" />
+              JavaScript
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid #E5E7EB; padding-top: 0.6rem; color: #199CDA; font-size: 1rem; font-weight: 600; font-style: italic;">
+          Un equipo que no depende de un solo lenguaje ni de un solo paradigma — adaptable a cada necesidad del negocio.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Footer ────────────────────────────────────────────────── -->
+  <footer class="site-footer">
+    TDDI & IA — Sodexo Chile · abril 2026
+  </footer>
+
+</body>
+</html>

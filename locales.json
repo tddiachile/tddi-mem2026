@@ -3,7 +3,7 @@
     "langToggle": "EN",
     "pageTitle": "Presentación del Equipo | Sodexo",
     "headerTitle": "presentación del equipo de trabajo",
-    "segments": ["home", "quiénes somos", "método de trabajo", "trayectoria del área", "métricas", "portafolio de proyectos", "proyectos actuales", "alcance regional", "plataformas globales", "stack tecnológico", "oportunidades de mejora"],
+    "segments": ["home", "quiénes somos", "método de trabajo", "trayectoria del área", "métricas", "portafolio de proyectos", "proyectos actuales", "alcance regional", "plataformas globales", "oportunidades de mejora"],
     "sidebarTitle": "Presentación",
     "sidebarSubtitle": "Equipo de trabajo",
     "sidebarClose": "‹ cerrar menú",
@@ -73,6 +73,7 @@
     },
     "method": {
       "heading": "método de trabajo",
+      "viewDetail": "ver detalle →",
       "infosec": "seguridad de la información",
       "mgmtControl": "control de gestión",
       "phaseInit": "inicio",
@@ -84,7 +85,77 @@
       "initSteps": ["iniciativa", "definir", "demanda"],
       "evalSteps": ["levantamiento", "licitación"],
       "execSteps": ["planificación", "diseño", "desarrollo"],
-      "goLiveSteps": ["producción", "despliegue"]
+      "goLiveSteps": ["producción", "despliegue"],
+      "approved": "aprobado",
+      "notContinue": "No continúa",
+      "composedBy": "compuesto por",
+      "workflow": [
+        {
+          "label": "origen",
+          "icon": "briefcase",
+          "iconBg": "#EF661A",
+          "title": "negocio",
+          "text": "La iniciativa nace desde el negocio, identificando una necesidad u oportunidad.",
+          "badges": ["Iniciativa", "Demanda"],
+          "gate": false
+        },
+        {
+          "label": "aprobación local",
+          "icon": "bank",
+          "iconBg": "#EF661A",
+          "title": "comité de tecnología",
+          "text": "El negocio presenta el Business Case y la justificación. El Comité aprueba o rechaza.",
+          "members": ["Director de Finanzas", "Director de Marketing", "Director de Proyectos Estratégicos", "Director de Service Operations", "CIO Local"],
+          "gate": true
+        },
+        {
+          "label": "aprobación global",
+          "icon": "globe",
+          "iconBg": "#915FC8",
+          "title": "global",
+          "text": "El proyecto se eleva a revisión y validación global antes de continuar.",
+          "badges": ["Validación", "Alineación"],
+          "gate": true
+        },
+        {
+          "label": "desarrollo del proyecto",
+          "icon": "gear",
+          "iconBg": "#915FC8",
+          "title": "fase evaluación y ejecución",
+          "text": "El proyecto avanza por las etapas de evaluación, diseño, desarrollo y despliegue hasta su puesta en producción.",
+          "badges": ["Evaluación", "Ejecución", "Change Mgmt", "Go Live"],
+          "gate": false
+        }
+      ],
+      "stackSummary": [
+        {
+          "title": "No Code",
+          "accent": "#FCBD4C",
+          "desc": "Aplicaciones de construcción rápida, uso interno.",
+          "stack": ["Microsoft Power Apps"]
+        },
+        {
+          "title": "Desarrollos a la medida",
+          "accent": "#199CDA",
+          "desc": "Servicios, aplicaciones web, móvil e integraciones.",
+          "stack": ["Frontend (React, React Native, JavaScript)", "Backend (Python, Go, .NET Core, JavaScript)", "Base de datos (PostgreSQL, SQL Server, Redis)"]
+        },
+        {
+          "title": "IoT",
+          "accent": "#34A866",
+          "desc": "Planta Colina — captura de temperatura en tiempo real."
+        },
+        {
+          "title": "Inteligencia Artificial",
+          "accent": "#915FC8",
+          "items": [
+            { "text": "Documentación y diseño para modernización de sistemas legacy", "status": "En ejecución" },
+            { "text": "Chatbot para consolidación y consulta de contratos colectivos", "status": "Fase inicial" },
+            { "text": "Chatbot para consulta de procedimientos internos", "status": "Fase inicial" }
+          ],
+          "stack": ["Microsoft Copilot", "Azure AI", "Claude"]
+        }
+      ]
     },
     "portfolioMap": {
       "heading": "portafolio de proyectos",
@@ -320,7 +391,7 @@
     "langToggle": "ES",
     "pageTitle": "Team Presentation | Sodexo",
     "headerTitle": "work team presentation",
-    "segments": ["home", "who we are", "work method", "area trajectory", "metrics", "project portfolio", "current projects", "regional reach", "global platforms", "technology stack", "improvement opportunities"],
+    "segments": ["home", "who we are", "work method", "area trajectory", "metrics", "project portfolio", "current projects", "regional reach", "global platforms", "improvement opportunities"],
     "sidebarTitle": "Presentation",
     "sidebarSubtitle": "Work team",
     "sidebarClose": "‹ close menu",
@@ -390,6 +461,7 @@
     },
     "method": {
       "heading": "work method",
+      "viewDetail": "view details →",
       "infosec": "information security",
       "mgmtControl": "management control",
       "phaseInit": "initiation",
@@ -401,7 +473,77 @@
       "initSteps": ["initiative", "define", "demand"],
       "evalSteps": ["survey", "tender"],
       "execSteps": ["planning", "design", "development"],
-      "goLiveSteps": ["production", "deployment"]
+      "goLiveSteps": ["production", "deployment"],
+      "approved": "approved",
+      "notContinue": "Does not continue",
+      "composedBy": "composed by",
+      "workflow": [
+        {
+          "label": "origin",
+          "icon": "briefcase",
+          "iconBg": "#EF661A",
+          "title": "business",
+          "text": "The initiative is born from the business, identifying a need or opportunity.",
+          "badges": ["Initiative", "Demand"],
+          "gate": false
+        },
+        {
+          "label": "local approval",
+          "icon": "bank",
+          "iconBg": "#EF661A",
+          "title": "technology committee",
+          "text": "The business presents the Business Case and justification. The Committee approves or rejects.",
+          "members": ["Finance Director", "Marketing Director", "Strategic Projects Director", "Service Operations Director", "Local CIO"],
+          "gate": true
+        },
+        {
+          "label": "global approval",
+          "icon": "globe",
+          "iconBg": "#915FC8",
+          "title": "global",
+          "text": "The project is elevated for global review and validation before continuing.",
+          "badges": ["Validation", "Alignment"],
+          "gate": true
+        },
+        {
+          "label": "project development",
+          "icon": "gear",
+          "iconBg": "#915FC8",
+          "title": "evaluation & execution phase",
+          "text": "The project advances through evaluation, design, development and deployment stages until production.",
+          "badges": ["Evaluation", "Execution", "Change Mgmt", "Go Live"],
+          "gate": false
+        }
+      ],
+      "stackSummary": [
+        {
+          "title": "No Code",
+          "accent": "#FCBD4C",
+          "desc": "Rapid-build applications for internal use.",
+          "stack": ["Microsoft Power Apps"]
+        },
+        {
+          "title": "Custom Development",
+          "accent": "#199CDA",
+          "desc": "Services, web apps, mobile apps & integrations.",
+          "stack": ["Frontend (React, React Native, JavaScript)", "Backend (Python, Go, .NET Core, JavaScript)", "Database (PostgreSQL, SQL Server, Redis)"]
+        },
+        {
+          "title": "IoT",
+          "accent": "#34A866",
+          "desc": "Planta Colina — real-time temperature capture."
+        },
+        {
+          "title": "Artificial Intelligence",
+          "accent": "#915FC8",
+          "items": [
+            { "text": "Documentation & design for legacy system modernization", "status": "In execution" },
+            { "text": "Chatbot for union agreement consolidation & queries", "status": "Early phase" },
+            { "text": "Chatbot for internal procedure queries", "status": "Early phase" }
+          ],
+          "stack": ["Microsoft Copilot", "Azure AI", "Claude"]
+        }
+      ]
     },
     "portfolioMap": {
       "heading": "project portfolio",
