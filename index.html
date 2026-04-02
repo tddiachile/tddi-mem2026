@@ -231,10 +231,11 @@
         if (d.x > maxX) maxX = d.x;
       });
       const PAD = 14;
+      const BADGE_H = 52;   /* espacio extra en la parte superior para el badge */
       const vbX = minX - NW / 2 - PAD;
-      const vbY = -PAD;
+      const vbY = -PAD - BADGE_H;
       const vbW = (maxX - minX) + NW + PAD * 2;
-      const vbH = yL[2] + Math.max(NH_P, NH_I) + PAD;
+      const vbH = yL[2] + Math.max(NH_P, NH_I) + PAD + BADGE_H;
 
       d3.select(container).selectAll('svg').remove();
 
@@ -253,6 +254,34 @@
       flt.append('feDropShadow')
         .attr('dx', 0).attr('dy', 1).attr('stdDeviation', 2.5)
         .attr('flood-color', 'rgba(0,0,0,0.16)');
+
+      /* ── Badge: total equipo ── */
+      const rootX = root.x;
+      const badgeCy = -BADGE_H + 18;
+      const badgeG = svg.append('g').attr('filter', 'url(#nd-shadow)');
+      badgeG.append('circle')
+        .attr('cx', rootX).attr('cy', badgeCy).attr('r', 16)
+        .attr('fill', C.dark);
+      badgeG.append('text')
+        .attr('x', rootX).attr('y', badgeCy + 1)
+        .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
+        .attr('fill', 'white')
+        .attr('font-family', "'Open Sans',Arial,sans-serif")
+        .attr('font-size', '10px').attr('font-weight', '800')
+        .text(ta.teamTotal);
+      svg.append('text')
+        .attr('x', rootX).attr('y', badgeCy + 22)
+        .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
+        .attr('fill', '#aaa')
+        .attr('font-family', "'Open Sans',Arial,sans-serif")
+        .attr('font-size', '7px').attr('font-weight', '600')
+        .attr('letter-spacing', '0.08em')
+        .text(ta.teamTotalLabel.toUpperCase());
+      /* Línea conectora badge → raíz */
+      svg.append('line')
+        .attr('x1', rootX).attr('y1', badgeCy + 16)
+        .attr('x2', rootX).attr('y2', 0)
+        .attr('stroke', '#d0d5e8').attr('stroke-width', 1.5);
 
       /* ── Conectores — curvas Bézier verticales ── */
       svg.append('g')
@@ -942,6 +971,11 @@
     function SegMetrics({ t }) {
       const tm = t.metrics;
 
+      /* Gauge SVG — 98% donut */
+      const r = 58, circ = 2 * Math.PI * r;
+      const pct = parseFloat(tm.stat2Value) / 100;
+      const dash = pct * circ;
+
       return (
         <div style={{ height: '100%', display: 'flex', flexDirection: 'column', background: 'white', position: 'relative' }}>
 
@@ -949,121 +983,91 @@
           <div style={{ flex: 1, minHeight: 0, display: 'flex' }}>
 
             {/* Columna izquierda — Métricas */}
-            <div style={{ flex: 1, padding: '2rem 2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '1.5rem' }}>
+            <div style={{ flex: 1, padding: '1.25rem 2rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '1.8rem' }}>
 
-              {/* Aprobados vs Rechazados */}
+              {/* Total Proyectos */}
               <div style={{ textAlign: 'center' }}>
-                <p style={{
-                  color: C.dark, fontSize: 'clamp(0.9rem, 1.6vw, 1.15rem)',
-                  fontWeight: 700, fontFamily: 'Arial, sans-serif',
-                  margin: '0 0 1rem', letterSpacing: '0.02em',
-                }}>
-                  {tm.stat1Subtitle}
-                </p>
-                <div style={{ display: 'flex', justifyContent: 'center', gap: 'clamp(1.5rem, 4vw, 3rem)', alignItems: 'center' }}>
-                  <div style={{ textAlign: 'center' }}>
-                    <div style={{
-                      color: C.green, fontSize: 'clamp(2.8rem, 6vw, 4.2rem)',
-                      fontWeight: 700, fontFamily: 'Arial, sans-serif', lineHeight: 1,
-                    }}>{tm.stat1Approved}</div>
-                    <p style={{ color: '#374151', fontSize: 'clamp(0.78rem, 1.3vw, 0.95rem)', fontWeight: 600, margin: '0.3rem 0 0' }}>
-                      {tm.stat1ApprovedLabel}
-                    </p>
-                  </div>
-                  <div style={{ width: 2, height: 60, background: '#E2E8F0', flexShrink: 0 }} />
-                  <div style={{ textAlign: 'center' }}>
-                    <div style={{
-                      color: C.red, fontSize: 'clamp(2.8rem, 6vw, 4.2rem)',
-                      fontWeight: 700, fontFamily: 'Arial, sans-serif', lineHeight: 1,
-                    }}>{tm.stat1Rejected}</div>
-                    <p style={{ color: '#374151', fontSize: 'clamp(0.78rem, 1.3vw, 0.95rem)', fontWeight: 600, margin: '0.3rem 0 0' }}>
-                      {tm.stat1RejectedLabel}
-                    </p>
-                  </div>
+                <div style={{ color: C.dark, fontSize: 'clamp(3.5rem, 2.6vw, 1.9rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', lineHeight: 1 }}>
+                  {tm.totalLabel}:{' '}
+                  <span style={{ color: C.blue, fontSize: 'clamp(3.5rem, 2.6vw, 1.9rem)' }}>{tm.totalCount}</span>
                 </div>
+                <div style={{ color: '#6B7280', fontSize: 'clamp(0.72rem, 1.2vw, 0.85rem)', fontWeight: 600, marginTop: '0.2rem' }}>{tm.totalPeriod}</div>
               </div>
 
               <div style={{ height: 1, background: '#E2E8F0' }} />
 
-              {/* Recuperación de inversión */}
+              {/* Aprobados vs Rechazados */}
               <div style={{ textAlign: 'center' }}>
-                <div style={{
-                  color: C.blue, fontSize: 'clamp(3.2rem, 7vw, 5rem)',
-                  fontWeight: 700, fontFamily: 'Arial, sans-serif', lineHeight: 1, marginBottom: '0.5rem',
-                }}>{tm.stat2Value}</div>
-                <p style={{
-                  color: C.blue, fontSize: 'clamp(1rem, 1.8vw, 1.25rem)',
-                  fontWeight: 600, margin: 0, lineHeight: 1.4,
-                }}>{tm.stat2Label}</p>
+                <p style={{ color: C.dark, fontSize: 'clamp(0.8rem, 1.4vw, 1rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', margin: '0 0 0.65rem', letterSpacing: '0.02em' }}>
+                  {tm.stat1Subtitle}
+                </p>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: 'clamp(1.5rem, 4vw, 3rem)', alignItems: 'center' }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ color: C.green, fontSize: 'clamp(2.4rem, 5vw, 3.6rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', lineHeight: 1 }}>{tm.stat1Approved}</div>
+                    <p style={{ color: '#374151', fontSize: 'clamp(0.7rem, 1.2vw, 0.88rem)', fontWeight: 600, margin: '0.25rem 0 0' }}>{tm.stat1ApprovedLabel}</p>
+                  </div>
+                  <div style={{ width: 2, height: 54, background: '#E2E8F0', flexShrink: 0 }} />
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ color: C.red, fontSize: 'clamp(2.4rem, 5vw, 3.6rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', lineHeight: 1 }}>{tm.stat1Rejected}</div>
+                    <p style={{ color: '#374151', fontSize: 'clamp(0.7rem, 1.2vw, 0.88rem)', fontWeight: 600, margin: '0.25rem 0 0' }}>{tm.stat1RejectedLabel}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 13 PADET/BÁSICO | 74 BACK/EXPRESS | 98% */}
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', alignItems: 'stretch' }}>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ color: C.green, fontSize: 'clamp(1.8rem, 3.8vw, 2.8rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', lineHeight: 1 }}>{tm.northFrontCount}</div>
+                  <p style={{ color: C.dark, fontSize: 'clamp(0.62rem, 1vw, 0.76rem)', fontWeight: 700, margin: '0.2rem 0 0', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{tm.northFrontLabel}</p>
+                </div>
+                <div style={{ width: 1, alignSelf: 'stretch', background: '#E2E8F0', flexShrink: 0 }} />
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ color: C.blue, fontSize: 'clamp(1.8rem, 3.8vw, 2.8rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', lineHeight: 1 }}>{tm.northBackCount}</div>
+                  <p style={{ color: C.dark, fontSize: 'clamp(0.62rem, 1vw, 0.76rem)', fontWeight: 700, margin: '0.2rem 0 0', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{tm.northBackLabel}</p>
+                </div>
+                <div style={{ width: 1, alignSelf: 'stretch', background: '#E2E8F0', flexShrink: 0 }} />
+                {/* 98% encuadrado */}
+                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '0.5rem'}}>
+                  <div style={{ color: C.blue, fontSize: 'clamp(1.8rem, 3.8vw, 2.8rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', lineHeight: 1 }}>{tm.stat2Value}</div>
+                  <p style={{ color: C.dark, fontSize: 'clamp(0.62rem, 1vw, 0.76rem)', fontWeight: 700, margin: 0, letterSpacing: '0.04em', maxWidth: 110 }}>{tm.stat2Label}</p>
+</div>
               </div>
             </div>
 
             {/* Separador vertical */}
             <div style={{ width: 1, background: '#E2E8F0', margin: '1.5rem 0' }} />
 
-            {/* Columna derecha — Proveedores + Inversión */}
-            <div style={{ flex: 1, padding: '2rem 2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '1.25rem' }}>
+            {/* Columna derecha — Nuestro Norte */}
+            <div style={{ flex: 1, padding: '2rem 2.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5rem' }}>
 
-              {/* Proveedores */}
+              {/* Título con línea decorativa */}
               <div style={{ textAlign: 'center' }}>
-                <p style={{
-                  color: C.blue,
-                  fontSize: 'clamp(1.05rem, 2vw, 1.35rem)',
-                  fontWeight: 700,
-                  fontFamily: 'Arial, sans-serif',
-                  margin: '0 0 0.3rem',
-                  lineHeight: 1.35,
-                }}>
-                  {tm.vendorsTitle}
+                <p style={{ color: C.blue, fontSize: 'clamp(0.65rem, 1.1vw, 0.8rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', letterSpacing: '0.18em', textTransform: 'uppercase', margin: '0 0 0.5rem' }}>
+                  {tm.titlesub}
                 </p>
-                <div style={{
-                  color: C.blue,
-                  fontSize: 'clamp(4rem, 9vw, 6.5rem)',
-                  fontWeight: 700,
-                  fontFamily: 'Arial, sans-serif',
-                  lineHeight: 1,
-                }}>
-                  {tm.vendorsCount}
-                </div>
-                <div style={{
-                  color: C.blue,
-                  fontSize: 'clamp(1.05rem, 2vw, 1.35rem)',
-                  fontWeight: 700,
-                  fontFamily: 'Arial, sans-serif',
-                  letterSpacing: '0.04em',
-                }}>
-                  {tm.vendorsLabel}
-                </div>
+                <h2 style={{ color: C.dark, fontSize: 'clamp(1.5rem, 2.8vw, 2.1rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', margin: '0 0 0.6rem', lineHeight: 1.1 }}>
+                  {tm.northTitle}
+                </h2>
+                <div style={{ width: 48, height: 3, background: C.red, borderRadius: 2, margin: '0 auto' }} />
               </div>
 
-              <div style={{ height: 1, background: '#E2E8F0' }} />
-
-              {/* Inversión */}
-              <div style={{ textAlign: 'center' }}>
-                <p style={{
-                  color: C.blue,
-                  fontSize: 'clamp(1.05rem, 2vw, 1.35rem)',
-                  fontWeight: 700,
-                  fontFamily: 'Arial, sans-serif',
-                  margin: '0 0 0.2rem',
-                }}>
-                  {tm.investTitle}
-                </p>
-                <p style={{ color: '#374151', fontSize: 'clamp(0.9rem, 1.6vw, 1.1rem)', margin: '0 0 0.4rem' }}>
-                  {tm.investSub}
-                </p>
-                <div style={{
-                  color: C.blue,
-                  fontSize: 'clamp(2.4rem, 5vw, 3.8rem)',
-                  fontWeight: 700,
-                  fontFamily: 'Arial, sans-serif',
-                  lineHeight: 1.1,
-                }}>
-                  {tm.investValue}
-                </div>
-                <p style={{ color: '#9CA3AF', fontSize: '0.9rem', margin: '0.25rem 0 0', letterSpacing: '0.05em' }}>
-                  {tm.investPeriod}
-                </p>
+              {/* Ítems 1, 2, 3 */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', width: '100%', maxWidth: 340 }}>
+                {[
+                  { label: tm.north1, accent: C.blue },
+                  { label: tm.north2, accent: C.sky  },
+                  { label: tm.north3, accent: C.green },
+                ].map((item, i) => (
+                  <div key={i} style={{
+                    display: 'flex', alignItems: 'center', gap: '0.85rem',
+                    background: '#F8FAFC', borderRadius: 10,
+                    padding: 'clamp(0.45rem, 0.9vw, 0.65rem) 1rem',
+                    borderLeft: `4px solid ${item.accent}`,
+                  }}>
+                    <span style={{ color: item.accent, fontSize: 'clamp(1.1rem, 2vw, 1.5rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', lineHeight: 1, minWidth: '1.6rem', textAlign: 'center' }}>{i + 1}</span>
+                    <span style={{ color: C.dark, fontSize: 'clamp(0.9rem, 1.6vw, 1.05rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif' }}>{item.label}</span>
+                  </div>
+                ))}
               </div>
 
             </div>
@@ -1425,140 +1429,117 @@
       );
     }
 
-    /* ── Renderizador diagrama Sankey (Alcance Regional) ────── */
-    function renderSankey(container, tr) {
-      const apps = tr.apps;
-      const countries = tr.countries;
-      const links = tr.links;
-
-      const W = container.clientWidth;
-      const H = container.clientHeight;
-      if (!W || !H) return;
-
-      d3.select(container).selectAll('svg').remove();
-
-      const svg = d3.select(container)
-        .append('svg').attr('width', W).attr('height', H);
-
-      const pad = { top: 10, bottom: 10, left: 0, right: 0 };
-      const colW = 140;       /* ancho de cada nodo */
-      const gap = W - colW * 2 - pad.left - pad.right;
-      const xL = pad.left;
-      const xR = W - colW - pad.right;
-
-      const appH = (H - pad.top - pad.bottom) / apps.length;
-      const ctrH = (H - pad.top - pad.bottom) / countries.length;
-      const nodePad = 4;
-
-      /* Posiciones Y */
-      const appY = (i) => pad.top + i * appH;
-      const ctrY = (i) => pad.top + i * ctrH;
-
-      /* Nodos izquierda — Apps */
-      apps.forEach((app, i) => {
-        const y = appY(i);
-        const g = svg.append('g');
-        g.append('rect')
-          .attr('x', xL).attr('y', y + nodePad)
-          .attr('width', colW).attr('height', appH - nodePad * 2)
-          .attr('rx', 6).attr('fill', 'white')
-          .attr('stroke', '#D1D5DB').attr('stroke-width', 1);
-        g.append('text')
-          .attr('x', xL + 10).attr('y', y + appH / 2 - 4)
-          .attr('dominant-baseline', 'central')
-          .attr('fill', C.dark)
-          .attr('font-family', "'Open Sans',Arial,sans-serif")
-          .attr('font-size', '12px').attr('font-weight', '700')
-          .text(app.name);
-        g.append('text')
-          .attr('x', xL + 10).attr('y', y + appH / 2 + 10)
-          .attr('dominant-baseline', 'central')
-          .attr('fill', '#6B7280')
-          .attr('font-family', "'Open Sans',Arial,sans-serif")
-          .attr('font-size', '9px')
-          .text(app.desc.length > 30 ? app.desc.slice(0, 28) + '…' : app.desc);
-      });
-
-      /* Nodos derecha — Países */
-      const CTR_COLORS = { 'LATAM': C.blue, 'México': C.green, 'Mexico': C.green, 'Colombia': C.orange, 'Perú': C.purple, 'Peru': C.purple };
-      countries.forEach((ctr, i) => {
-        const y = ctrY(i);
-        const col = CTR_COLORS[ctr] || C.dark;
-        const g = svg.append('g');
-        g.append('rect')
-          .attr('x', xR).attr('y', y + nodePad)
-          .attr('width', colW).attr('height', ctrH - nodePad * 2)
-          .attr('rx', 6).attr('fill', col);
-        g.append('text')
-          .attr('x', xR + colW / 2).attr('y', y + ctrH / 2)
-          .attr('text-anchor', 'middle')
-          .attr('dominant-baseline', 'central')
-          .attr('fill', 'white')
-          .attr('font-family', "Arial,sans-serif")
-          .attr('font-size', '13px').attr('font-weight', '700')
-          .attr('letter-spacing', '0.06em')
-          .text(ctr.toUpperCase());
-      });
-
-      /* Links — curvas estilizadas */
-      const EVAL_COLOR = '#EF661A';
-      const IMPL_COLOR = C.green;
-      const bandW = 12;
-
-      links.forEach(link => {
-        const ai = apps.findIndex(a => a.name === link.app);
-        const ci = countries.findIndex(c => c === link.country);
-        if (ai < 0 || ci < 0) return;
-
-        const y1 = appY(ai) + appH / 2;
-        const y2 = ctrY(ci) + ctrH / 2;
-        const x1 = xL + colW;
-        const x2 = xR;
-        const mx = (x1 + x2) / 2;
-        const color = link.stage === 'eval' ? EVAL_COLOR : IMPL_COLOR;
-
-        svg.append('path')
-          .attr('d', `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`)
-          .attr('fill', 'none')
-          .attr('stroke', color)
-          .attr('stroke-width', bandW)
-          .attr('opacity', 0.25);
-
-        svg.append('path')
-          .attr('d', `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`)
-          .attr('fill', 'none')
-          .attr('stroke', color)
-          .attr('stroke-width', 3)
-          .attr('opacity', 0.85);
-      });
-    }
-
-    /* ── SEGMENTO 8 — Sistemas Exportados a Región ──────────── */
+    /* ── SEGMENTO 8 — Desarrollos de Chile mostrados a Región/Global ── */
     function SegRegionalReach({ t }) {
       const tr = t.regionalReach;
-      const chartRef = useRef(null);
 
-      useEffect(() => {
-        if (chartRef.current) renderSankey(chartRef.current, tr);
-      }, [t]);
+      const REACH_COLORS = { 'Región': C.blue, 'Region': C.blue, 'Global': C.green };
+
+      const thStyle = {
+        padding: '0.75rem 1rem',
+        textAlign: 'left',
+        color: 'white',
+        fontFamily: 'Arial, sans-serif',
+        fontWeight: 700,
+        fontSize: 'clamp(0.7rem, 1.1vw, 0.85rem)',
+        letterSpacing: '0.04em',
+        textTransform: 'uppercase',
+        whiteSpace: 'nowrap',
+      };
 
       return (
-        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden', background: '#F8FAFC' }}>
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden', background: '#F0F4F8', padding: '1.5rem 2rem 1.2rem' }}>
 
-          {/* Leyenda */}
-          <div style={{ padding: '0.5rem 1.75rem 0.2rem', flexShrink: 0, display: 'flex', gap: '1.5rem', justifyContent: 'flex-end' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <div style={{ width: 24, height: 6, borderRadius: 3, background: '#EF661A' }} />
-              <span style={{ color: '#6B7280', fontSize: '0.75rem', fontWeight: 600 }}>{tr.legendEval}</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <div style={{ width: 24, height: 6, borderRadius: 3, background: C.green }} />
-              <span style={{ color: '#6B7280', fontSize: '0.75rem', fontWeight: 600 }}>{tr.legendImpl}</span>
-            </div>
+
+
+          {/* Tarjetas */}
+          <div style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
+            <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: '0 6px' }}>
+              <thead>
+                <tr style={{ background: C.blue }}>
+                  <th style={{ ...thStyle, borderRadius: '8px 0 0 8px', width: '14%' }}>{tr.colArea}</th>
+                  <th style={{ ...thStyle, width: '22%' }}>{tr.colSystem}</th>
+                  <th style={{ ...thStyle, width: '40%' }}>{tr.colReach}</th>
+                  <th style={{ ...thStyle, borderRadius: '0 8px 8px 0', width: '24%' }}>{tr.colOwnCode}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tr.items.map((item, i) => (
+                  <tr key={i} style={{ background: i % 2 === 0 ? 'white' : '#EEF2F7' }}>
+                    {/* Área */}
+                    <td style={{
+                      padding: '0.7rem 1rem',
+                      borderRadius: '8px 0 0 8px',
+                      borderLeft: `4px solid ${C.blue}`,
+                      color: C.dark,
+                      fontWeight: 700,
+                      fontSize: 'clamp(0.72rem, 1.1vw, 0.85rem)',
+                      fontFamily: "'Open Sans', Arial, sans-serif",
+                    }}>{item.area}</td>
+
+                    {/* Sistema */}
+                    <td style={{
+                      padding: '0.7rem 1rem',
+                      color: C.dark,
+                      fontWeight: 600,
+                      fontSize: 'clamp(0.78rem, 1.15vw, 0.9rem)',
+                      fontFamily: 'Arial, sans-serif',
+                    }}>{item.system}</td>
+
+                    {/* Alcance */}
+                    <td style={{ padding: '0.7rem 1rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+                        {item.reach.map(r => (
+                          <span key={r} style={{
+                            background: REACH_COLORS[r] || C.dark,
+                            color: 'white',
+                            padding: '2px 10px',
+                            borderRadius: 20,
+                            fontSize: 'clamp(0.65rem, 1vw, 0.75rem)',
+                            fontWeight: 700,
+                            fontFamily: 'Arial, sans-serif',
+                            letterSpacing: '0.03em',
+                          }}>{r}</span>
+                        ))}
+                        {item.countries.length > 0 && (
+                          <span style={{
+                            color: '#6B7280',
+                            fontSize: 'clamp(0.65rem, 1vw, 0.75rem)',
+                            fontFamily: "'Open Sans', Arial, sans-serif",
+                          }}>({item.countries.join(', ')})</span>
+                        )}
+                      </div>
+                    </td>
+
+                    {/* Código fuente propio */}
+                    <td style={{
+                      padding: '0.7rem 1rem',
+                      borderRadius: '0 8px 8px 0',
+                    }}>
+                      <span style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.35rem',
+                        fontWeight: 700,
+                        fontSize: 'clamp(0.7rem, 1.05vw, 0.82rem)',
+                        fontFamily: 'Arial, sans-serif',
+                        color: item.ownCode ? C.green : '#EF661A',
+                      }}>
+                        <span style={{
+                          width: 20, height: 20, borderRadius: '50%',
+                          background: item.ownCode ? C.green : '#EF661A',
+                          color: 'white',
+                          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                          fontSize: '0.7rem', fontWeight: 900, flexShrink: 0,
+                        }}>{item.ownCode ? '✓' : '✗'}</span>
+                        {item.ownCode ? tr.yes : tr.no}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-
-          {/* Diagrama Sankey */}
-          <div ref={chartRef} style={{ flex: 1, minHeight: 0, padding: '0 1.5rem 0.5rem' }} />
         </div>
       );
     }
@@ -1607,38 +1588,8 @@
               borderTop: '1px solid #E5E7EB',
               flexWrap: 'wrap',
             }}>
-              {/* Impacto clave */}
-              <div style={{ flex: 1, minWidth: 180 }}>
-                <div style={{
-                  fontSize: 'clamp(0.72rem, 1.2vw, 0.88rem)',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                  color: accent,
-                  marginBottom: 4,
-                }}>{tg.impactLabel}</div>
-                <div style={{
-                  color: '#4B5563',
-                  fontSize: 'clamp(0.88rem, 1.4vw, 1.05rem)',
-                  lineHeight: 1.5,
-                }}>{impact}</div>
-              </div>
-              {/* Sitios activos */}
-              <div style={{ minWidth: 100 }}>
-                <div style={{
-                  fontSize: 'clamp(0.72rem, 1.2vw, 0.88rem)',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                  color: accent,
-                  marginBottom: 4,
-                }}>{tg.sitesLabel}</div>
-                <div style={{
-                  color: C.dark,
-                  fontSize: 'clamp(1.1rem, 1.8vw, 1.4rem)',
-                  fontWeight: 700,
-                }}>{sites}</div>
-              </div>
+
+
             </div>
           </div>
         </div>
@@ -2076,7 +2027,7 @@
               {/* Título — columna izquierda */}
               <h1
                 className="brand-title"
-                style={{ color: C.blue, fontSize: '1.15rem', fontWeight: 700, fontFamily: 'Arial,sans-serif', margin: 0 }}
+                style={{ color: C.blue, textTransform: 'capitalize', fontSize: '1.15rem', fontWeight: 700, fontFamily: 'Arial,sans-serif', margin: 0 }}
               >
                 {SEGMENTS[displayIdx].title}
               </h1>
