@@ -2104,28 +2104,8 @@
                 {t.langToggle}
               </button>
 
-              {/* Contador + PDF — columna derecha */}
+              {/* Contador — columna derecha */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'flex-end' }}>
-                {/* Botón exportar PDF */}
-                <button
-                  onClick={handlePrint}
-                  className="no-print"
-                  title="Exportar PDF"
-                  style={{
-                    background: 'none', border: '1px solid #D1D5DB', borderRadius: 5,
-                    padding: '3px 10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5,
-                    color: C.dark, fontSize: '0.72rem', fontWeight: 600,
-                    fontFamily: "'Open Sans', Arial, sans-serif",
-                    transition: 'background 150ms ease',
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.background = '#F3F4F6'}
-                  onMouseLeave={e => e.currentTarget.style.background = 'none'}
-                >
-                  <svg viewBox="0 0 20 20" fill="currentColor" style={{ width: 14, height: 14 }}>
-                    <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
-                  </svg>
-                  PDF
-                </button>
                 <span style={{ color: C.dark, fontSize: '0.82rem' }}>
                   {displayIdx + 1} / {SEGMENTS.length}
                 </span>
