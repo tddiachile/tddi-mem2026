@@ -250,6 +250,97 @@ h1, h2, h3, h4 {
   color: white;
 }
 
+/* ── Modo impresión / exportar PDF ─────────────────────────── */
+.print-view {
+  display: none;
+}
+
+html.print-mode,
+html.print-mode body {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+html.print-mode #root,
+html.print-mode #root > * {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.print-mode .print-view {
+  display: block !important;
+}
+
+.print-mode .app-main {
+  display: none !important;
+}
+
+.print-slide {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.print-slide-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.print-slide-header {
+  background: #ffffff;
+  border-top: 3px solid var(--sdx-red);
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0.6rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media print {
+  @page {
+    size: landscape;
+    margin: 0;
+  }
+
+  html, body, #root, #root > * {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .print-view {
+    display: block !important;
+  }
+
+  .app-main,
+  .sidebar,
+  .no-print {
+    display: none !important;
+  }
+
+  .print-slide {
+    height: 210mm;
+    width: 297mm;
+    break-after: page;
+    page-break-after: always;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    overflow: hidden;
+  }
+
+  .print-slide:last-child {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .print-slide-body {
+    height: calc(210mm - 42px);
+  }
+}
+
 /* ── Métrica card ────────────────────────────────────────────── */
 .metric-value {
   font-size: 2rem;
