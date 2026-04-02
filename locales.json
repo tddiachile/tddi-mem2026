@@ -36,6 +36,7 @@
       "itAssistant": "Asistente IT",
       "teamTotal": 19,
       "teamTotalLabel": "Total equipo",
+      "personsLabel": "PERSONAS",
       "quote": "Somos el área que convierte la estrategia tecnológica en resultados concretos — a través de terceros, con control propio."
     },
     "metrics": {
@@ -443,6 +444,7 @@
       "itAssistant": "IT assistant",
       "teamTotal": 19,
       "teamTotalLabel": "Total team",
+      "personsLabel": "PEOPLE",
       "quote": "We are the area that turns technology strategy into concrete results — through third parties, with our own control."
     },
     "metrics": {

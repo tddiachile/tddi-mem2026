@@ -210,8 +210,8 @@
         children: [{
           name: 'Marcelo Fernández', role: 'CIO', color: C.blue, nh: NH0,
           children: [
-            { name: ta.projectsArea, color: C.sky,    nh: NH_P, staff: proyStaff },
-            { name: ta.infraSec, role: 'Erwin Morales', color: C.purple, nh: NH_I, staff: infraStaff },
+            { name: ta.projectsArea, color: C.sky,    nh: NH_P, staff: proyStaff, personCount: 8 },
+            { name: ta.infraSec, role: 'Erwin Morales', color: C.purple, nh: NH_I, staff: infraStaff, personCount: 11 },
           ],
         }],
       };
@@ -330,6 +330,25 @@
               .text(d.data.role);
           }
         } else {
+          /* Contador de personas sobre el nodo de área */
+          if (d.data.personCount) {
+            g.append('text')
+              .attr('x', NW / 2).attr('y', -18)
+              .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
+              .attr('fill', d.data.color)
+              .attr('font-family', "'Open Sans',Arial,sans-serif")
+              .attr('font-size', '16px').attr('font-weight', '800')
+              .text(d.data.personCount);
+            g.append('text')
+              .attr('x', NW / 2).attr('y', -5)
+              .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
+              .attr('fill', '#aaa')
+              .attr('font-family', "'Open Sans',Arial,sans-serif")
+              .attr('font-size', '6.5px').attr('font-weight', '600')
+              .attr('letter-spacing', '0.07em')
+              .text(ta.personsLabel);
+          }
+
           /* Nodos de área — encabezado coloreado + lista de personal en blanco */
           const clipId = `clip-area-${i}`;
           defs.append('clipPath').attr('id', clipId)
