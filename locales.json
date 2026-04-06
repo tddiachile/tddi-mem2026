@@ -3,7 +3,7 @@
     "langToggle": "EN",
     "pageTitle": "Presentación del Equipo | Sodexo",
     "headerTitle": "presentación del equipo de trabajo",
-    "segments": ["home", "quiénes somos", "método de trabajo", "Metrics Governance / Comité de Tecnología (2022 - 2025)", "proyectos con impacto", "proyectos actuales", "desarrollos de Chile mostrados a Región/Global", "plataformas globales", "transición GBS | TCS", "transición GBS | tickets", "seguridad baseline [MSB]", "oportunidades de mejora"],
+    "segments": ["home", "quiénes somos", "Governance / Comité de Tecnología", "Metrics Governance / Comité de Tecnología (2022 - 2025)", "proyectos con impacto", "proyectos actuales", "desarrollos de Chile mostrados a Región/Global", "plataformas globales", "transición GBS | TCS", "transición GBS | tickets", "seguridad baseline [MSB]", "oportunidades de mejora"],
     "sidebarTitle": "Presentación",
     "sidebarSubtitle": "Equipo de trabajo",
     "sidebarClose": "‹ cerrar menú",
@@ -37,7 +37,7 @@
       "teamTotal": 19,
       "teamTotalLabel": "Total equipo",
       "personsLabel": "PERSONAS",
-      "quote": "Somos el área que convierte la estrategia tecnológica en resultados concretos — a través de terceros, con control propio."
+      "quote": ""
     },
     "metrics": {
       "heading": "métricas",
@@ -90,7 +90,7 @@
       "infraText": "El área de Infraestructura, Seguridad y Soporte cumple un rol fundamental como habilitador operativo y de continuidad. Infraestructura garantiza la disponibilidad, estabilidad y rendimiento de los sistemas; Seguridad protege la información, gestiona accesos y mitiga riesgos; y Soporte asegura la continuidad del servicio, resolviendo incidentes de manera oportuna y manteniendo la operación diaria de los usuarios."
     },
     "method": {
-      "heading": "método de trabajo",
+      "heading": "Governance / Comité de Tecnología",
       "viewDetail": "ver detalle →",
       "infosec": "seguridad de la información",
       "mgmtControl": "control de gestión",
@@ -286,15 +286,85 @@
       "heading": "proyectos actuales",
       "colSegment": "Segmento",
       "colProject": "Nombre del proyecto",
+      "footnote": "* Proyecto en proceso de aprobación global.",
       "projects": [
-        {"segment": "Marketing",           "name": "POS – Retail",                                "start": "2024-05-29", "end": "2026-08-31"},
-        {"segment": "Finanzas",            "name": "Automatización de Ticket",                    "start": "2024-06-14", "end": "2026-06-30"},
-        {"segment": "Transversal",         "name": "Centro de Servicios – Exámenes Microbiológicos", "start": "2024-07-29", "end": "2026-04-30"},
-        {"segment": "HR",                  "name": "Gestión de Haberes E&R",                      "start": "2024-10-23", "end": "2026-05-29"},
-        {"segment": "Health Care",         "name": "Gestión de tareas salud",                     "start": "2025-04-03", "end": "2026-12-31"},
-        {"segment": "Finanzas",            "name": "Facturador Electrónico",                      "start": "2025-06-24", "end": "2026-05-29"},
-        {"segment": "Finanzas",            "name": "Mejora Evolutivo SoStay",                     "start": "2025-09-29", "end": "2026-08-31"},
-        {"segment": "Service Operations",  "name": "Upgrade Food Platform",                       "start": "2025-11-07", "end": "2026-08-31"}
+        {
+          "segment": "Marketing", "name": "POS – Retail", "rows": 2,
+          "phases": [
+            [
+              {"label": "Evaluación y levantamiento", "start": "2024-07-01", "end": "2025-01-31", "color": "#34A866"},
+              {"label": "Implementación", "start": "2025-02-01", "end": "2026-08-31", "color": "#2A295C"}
+            ],
+            [
+              {"label": "Desarrollo\nIntegración Inventario", "start": "2025-05-01", "end": "2026-01-31", "color": "#EF661A"},
+              {"label": "Desarrollo\nAdaptación Totem", "start": "2026-02-01", "end": "2026-04-30", "color": "#EF661A"},
+              {"label": "Desarrollo\nIntegración Pluxee", "start": "2026-05-01", "end": "2026-08-31", "color": "#EF661A"}
+            ]
+          ]
+        },
+        {
+          "segment": "Finanzas", "name": "Automatización de Ticket",
+          "phases": [
+            [
+              {"label": "Evaluación", "start": "2024-06-01", "end": "2025-05-31", "color": "#34A866"},
+              {"label": "Desarrollo", "start": "2025-06-01", "end": "2026-06-30", "color": "#EF661A"}
+            ]
+          ]
+        },
+        {
+          "segment": "Transversal", "name": "Centro de Servicios – Exámenes Microbiológicos",
+          "phases": [
+            [
+              {"label": "Evaluación", "start": "2025-07-01", "end": "2025-12-31", "color": "#34A866"},
+              {"label": "Desarrollo", "start": "2026-01-01", "end": "2026-04-30", "color": "#EF661A"}
+            ]
+          ]
+        },
+        {
+          "segment": "HR", "name": "Gestión de Haberes E&R (SGPOS)",
+          "phases": [
+            [
+              {"label": "Evaluación", "start": "2025-03-01", "end": "2025-06-30", "color": "#34A866"},
+              {"label": "Desarrollo", "start": "2025-07-01", "end": "2026-05-31", "color": "#EF661A"}
+            ]
+          ]
+        },
+        {
+          "segment": "Health Care", "name": "Gestión de Tareas Salud (SoTrack) *",
+          "phases": [
+            [
+              {"label": "Evaluación", "start": "2025-04-01", "end": "2025-12-31", "color": "#34A866"},
+              {"label": "Aprobación Global", "start": "2026-01-01", "end": "2026-06-30", "color": "#915FC8"}
+            ]
+          ]
+        },
+        {
+          "segment": "Finanzas", "name": "Facturador Electrónico",
+          "phases": [
+            [
+              {"label": "Evaluación", "start": "2025-07-01", "end": "2025-12-31", "color": "#34A866"},
+              {"label": "Desarrollo", "start": "2026-01-01", "end": "2026-05-31", "color": "#EF661A"}
+            ]
+          ]
+        },
+        {
+          "segment": "Finanzas", "name": "Mejora Evolutivo SoStay *",
+          "phases": [
+            [
+              {"label": "Evaluación", "start": "2025-10-01", "end": "2026-03-31", "color": "#34A866"},
+              {"label": "Aprobación", "start": "2026-04-01", "end": "2026-06-30", "color": "#915FC8"}
+            ]
+          ]
+        },
+        {
+          "segment": "Service Operations", "name": "Upgrade Food Platform",
+          "phases": [
+            [
+              {"label": "Evaluación", "start": "2025-11-01", "end": "2026-03-31", "color": "#34A866"},
+              {"label": "Desarrollo", "start": "2026-04-01", "end": "2026-08-31", "color": "#EF661A"}
+            ]
+          ]
+        }
       ]
     },
     "regionalReach": {
@@ -495,7 +565,7 @@
     "langToggle": "ES",
     "pageTitle": "Team Presentation | Sodexo",
     "headerTitle": "work team presentation",
-    "segments": ["home", "who we are", "work method", "Metrics Governance / Technology Committee (2022 - 2025)", "high-impact projects", "current projects", "Chile developments shown to Region/Global", "global platforms", "GBS transition | TCS", "GBS transition | tickets", "security baseline [MSB]", "improvement opportunities"],
+    "segments": ["home", "who we are", "Governance / Technology Committee", "Metrics Governance / Technology Committee (2022 - 2025)", "high-impact projects", "current projects", "Chile developments shown to Region/Global", "global platforms", "GBS transition | TCS", "GBS transition | tickets", "security baseline [MSB]", "improvement opportunities"],
     "sidebarTitle": "Presentation",
     "sidebarSubtitle": "Work team",
     "sidebarClose": "‹ close menu",
@@ -529,7 +599,7 @@
       "teamTotal": 19,
       "teamTotalLabel": "Total team",
       "personsLabel": "PEOPLE",
-      "quote": "We are the area that turns technology strategy into concrete results — through third parties, with our own control."
+      "quote": ""
     },
     "metrics": {
       "heading": "metrics",
@@ -582,7 +652,7 @@
       "infraText": "The Infrastructure, Security & Support area plays a fundamental role as an operational and continuity enabler. Infrastructure guarantees the availability, stability, and performance of systems; Security protects information, manages access, and mitigates risks; and Support ensures service continuity, resolving incidents in a timely manner and maintaining day-to-day operations for users."
     },
     "method": {
-      "heading": "work method",
+      "heading": "Governance / Technology Committee",
       "viewDetail": "view details →",
       "infosec": "information security",
       "mgmtControl": "management control",
@@ -778,15 +848,85 @@
       "heading": "current projects",
       "colSegment": "Segment",
       "colProject": "Project name",
+      "footnote": "* Project in global approval process.",
       "projects": [
-        {"segment": "Marketing",           "name": "POS – Retail",                                "start": "2024-05-29", "end": "2026-08-31"},
-        {"segment": "Finance",             "name": "Ticket Automation",                            "start": "2024-06-14", "end": "2026-06-30"},
-        {"segment": "Cross-functional",    "name": "Service Center – Microbiology Exams",          "start": "2024-07-29", "end": "2026-04-30"},
-        {"segment": "HR",                  "name": "E&R Compensation Management",                  "start": "2024-10-23", "end": "2026-05-29"},
-        {"segment": "Health Care",         "name": "Health Task Management",                       "start": "2025-04-03", "end": "2026-12-31"},
-        {"segment": "Finance",             "name": "Electronic Billing",                           "start": "2025-06-24", "end": "2026-05-29"},
-        {"segment": "Finance",             "name": "SoStay Evolutionary Improvement",              "start": "2025-09-29", "end": "2026-08-31"},
-        {"segment": "Service Operations",  "name": "Upgrade Food Platform",                        "start": "2025-11-07", "end": "2026-08-31"}
+        {
+          "segment": "Marketing", "name": "POS – Retail", "rows": 2,
+          "phases": [
+            [
+              {"label": "Evaluation & assessment", "start": "2024-07-01", "end": "2025-01-31", "color": "#34A866"},
+              {"label": "Implementation", "start": "2025-02-01", "end": "2026-08-31", "color": "#2A295C"}
+            ],
+            [
+              {"label": "Development\nInventory Integration", "start": "2025-05-01", "end": "2026-01-31", "color": "#EF661A"},
+              {"label": "Development\nTotem Adaptation", "start": "2026-02-01", "end": "2026-04-30", "color": "#EF661A"},
+              {"label": "Development\nPluxee Integration", "start": "2026-05-01", "end": "2026-08-31", "color": "#EF661A"}
+            ]
+          ]
+        },
+        {
+          "segment": "Finance", "name": "Ticket Automation",
+          "phases": [
+            [
+              {"label": "Evaluation", "start": "2024-06-01", "end": "2025-05-31", "color": "#34A866"},
+              {"label": "Development", "start": "2025-06-01", "end": "2026-06-30", "color": "#EF661A"}
+            ]
+          ]
+        },
+        {
+          "segment": "Cross-functional", "name": "Service Center – Microbiology Exams",
+          "phases": [
+            [
+              {"label": "Evaluation", "start": "2025-07-01", "end": "2025-12-31", "color": "#34A866"},
+              {"label": "Development", "start": "2026-01-01", "end": "2026-04-30", "color": "#EF661A"}
+            ]
+          ]
+        },
+        {
+          "segment": "HR", "name": "E&R Compensation Management (SGPOS)",
+          "phases": [
+            [
+              {"label": "Evaluation", "start": "2025-03-01", "end": "2025-06-30", "color": "#34A866"},
+              {"label": "Development", "start": "2025-07-01", "end": "2026-05-31", "color": "#EF661A"}
+            ]
+          ]
+        },
+        {
+          "segment": "Health Care", "name": "Health Task Management (SoTrack) *",
+          "phases": [
+            [
+              {"label": "Evaluation", "start": "2025-04-01", "end": "2025-12-31", "color": "#34A866"},
+              {"label": "Global Approval", "start": "2026-01-01", "end": "2026-06-30", "color": "#915FC8"}
+            ]
+          ]
+        },
+        {
+          "segment": "Finance", "name": "Electronic Billing",
+          "phases": [
+            [
+              {"label": "Evaluation", "start": "2025-07-01", "end": "2025-12-31", "color": "#34A866"},
+              {"label": "Development", "start": "2026-01-01", "end": "2026-05-31", "color": "#EF661A"}
+            ]
+          ]
+        },
+        {
+          "segment": "Finance", "name": "SoStay Evolutionary Improvement *",
+          "phases": [
+            [
+              {"label": "Evaluation", "start": "2025-10-01", "end": "2026-03-31", "color": "#34A866"},
+              {"label": "Approval", "start": "2026-04-01", "end": "2026-06-30", "color": "#915FC8"}
+            ]
+          ]
+        },
+        {
+          "segment": "Service Operations", "name": "Upgrade Food Platform",
+          "phases": [
+            [
+              {"label": "Evaluation", "start": "2025-11-01", "end": "2026-03-31", "color": "#34A866"},
+              {"label": "Development", "start": "2026-04-01", "end": "2026-08-31", "color": "#EF661A"}
+            ]
+          ]
+        }
       ]
     },
     "regionalReach": {

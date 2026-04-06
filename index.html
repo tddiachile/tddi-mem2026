@@ -502,7 +502,7 @@
             flexShrink: 0,
             borderTop: '1px solid #e5e7eb',
           }}>
-            <p style={{
+            {ta.quote && <p style={{
               color: C.dark,
               fontSize: 'clamp(0.72rem, 1.2vw, 0.9rem)',
               fontWeight: 600,
@@ -513,7 +513,7 @@
               textAlign: 'center',
             }}>
               "{ta.quote}"
-            </p>
+            </p>}
           </div>
         </div>
       );
@@ -1117,24 +1117,31 @@
 
     /* ── Renderizador de Carta Gantt (D3) ───────────────────── */
     /* Alturas compartidas tabla ↔ Gantt */
-    const GANTT_HEADER_H = 34;  /* px — alto del header de la tabla */
-    const GANTT_TIMELINE_H = 40; /* px — espacio para año/mes sobre las barras */
+    const GANTT_TIMELINE_H = 48; /* px — espacio para año/mes sobre las barras */
 
-    function renderGanttChart(container, tcp, rowH) {
+    function renderGanttChart(container, tcp, subRowH) {
       const parse = d3.timeParse('%Y-%m-%d');
-      const fmt   = d3.timeFormat('%d/%m/%y');
-      const data  = tcp.projects.map(p => ({
-        name:  p.name,
-        start: parse(p.start),
-        end:   parse(p.end),
-      }));
+
+      /* Build flat list of visual rows (one per phase-line) */
+      const visualRows = [];
+      tcp.projects.forEach(p => {
+        const rows = p.phases || [[]];
+        rows.forEach(phaseLine => {
+          visualRows.push(phaseLine.map(ph => ({
+            label: ph.label,
+            start: parse(ph.start),
+            end:   parse(ph.end),
+            color: ph.color,
+          })));
+        });
+      });
 
       const W = container.clientWidth;
       const H = container.clientHeight;
       if (!W || !H) return;
 
-      const chartH   = rowH * data.length;
-      const margin   = { top: GANTT_HEADER_H + GANTT_TIMELINE_H, right: 24, bottom: 12, left: 8 };
+      const chartH   = subRowH * visualRows.length;
+      const margin   = { top: GANTT_TIMELINE_H, right: 24, bottom: 0, left: 8 };
       const totalH   = margin.top + chartH + margin.bottom;
       const w        = W - margin.left - margin.right;
 
@@ -1147,32 +1154,39 @@
         .attr('height', svgH)
         .style('display', 'block');
 
-      const xMin = new Date(2024, 3, 1);   /* 1 Abr 2024  */
-      const xMax = new Date(2027, 0, 1);   /* 1 Ene 2027  */
+      const xMin = new Date(2024, 5, 1);   /* 1 Jun 2024  */
+      const xMax = new Date(2026, 11, 1);  /* 1 Dic 2026  */
 
       const x = d3.scaleTime().domain([xMin, xMax]).range([0, w]);
 
-      const barPad = 0.25; /* fraction of rowH for padding */
-      const barH   = rowH * (1 - barPad);
+      const barPad = 0.45;
+      const barH   = subRowH * (1 - barPad);
 
       const today = new Date();
 
-      /* ── Capa 1: Fondos alternados de fila ── */
-      const bgLayer = svg.append('g').attr('class', 'bg-layer');
-      data.forEach((d, i) => {
+      /* ── Capa 1: Fondos alternados por proyecto ── */
+      const bgLayer = svg.append('g');
+      let vIdx = 0;
+      tcp.projects.forEach((p, pi) => {
+        const nRows = (p.phases || [[]]).length;
+        const yTop = margin.top + vIdx * subRowH;
         bgLayer.append('rect')
-          .attr('x', 0)
-          .attr('y', margin.top + i * rowH)
-          .attr('width', W).attr('height', rowH)
-          .attr('fill', i % 2 === 0 ? '#F9FAFB' : '#FFFFFF');
+          .attr('x', 0).attr('y', yTop)
+          .attr('width', W).attr('height', subRowH * nRows)
+          .attr('fill', pi % 2 === 0 ? '#F9FAFB' : '#FFFFFF');
+        if (pi > 0) {
+          bgLayer.append('line')
+            .attr('x1', 0).attr('x2', W)
+            .attr('y1', yTop).attr('y2', yTop)
+            .attr('stroke', '#E5E7EB').attr('stroke-width', 0.5);
+        }
+        vIdx += nRows;
       });
 
-
-      /* ── Capa 2: Cuadrícula y ejes (dentro del grupo con transform) ── */
+      /* ── Capa 2: Cuadrícula y ejes ── */
       const g = svg.append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`);
 
-      /* Líneas de cuadrícula mensuales */
       d3.timeMonth.range(xMin, xMax).forEach(dt => {
         const isJan = dt.getMonth() === 0;
         g.append('line')
@@ -1183,7 +1197,7 @@
           .attr('stroke-width', isJan ? 1.2 : 0.5);
       });
 
-      /* Etiquetas de año y trimestre */
+      /* Meses abreviados cada 3 meses */
       d3.timeMonth.every(3).range(xMin, xMax).forEach(dt => {
         const isJan = dt.getMonth() === 0;
         g.append('text')
@@ -1192,7 +1206,7 @@
           .attr('text-anchor', isJan ? 'start' : 'middle')
           .attr('fill', isJan ? C.dark : '#4A5568')
           .attr('font-family', "'Open Sans',Arial,sans-serif")
-          .attr('font-size', isJan ? '15px' : '12px')
+          .attr('font-size', isJan ? '14px' : '11px')
           .attr('font-weight', isJan ? '700' : '500')
           .text(isJan ? d3.timeFormat('%Y')(dt) : d3.timeFormat('%b')(dt));
       });
@@ -1202,66 +1216,47 @@
         g.append('line')
           .attr('x1', x(today)).attr('x2', x(today))
           .attr('y1', -margin.top + 2).attr('y2', chartH)
-          .attr('stroke', C.red).attr('stroke-width', 2)
-          .attr('stroke-dasharray', '6,3');
-        g.append('text')
-          .attr('x', x(today)).attr('y', -margin.top + 15)
-          .attr('text-anchor', 'middle')
-          .attr('fill', C.red)
-          .attr('font-family', "'Open Sans',Arial,sans-serif")
-          .attr('font-size', '12px').attr('font-weight', '700')
-          .text(tcp.today);
+          .attr('stroke', C.red).attr('stroke-width', 2);
       }
 
-      /* ── Capa 3: Barras Gantt ── */
+      /* ── Capa 3: Barras por fases ── */
       const barLayer = svg.append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`);
 
-      data.forEach((d, i) => {
-        const bx = x(d.start);
-        const bw = Math.max(x(d.end) - x(d.start), 8);
-        const by = i * rowH + (rowH - barH) / 2;
-        const bh = barH;
-        const rc = 6;
+      visualRows.forEach((phases, vi) => {
+        phases.forEach(ph => {
+          const bx = x(ph.start);
+          const bw = Math.max(x(ph.end) - x(ph.start), 8);
+          const by = vi * subRowH + (subRowH - barH) / 2;
+          const rc = 5;
 
-        /* Porción total — azul claro */
-        barLayer.append('rect')
-          .attr('x', bx).attr('y', by)
-          .attr('width', bw).attr('height', bh)
-          .attr('fill', 'rgba(40,56,151,0.25)')
-          .attr('rx', rc).attr('ry', rc);
-
-        /* Porción transcurrida — azul sólido */
-        const elapsedEnd = today < d.start ? d.start : today > d.end ? d.end : today;
-        const elapsedW   = Math.max(x(elapsedEnd) - x(d.start), 0);
-        if (elapsedW > 0) {
           barLayer.append('rect')
             .attr('x', bx).attr('y', by)
-            .attr('width', elapsedW).attr('height', bh)
-            .attr('fill', C.blue)
+            .attr('width', bw).attr('height', barH)
+            .attr('fill', ph.color)
             .attr('rx', rc).attr('ry', rc);
-        }
 
-        /* Fechas dentro de la barra */
-        if (bw > 100) {
-          barLayer.append('text')
-            .attr('x', bx + bw / 2).attr('y', by + bh / 2 + 5)
-            .attr('text-anchor', 'middle')
-            .attr('fill', '#FFFFFF')
-            .attr('font-family', "'Open Sans',Arial,sans-serif")
-            .attr('font-size', '12px').attr('font-weight', '600')
-            .style('paint-order', 'stroke fill')
-            .style('stroke', 'rgba(40,56,151,0.6)').style('stroke-width', '3px')
-            .text(`${fmt(d.start)}  →  ${fmt(d.end)}`);
-        }
+          /* Label inside bar (supports \n for two lines) */
+          if (bw > 50) {
+            const lines = ph.label.split('\n');
+            const longest = lines.reduce((a, b) => a.length > b.length ? a : b, '');
+            const fontSize = Math.min(11, Math.max(7, bw / longest.length * 1.2));
+            const lineH = fontSize * 1.25;
+            const textY = by + barH / 2 - (lines.length - 1) * lineH / 2 + fontSize * 0.35;
+
+            lines.forEach((line, li) => {
+              const displayLine = bw < 90 ? line.substring(0, Math.floor(bw / 6)) + '...' : line;
+              barLayer.append('text')
+                .attr('x', bx + bw / 2).attr('y', textY + li * lineH)
+                .attr('text-anchor', 'middle')
+                .attr('fill', '#FFFFFF')
+                .attr('font-family', "'Open Sans',Arial,sans-serif")
+                .attr('font-size', fontSize + 'px').attr('font-weight', '700')
+                .text(displayLine);
+            });
+          }
+        });
       });
-
-
-      /* Línea base inferior */
-      g.append('line')
-        .attr('x1', 0).attr('x2', w)
-        .attr('y1', chartH).attr('y2', chartH)
-        .attr('stroke', '#CBD5E0').attr('stroke-width', 1);
     }
 
     /* ── SEGMENTO 7 — Proyectos actuales ────────────────────── */
@@ -1269,19 +1264,22 @@
       const tcp      = t.currentProjects;
       const chartRef  = useRef(null);
       const wrapRef   = useRef(null);
-      const [rowH, setRowH] = useState(0);
+      const [subRowH, setSubRowH] = useState(0);
 
-      /* Calcular rowH a partir del espacio disponible */
+      /* Total de filas visuales (sumando rows de cada proyecto) */
+      const totalVisualRows = tcp.projects.reduce((s, p) => s + (p.phases || [[]]).length, 0);
+
+      /* Calcular subRowH a partir del espacio disponible */
       useEffect(() => {
         if (wrapRef.current) {
-          const available = wrapRef.current.clientHeight - GANTT_HEADER_H - GANTT_TIMELINE_H - 12;
-          setRowH(Math.max(Math.floor(available / tcp.projects.length), 36));
+          const available = wrapRef.current.clientHeight - GANTT_TIMELINE_H - 30;
+          setSubRowH(Math.max(Math.floor(available / totalVisualRows), 32));
         }
       }, [t]);
 
       useEffect(() => {
-        if (chartRef.current && rowH > 0) renderGanttChart(chartRef.current, tcp, rowH);
-      }, [t, rowH]);
+        if (chartRef.current && subRowH > 0) renderGanttChart(chartRef.current, tcp, subRowH);
+      }, [t, subRowH]);
 
       /* Colores por segmento */
       const SEG_COLORS = {
@@ -1294,33 +1292,33 @@
       return (
         <div ref={wrapRef} style={{ height: '100%', display: 'flex', flexDirection: 'column', background: 'white', overflow: 'hidden' }}>
 
-          {/* Dos mitades */}
           <div style={{ flex: 1, minHeight: 0, display: 'flex' }}>
 
             {/* Izquierda — Tabla Segmento | Proyecto */}
-            <div style={{ flex: '0 0 30%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+            <div style={{ flex: '0 0 28%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
               {/* Espaciador — misma altura que el timeline del Gantt */}
-              <div style={{ height: GANTT_HEADER_H + GANTT_TIMELINE_H, flexShrink: 0 }} />
+              <div style={{ height: GANTT_TIMELINE_H, flexShrink: 0 }} />
 
-              {/* Filas — misma altura que las barras Gantt */}
+              {/* Filas — altura proporcional a sub-rows */}
               <div style={{ flex: 1, overflow: 'hidden' }}>
                 {tcp.projects.map((p, i) => {
                   const accent = SEG_COLORS[p.segment] || C.blue;
+                  const nRows = (p.phases || [[]]).length;
                   return (
                     <div key={i} style={{
                       display: 'flex',
                       background: i % 2 === 0 ? '#F9FAFB' : 'white',
                       borderBottom: '1px solid #E5E7EB',
                       alignItems: 'center',
-                      height: rowH || 'auto',
+                      height: subRowH ? subRowH * nRows : 'auto',
                       boxSizing: 'border-box',
                     }}>
                       <div style={{ flex: '0 0 40%', padding: '0 0.5rem 0 1rem', display: 'flex', alignItems: 'center', gap: 5 }}>
-                        <div style={{ width: 6, height: 6, borderRadius: '50%', background: accent, flexShrink: 0 }} />
-                        <span style={{ color: C.dark, fontSize: 'clamp(0.55rem, 0.85vw, 0.72rem)', fontWeight: 700 }}>{p.segment}</span>
+                        <div style={{ width: 8, height: 8, borderRadius: '50%', background: accent, flexShrink: 0 }} />
+                        <span style={{ color: accent, fontSize: 'clamp(0.55rem, 0.85vw, 0.72rem)', fontWeight: 700 }}>{p.segment}</span>
                       </div>
                       <div style={{ flex: 1, padding: '0 0.5rem' }}>
-                        <span style={{ color: '#374151', fontSize: 'clamp(0.55rem, 0.85vw, 0.72rem)', fontWeight: 600 }}>{p.name}</span>
+                        <span style={{ color: '#374151', fontSize: 'clamp(0.55rem, 0.85vw, 0.72rem)', fontWeight: 400 }}>{p.name}</span>
                       </div>
                     </div>
                   );
@@ -1335,8 +1333,12 @@
             <div ref={chartRef} style={{ flex: 1, minHeight: 0, overflow: 'hidden' }} />
           </div>
 
-          {/* Acento rojo inferior */}
-          <div style={{ height: 4, background: C.red, flexShrink: 0 }} />
+          {/* Footnote */}
+          {tcp.footnote && (
+            <div style={{ padding: '0.3rem 1.5rem', flexShrink: 0 }}>
+              <span style={{ color: '#9CA3AF', fontSize: 'clamp(0.5rem, 0.75vw, 0.65rem)', fontStyle: 'italic' }}>{tcp.footnote}</span>
+            </div>
+          )}
         </div>
       );
     }
