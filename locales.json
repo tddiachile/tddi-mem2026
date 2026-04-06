@@ -3,7 +3,7 @@
     "langToggle": "EN",
     "pageTitle": "Presentación del Equipo | Sodexo",
     "headerTitle": "presentación del equipo de trabajo",
-    "segments": ["home", "quiénes somos", "método de trabajo", "Metrics Governance / Comité de Tecnología (2022 - 2025)", "proyectos con impacto", "proyectos actuales", "desarrollos de Chile mostrados a Región/Global", "plataformas globales", "oportunidades de mejora"],
+    "segments": ["home", "quiénes somos", "método de trabajo", "Metrics Governance / Comité de Tecnología (2022 - 2025)", "proyectos con impacto", "proyectos actuales", "desarrollos de Chile mostrados a Región/Global", "plataformas globales", "transición GBS | TCS", "transición GBS | tickets", "seguridad baseline [MSB]", "oportunidades de mejora"],
     "sidebarTitle": "Presentación",
     "sidebarSubtitle": "Equipo de trabajo",
     "sidebarClose": "‹ cerrar menú",
@@ -15,8 +15,8 @@
     "ariaNext": "Siguiente diapositiva",
     "ariaGoTo": "Ir a la diapositiva",
     "home": {
-      "supra": "TDDI & IA — Sodexo Chile",
-      "title": "Transformación con rumbo",
+      "supra": "",
+      "title": "TDDI & IA — Sodexo Chile",
       "date": "abril 2026"
     },
     "about": {
@@ -380,13 +380,90 @@
       ],
       "devClosing": "Un equipo que no depende de un solo lenguaje ni de un solo paradigma — adaptable a cada necesidad del negocio."
     },
+    "gbsTransition": {
+      "achievementsTitle": "Logros",
+      "nextStepsTitle": "Próximos pasos",
+      "risksTitle": "Riesgos",
+      "alertsTitle": "Alertas y decisiones esperadas",
+      "achievements": [
+        { "label": "GSD", "sub": ["Septiembre 2026"] },
+        { "label": "AMS", "sub": ["Enero 2026: SAP", "Febrero 2026: WebReporting"] }
+      ],
+      "nextSteps": [
+        { "label": "GSD", "sub": ["Soporte de impresoras"] },
+        { "label": "AMS", "sub": ["Formularios Electrónicos", "SGP"] },
+        { "label": "IMS", "sub": ["Gestión de red local"] }
+      ],
+      "risks": [
+        { "label": "AMS", "sub": ["Brecha de idioma"] },
+        { "label": "GSD", "sub": ["Baja adopción de tickets"] }
+      ],
+      "alerts": [
+        { "label": "Costos", "sub": ["Criterios de recargo", "Detalles"] },
+        { "label": "SLA", "sub": ["SLA y penalizaciones"] }
+      ]
+    },
+    "ticketStatus": {
+      "months": ["sep-25", "oct-25", "nov-25", "dic-25", "ene-26", "feb-26", "mar-26"],
+      "rows": [
+        { "label": "Creados por TCS", "values": [805, 1080, 688, 827, 814, 763, 952], "color": "#283897" },
+        { "label": "Resueltos por TCS", "values": [794, 1053, 679, 814, 812, 756, 878], "color": "#283897" },
+        { "label": "Creados por IT Local", "values": [285, 228, 219, 273, 347, 298, 300], "color": "#EF661A" },
+        { "label": "Resueltos por IT Local", "values": [282, 222, 216, 264, 341, 283, 258], "color": "#EF661A" },
+        { "label": "Total", "values": [1090, 1308, 907, 1100, 1161, 1061, 1252], "bold": true }
+      ],
+      "pctRows": [
+        { "label": "Creados por TCS", "values": ["74%", "83%", "76%", "75%", "70%", "72%", "76%"], "color": "#283897" },
+        { "label": "Resueltos por TCS", "values": ["73%", "81%", "75%", "74%", "70%", "71%", "70%"], "color": "#283897" }
+      ],
+      "chartTitle": "Distribución de tickets por mes",
+      "legendTCS": "Creados por TCS",
+      "legendLocal": "Creados por IT Local",
+      "chartData": [
+        { "month": "sep-25", "tcs": 805, "local": 285 },
+        { "month": "oct-25", "tcs": 1080, "local": 228 },
+        { "month": "nov-25", "tcs": 688, "local": 219 },
+        { "month": "dic-25", "tcs": 827, "local": 273 },
+        { "month": "ene-26", "tcs": 814, "local": 347 },
+        { "month": "feb-26", "tcs": 763, "local": 298 },
+        { "month": "mar-26", "tcs": 952, "local": 300 }
+      ],
+      "highlightsTitle": "Puntos clave",
+      "highlights": [
+        "La tasa promedio de creación de tickets es 75% y la resolución promedio 74% por parte de TCS desde sep-25.",
+        "El equipo de IT local crea tickets localmente solo para el soporte de proximidad que TCS no puede entregar de forma remota."
+      ]
+    },
+    "securityBaseline": {
+      "colControl": "Control de seguridad",
+      "colProgress": "Progreso",
+      "colOwner": "Responsable",
+      "controls": [
+        { "name": "CACTUS compliance", "progress": "92%", "owner": "Regional" },
+        { "name": "MDM Intune mobile", "progress": "90%", "owner": "Local" },
+        { "name": "Domain-joined", "progress": "88%", "owner": "Regional" },
+        { "name": "Network segregation", "progress": "80%", "owner": "Regional" },
+        { "name": "Obsolescence Management", "progress": "79%", "owner": "Local" },
+        { "name": "Security event monitoring", "progress": "79%", "owner": "Regional" },
+        { "name": "Hardening", "progress": "57%", "owner": "Local" },
+        { "name": "Web communication protection", "progress": "57%", "owner": "Regional" },
+        { "name": "Web app firewall", "progress": "42%", "owner": "Regional" },
+        { "name": "Annual security training competition", "progress": "8%", "owner": "Local" }
+      ],
+      "actionPlanTitle": "Plan de acción prioritario",
+      "actionItems": [
+        { "title": "Capacitación de seguridad", "text": "Muestra una baja participación de empleados. Para revertir esta situación, se lanzará una campaña masiva y se buscará apoyo a través del CLT para impulsar los esfuerzos." },
+        { "title": "Obsolescencia", "text": "Después de múltiples intentos para que los usuarios actualicen sus sistemas operativos — incluyendo solicitudes de compra de equipos y renovaciones sin respuesta — más de 130 estaciones de trabajo fueron bloqueadas permanentemente." },
+        { "title": "Hardening", "text": "Se está desarrollando un plan para asegurar la instalación de todos los parches de seguridad en los sistemas de producción." }
+      ]
+    },
     "improvements": {
       "heading": "oportunidades de mejora",
       "strategyTag": "Estrategia Global",
       "strategyTitle": "Seguimos los 5 pilares TDDI",
       "strategyText": "Cada iniciativa local responde a uno o más pilares de la hoja de ruta global.",
       "strategyNote": "Chile ejecuta activamente esta estrategia en sus proyectos locales.",
-      "strategyImage": "assets/5pilares.png",
+      "strategyImage": "assets/pilares.png",
       "needTag": "Lo que se requiere hoy",
       "needTitle": "Fortalecer dos dimensiones críticas",
       "needText": "Para que la estrategia aterrice con efectividad, necesitamos velocidad de respuesta y claridad en la comunicación entre equipos regionales y globales.",
@@ -418,7 +495,7 @@
     "langToggle": "ES",
     "pageTitle": "Team Presentation | Sodexo",
     "headerTitle": "work team presentation",
-    "segments": ["home", "who we are", "work method", "Metrics Governance / Technology Committee (2022 - 2025)", "high-impact projects", "current projects", "Chile developments shown to Region/Global", "global platforms", "improvement opportunities"],
+    "segments": ["home", "who we are", "work method", "Metrics Governance / Technology Committee (2022 - 2025)", "high-impact projects", "current projects", "Chile developments shown to Region/Global", "global platforms", "GBS transition | TCS", "GBS transition | tickets", "security baseline [MSB]", "improvement opportunities"],
     "sidebarTitle": "Presentation",
     "sidebarSubtitle": "Work team",
     "sidebarClose": "‹ close menu",
@@ -430,8 +507,8 @@
     "ariaNext": "Next slide",
     "ariaGoTo": "Go to slide",
     "home": {
-      "supra": "TDDI & AI — Sodexo Chile",
-      "title": "Transformation with purpose",
+      "supra": "",
+      "title": "TDDI & AI — Sodexo Chile",
       "date": "April 2026"
     },
     "about": {
@@ -795,13 +872,90 @@
       ],
       "devClosing": "A team that doesn't depend on a single language or paradigm — adaptable to every business need."
     },
+    "gbsTransition": {
+      "achievementsTitle": "Achievements",
+      "nextStepsTitle": "Next Steps",
+      "risksTitle": "Risks",
+      "alertsTitle": "Alerts & Expected Decisions",
+      "achievements": [
+        { "label": "GSD", "sub": ["September 2026"] },
+        { "label": "AMS", "sub": ["January 2026: SAP", "February 2026: WebReporting"] }
+      ],
+      "nextSteps": [
+        { "label": "GSD", "sub": ["Printers support"] },
+        { "label": "AMS", "sub": ["Electronic Forms", "SGP"] },
+        { "label": "IMS", "sub": ["Local network management"] }
+      ],
+      "risks": [
+        { "label": "AMS", "sub": ["Language gap"] },
+        { "label": "GSD", "sub": ["Low ticket adoption"] }
+      ],
+      "alerts": [
+        { "label": "Costs", "sub": ["Recharge criteria", "Details"] },
+        { "label": "SLA", "sub": ["SLA and penalties"] }
+      ]
+    },
+    "ticketStatus": {
+      "months": ["sep-25", "oct-25", "nov-25", "dec-25", "jan-26", "feb-26", "mar-26"],
+      "rows": [
+        { "label": "Created by TCS", "values": [805, 1080, 688, 827, 814, 763, 952], "color": "#283897" },
+        { "label": "Resolved by TCS", "values": [794, 1053, 679, 814, 812, 756, 878], "color": "#283897" },
+        { "label": "Created by Local IT", "values": [285, 228, 219, 273, 347, 298, 300], "color": "#EF661A" },
+        { "label": "Resolved by Local IT", "values": [282, 222, 216, 264, 341, 283, 258], "color": "#EF661A" },
+        { "label": "Total", "values": [1090, 1308, 907, 1100, 1161, 1061, 1252], "bold": true }
+      ],
+      "pctRows": [
+        { "label": "Created by TCS", "values": ["74%", "83%", "76%", "75%", "70%", "72%", "76%"], "color": "#283897" },
+        { "label": "Resolved by TCS", "values": ["73%", "81%", "75%", "74%", "70%", "71%", "70%"], "color": "#283897" }
+      ],
+      "chartTitle": "Ticket distribution by month",
+      "legendTCS": "Created by TCS",
+      "legendLocal": "Created by Local IT",
+      "chartData": [
+        { "month": "sep-25", "tcs": 805, "local": 285 },
+        { "month": "oct-25", "tcs": 1080, "local": 228 },
+        { "month": "nov-25", "tcs": 688, "local": 219 },
+        { "month": "dec-25", "tcs": 827, "local": 273 },
+        { "month": "jan-26", "tcs": 814, "local": 347 },
+        { "month": "feb-26", "tcs": 763, "local": 298 },
+        { "month": "mar-26", "tcs": 952, "local": 300 }
+      ],
+      "highlightsTitle": "Key Highlights",
+      "highlights": [
+        "The average ticket creation rate is 75% and the average ticket resolution 74% from TCS since Sep-25.",
+        "The local IT team creates tickets locally only for the proximity support which cannot be provided by TCS remotely."
+      ]
+    },
+    "securityBaseline": {
+      "colControl": "Security control",
+      "colProgress": "Progress",
+      "colOwner": "Owner",
+      "controls": [
+        { "name": "CACTUS compliance", "progress": "92%", "owner": "Regional" },
+        { "name": "MDM Intune mobile", "progress": "90%", "owner": "Local" },
+        { "name": "Domain-joined", "progress": "88%", "owner": "Regional" },
+        { "name": "Network segregation", "progress": "80%", "owner": "Regional" },
+        { "name": "Obsolescence Management", "progress": "79%", "owner": "Local" },
+        { "name": "Security event monitoring", "progress": "79%", "owner": "Regional" },
+        { "name": "Hardening", "progress": "57%", "owner": "Local" },
+        { "name": "Web communication protection", "progress": "57%", "owner": "Regional" },
+        { "name": "Web app firewall", "progress": "42%", "owner": "Regional" },
+        { "name": "Annual security training competition", "progress": "8%", "owner": "Local" }
+      ],
+      "actionPlanTitle": "Priority Action Plan",
+      "actionItems": [
+        { "title": "Security training", "text": "Shows poor employee participation. To reverse this situation, a massive campaign will be launched and support will be sought through the CLT to push the efforts." },
+        { "title": "Obsolescence", "text": "After multiple attempts to get users to update their operating systems — including requests for equipment purchases and renewals that received no response — more than 130 workstations were permanently blocked." },
+        { "title": "Hardening", "text": "A plan is being developed to ensure the installation of all security patches across production systems." }
+      ]
+    },
     "improvements": {
       "heading": "improvement opportunities",
       "strategyTag": "Global Strategy",
       "strategyTitle": "We follow the 5 TDDI pillars",
       "strategyText": "Every local initiative responds to one or more pillars of the global roadmap.",
       "strategyNote": "Chile actively executes this strategy in its local projects.",
-      "strategyImage": "assets/5pilares.png",
+      "strategyImage": "assets/pilares.png",
       "needTag": "What is required today",
       "needTitle": "Strengthen two critical dimensions",
       "needText": "For the strategy to land effectively, we need speed of response and clarity in communication between regional and global teams.",

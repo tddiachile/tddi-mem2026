@@ -128,7 +128,7 @@
           {/* Contenido centrado */}
           <div style={{ textAlign: 'center', padding: '2rem', zIndex: 1 }}>
             {/* Supra-título */}
-            <p style={{
+            {th.supra && <p style={{
               color: 'rgba(255,255,255,0.80)',
               fontSize: 'clamp(0.85rem, 2vw, 1.1rem)',
               fontWeight: 600,
@@ -137,7 +137,7 @@
               marginBottom: '1.2rem',
             }}>
               {th.supra}
-            </p>
+            </p>}
 
             {/* Título principal */}
             <h1 style={{
@@ -609,18 +609,28 @@
       return (
         <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden', background: '#f4f6fb' }}>
 
-          {/* ── Pills ── */}
-          <div style={{ display: 'flex', gap: 'clamp(0.5rem, 1.2vw, 1rem)', justifyContent: 'center', padding: 'clamp(0.3rem, 0.55vw, 0.5rem) 1.5rem clamp(0.2rem, 0.4vw, 0.35rem)', flexShrink: 0, flexWrap: 'wrap' }}>
-            {bullets.map((b, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'white', border: '1px solid #e0e4f0', borderRadius: 30, padding: 'clamp(0.2rem, 0.35vw, 0.32rem) clamp(0.6rem, 1vw, 1rem)', boxShadow: '0 2px 8px rgba(40,56,151,0.07)', fontSize: 'clamp(0.58rem, 0.92vw, 0.76rem)', fontWeight: 700, color: M.dark }}>
-                <div style={{ width: 7, height: 7, borderRadius: '50%', background: bulletColors[i] || M.blue, flexShrink: 0 }} />
-                {b}
-              </div>
-            ))}
+          {/* ── Pills + botón ver detalle ── */}
+          <div style={{ display: 'flex', alignItems: 'center', padding: 'clamp(0.3rem, 0.55vw, 0.5rem) 1.5rem clamp(0.2rem, 0.4vw, 0.35rem)', flexShrink: 0 }}>
+            <div style={{ display: 'flex', gap: 'clamp(0.5rem, 1.2vw, 1rem)', flex: 1, justifyContent: 'center', flexWrap: 'wrap' }}>
+              {bullets.map((b, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'white', border: '1px solid #e0e4f0', borderRadius: 30, padding: 'clamp(0.2rem, 0.35vw, 0.32rem) clamp(0.6rem, 1vw, 1rem)', boxShadow: '0 2px 8px rgba(40,56,151,0.07)', fontSize: 'clamp(0.58rem, 0.92vw, 0.76rem)', fontWeight: 700, color: M.dark }}>
+                  <div style={{ width: 7, height: 7, borderRadius: '50%', background: bulletColors[i] || M.blue, flexShrink: 0 }} />
+                  {b}
+                </div>
+              ))}
+            </div>
+            <a
+              href="pages/metodo_trabajo.html"
+              style={{ background: M.blue, color: 'white', fontSize: 'clamp(0.53rem, 0.82vw, 0.7rem)', fontWeight: 700, padding: '0.28rem 0.85rem', borderRadius: 7, textDecoration: 'none', letterSpacing: '0.03em', transition: 'background 180ms ease', marginLeft: '0.6rem', flexShrink: 0 }}
+              onMouseEnter={e => e.currentTarget.style.background = '#1e2c7a'}
+              onMouseLeave={e => e.currentTarget.style.background = M.blue}
+            >
+              {tm.viewDetail || 'ver detalle →'}
+            </a>
           </div>
 
           {/* ── Flujo principal ── */}
-          <div style={{ flex: 1, minHeight: 0, display: 'flex', alignItems: 'stretch', padding: 'clamp(0.2rem, 0.4vw, 0.35rem) clamp(0.6rem, 1.4vw, 1.2rem)' }}>
+          <div style={{ flex: 3, minHeight: 0, display: 'flex', alignItems: 'stretch', padding: 'clamp(0.2rem, 0.4vw, 0.35rem) clamp(0.6rem, 1.4vw, 1.2rem)' }}>
             {wf.map((step, i) => (
               <React.Fragment key={i}>
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 0 }}>
@@ -636,7 +646,7 @@
           <div style={{ height: 1, background: '#e0e4f0', flexShrink: 0, margin: '0 1.2rem' }} />
 
           {/* ── Sección inferior: 3 tarjetas ── */}
-          <div style={{ display: 'flex', gap: 'clamp(0.5rem, 0.9vw, 0.85rem)', padding: 'clamp(0.3rem, 0.55vw, 0.5rem) clamp(0.6rem, 1.4vw, 1.2rem) clamp(0.3rem, 0.55vw, 0.5rem)', flex: '0 0 auto', height: 'clamp(130px, 30%, 210px)' }}>
+          <div style={{ display: 'flex', gap: 'clamp(0.5rem, 0.9vw, 0.85rem)', padding: 'clamp(0.3rem, 0.55vw, 0.5rem) clamp(0.6rem, 1.4vw, 1.2rem) clamp(0.3rem, 0.55vw, 0.5rem)', flex: 2, minHeight: 0 }}>
 
             {/* Seguridad */}
             <div style={{ flex: 1, background: 'white', borderRadius: 12, border: '1px solid #e0e4f0', borderTopWidth: 4, borderTopColor: M.red, boxShadow: '0 2px 10px rgba(40,56,151,0.07)', padding: 'clamp(0.5rem, 0.85vw, 0.8rem) clamp(0.55rem, 0.9vw, 0.85rem)', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
@@ -677,18 +687,6 @@
               </div>
             </div>
 
-          </div>
-
-          {/* Botón ver detalle */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 clamp(0.6rem, 1.4vw, 1.2rem) clamp(0.25rem, 0.45vw, 0.4rem)', flexShrink: 0 }}>
-            <a
-              href="pages/metodo_trabajo.html"
-              style={{ background: M.blue, color: 'white', fontSize: 'clamp(0.53rem, 0.82vw, 0.7rem)', fontWeight: 700, padding: '0.28rem 0.85rem', borderRadius: 7, textDecoration: 'none', letterSpacing: '0.03em', transition: 'background 180ms ease' }}
-              onMouseEnter={e => e.currentTarget.style.background = '#1e2c7a'}
-              onMouseLeave={e => e.currentTarget.style.background = M.blue}
-            >
-              {tm.viewDetail || 'ver detalle →'}
-            </a>
           </div>
 
         </div>
@@ -1579,7 +1577,237 @@
       );
     }
 
-    /* ── SEGMENTO 10 — Oportunidades de Mejora ─────────────── */
+    /* ── SEGMENTO 10 — Transición GBS | TCS ──────────────── */
+    function SegGBSTransition({ t }) {
+      const tg = t.gbsTransition;
+
+      const QuadCard = ({ title, color, items, icon }) => (
+        <div style={{ flex: 1, background: 'white', borderRadius: 10, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.08)', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ height: 5, background: color, flexShrink: 0 }} />
+          <div style={{ padding: '0.7rem 1rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <h4 style={{ color, fontSize: 'clamp(0.8rem, 1.3vw, 1rem)', fontWeight: 700, fontFamily: 'Arial,sans-serif', margin: 0 }}>{title}</h4>
+              {icon && <span style={{ fontSize: '1.6rem', opacity: 0.6 }}>{icon}</span>}
+            </div>
+            <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              {items.map((item, i) => (
+                <div key={i}>
+                  <div style={{ color: C.dark, fontSize: 'clamp(0.62rem, 0.95vw, 0.78rem)', fontWeight: 700 }}>{item.label}</div>
+                  {item.sub && item.sub.map((s, j) => (
+                    <div key={j} style={{ color: '#374151', fontSize: 'clamp(0.55rem, 0.85vw, 0.7rem)', paddingLeft: '0.8rem', lineHeight: 1.7, display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <span style={{ color: C.green, fontSize: '0.6rem' }}>✓</span> {s}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+
+      return (
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden', background: '#F8FAFC' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.8rem', flex: 1, padding: '0.8rem 1.5rem' }}>
+            <QuadCard title={tg.achievementsTitle} color={C.green} items={tg.achievements} icon="🏅" />
+            <QuadCard title={tg.nextStepsTitle} color={C.purple} items={tg.nextSteps} icon="📍" />
+            <QuadCard title={tg.risksTitle} color={C.orange} items={tg.risks} icon="⚠️" />
+            <QuadCard title={tg.alertsTitle} color={C.pink} items={tg.alerts} icon="💭" />
+          </div>
+        </div>
+      );
+    }
+
+    /* ── SEGMENTO 11 — Transición GBS | Ticket Status ──────── */
+    function SegTicketStatus({ t }) {
+      const tt = t.ticketStatus;
+
+      const thStyle = {
+        padding: '0.45rem 0.5rem', textAlign: 'center', color: 'white',
+        fontFamily: 'Arial,sans-serif', fontWeight: 700,
+        fontSize: 'clamp(0.5rem, 0.8vw, 0.65rem)', whiteSpace: 'nowrap',
+      };
+      const tdStyle = {
+        padding: '0.35rem 0.5rem', textAlign: 'center',
+        fontSize: 'clamp(0.5rem, 0.8vw, 0.65rem)', color: C.dark,
+      };
+      const tdLabelStyle = {
+        ...tdStyle, textAlign: 'left', fontWeight: 700, fontSize: 'clamp(0.48rem, 0.75vw, 0.62rem)',
+      };
+
+      const months = tt.months;
+      const rows = tt.rows;
+      const pctRows = tt.pctRows;
+
+      /* 100% stacked bar chart */
+      const BarChart = () => {
+        return (
+          <div style={{ display: 'flex', gap: '0.35rem', height: '100%', padding: '0.3rem 0' }}>
+            {tt.chartData.map((d, i) => {
+              const total = d.tcs + d.local;
+              const tcsPct = (d.tcs / total) * 100;
+              const localPct = (d.local / total) * 100;
+              return (
+                <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%' }}>
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', borderRadius: 4, overflow: 'hidden' }}>
+                    <div style={{ height: `${localPct}%`, background: C.orange, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ color: 'white', fontSize: 'clamp(0.4rem, 0.65vw, 0.52rem)', fontWeight: 700 }}>{d.local}</span>
+                    </div>
+                    <div style={{ height: `${tcsPct}%`, background: C.blue, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ color: 'white', fontSize: 'clamp(0.4rem, 0.65vw, 0.52rem)', fontWeight: 700 }}>{d.tcs}</span>
+                    </div>
+                  </div>
+                  <div style={{ fontSize: 'clamp(0.38rem, 0.55vw, 0.45rem)', color: '#6B7280', marginTop: 3, textAlign: 'center' }}>{d.month}</div>
+                </div>
+              );
+            })}
+          </div>
+        );
+      };
+
+      return (
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden', background: '#F8FAFC', padding: '0.6rem 1.5rem' }}>
+          {/* Top section: table + chart */}
+          <div style={{ display: 'flex', gap: '1rem', flex: 1, minHeight: 0 }}>
+            {/* Tables */}
+            <div style={{ flex: 3, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              {/* Absolute values table */}
+              <div style={{ background: 'white', borderRadius: 8, overflow: 'hidden', boxShadow: '0 1px 6px rgba(0,0,0,0.06)' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: C.blue }}>
+                      <th style={{ ...thStyle, textAlign: 'left', borderRadius: '8px 0 0 0' }}></th>
+                      {months.map((m, i) => <th key={i} style={{ ...thStyle, borderRadius: i === months.length - 1 ? '0 8px 0 0' : 0 }}>{m}</th>)}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rows.map((row, ri) => (
+                      <tr key={ri} style={{ background: ri % 2 === 0 ? '#F8FAFC' : 'white', fontWeight: row.bold ? 700 : 400 }}>
+                        <td style={{ ...tdLabelStyle, color: row.color || C.dark }}>{row.label}</td>
+                        {row.values.map((v, vi) => <td key={vi} style={{ ...tdStyle, fontWeight: row.bold ? 700 : 400 }}>{v}</td>)}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {/* Percentage table */}
+              <div style={{ background: 'white', borderRadius: 8, overflow: 'hidden', boxShadow: '0 1px 6px rgba(0,0,0,0.06)' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: C.blue }}>
+                      <th style={{ ...thStyle, textAlign: 'left', borderRadius: '8px 0 0 0' }}></th>
+                      {months.map((m, i) => <th key={i} style={{ ...thStyle, borderRadius: i === months.length - 1 ? '0 8px 0 0' : 0 }}>{m}</th>)}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pctRows.map((row, ri) => (
+                      <tr key={ri} style={{ background: ri % 2 === 0 ? '#F8FAFC' : 'white' }}>
+                        <td style={{ ...tdLabelStyle, color: row.color || C.dark }}>{row.label}</td>
+                        {row.values.map((v, vi) => <td key={vi} style={tdStyle}>{v}</td>)}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {/* Chart */}
+            <div style={{ flex: 2, background: 'white', borderRadius: 10, boxShadow: '0 1px 6px rgba(0,0,0,0.06)', padding: '0.6rem 0.8rem', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ color: C.dark, fontSize: 'clamp(0.55rem, 0.85vw, 0.7rem)', fontWeight: 700, fontFamily: 'Arial,sans-serif', marginBottom: '0.3rem' }}>{tt.chartTitle}</div>
+              <div style={{ flex: 1, minHeight: 0 }}>
+                <BarChart />
+              </div>
+              <div style={{ display: 'flex', gap: '0.8rem', justifyContent: 'center', marginTop: '0.3rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <div style={{ width: 10, height: 10, background: C.blue, borderRadius: 2 }} />
+                  <span style={{ fontSize: 'clamp(0.4rem, 0.6vw, 0.5rem)', color: '#6B7280' }}>{tt.legendTCS}</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <div style={{ width: 10, height: 10, background: C.orange, borderRadius: 2 }} />
+                  <span style={{ fontSize: 'clamp(0.4rem, 0.6vw, 0.5rem)', color: '#6B7280' }}>{tt.legendLocal}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Key Highlights */}
+          <div style={{ marginTop: '0.5rem', background: '#F0F4F8', borderRadius: 10, border: '1px solid #D1D5DB', padding: '0.6rem 1.2rem' }}>
+            <h4 style={{ color: C.dark, fontSize: 'clamp(0.7rem, 1.1vw, 0.85rem)', fontWeight: 700, fontFamily: 'Arial,sans-serif', margin: '0 0 0.3rem', fontStyle: 'italic' }}>{tt.highlightsTitle}</h4>
+            {tt.highlights.map((h, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 6, marginBottom: '0.2rem' }}>
+                <span style={{ color: C.green, fontSize: '0.7rem', marginTop: 2, flexShrink: 0 }}>➤</span>
+                <span style={{ color: '#374151', fontSize: 'clamp(0.52rem, 0.85vw, 0.7rem)', lineHeight: 1.5 }}>{h}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    /* ── SEGMENTO 12 — Security Baseline Status [MSB] ─────── */
+    function SegSecurityBaseline({ t }) {
+      const ts = t.securityBaseline;
+
+      const thStyle = {
+        padding: '0.6rem 1rem', textAlign: 'left', color: 'white',
+        fontFamily: 'Arial,sans-serif', fontWeight: 700,
+        fontSize: 'clamp(0.6rem, 0.95vw, 0.78rem)', letterSpacing: '0.04em',
+      };
+
+      return (
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden', background: '#F8FAFC', padding: '0.8rem 1.5rem' }}>
+          <div style={{ display: 'flex', gap: '1rem', flex: 1, minHeight: 0 }}>
+            {/* Left: Security controls table */}
+            <div style={{ flex: 1, background: 'white', borderRadius: 10, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.08)', display: 'flex', flexDirection: 'column' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr style={{ background: C.dark }}>
+                    <th style={{ ...thStyle, borderRadius: '10px 0 0 0' }}>{ts.colControl}</th>
+                    <th style={{ ...thStyle, textAlign: 'center' }}>{ts.colProgress}</th>
+                    <th style={{ ...thStyle, borderRadius: '0 10px 0 0' }}>{ts.colOwner}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ts.controls.map((c, i) => {
+                    const pct = parseInt(c.progress);
+                    const barColor = pct >= 85 ? C.green : pct >= 70 ? C.sky : pct >= 50 ? C.orange : C.red;
+                    return (
+                      <tr key={i} style={{ background: i % 2 === 0 ? 'white' : '#F8FAFC' }}>
+                        <td style={{ padding: '0.5rem 1rem', color: C.dark, fontWeight: 700, fontSize: 'clamp(0.52rem, 0.85vw, 0.7rem)' }}>{c.name}</td>
+                        <td style={{ padding: '0.5rem 1rem', textAlign: 'center' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                            <div style={{ flex: 1, height: 8, background: '#E5E7EB', borderRadius: 4, overflow: 'hidden' }}>
+                              <div style={{ width: c.progress, height: '100%', background: barColor, borderRadius: 4, transition: 'width 0.6s' }} />
+                            </div>
+                            <span style={{ fontSize: 'clamp(0.5rem, 0.8vw, 0.65rem)', fontWeight: 700, color: barColor, minWidth: '2rem' }}>{c.progress}</span>
+                          </div>
+                        </td>
+                        <td style={{ padding: '0.5rem 1rem', color: '#6B7280', fontSize: 'clamp(0.5rem, 0.8vw, 0.65rem)' }}>{c.owner}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Right: Priority action plan */}
+            <div style={{ flex: 1, background: C.purple, borderRadius: 10, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.08)', padding: '1rem 1.2rem', display: 'flex', flexDirection: 'column' }}>
+              <h4 style={{ color: 'white', fontSize: 'clamp(0.85rem, 1.4vw, 1.1rem)', fontWeight: 700, fontFamily: 'Arial,sans-serif', margin: '0 0 0.6rem' }}>{ts.actionPlanTitle}</h4>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', flex: 1 }}>
+                {ts.actionItems.map((item, i) => (
+                  <div key={i} style={{ background: 'rgba(255,255,255,0.15)', borderRadius: 8, padding: '0.6rem 0.8rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: '0.2rem' }}>
+                      <span style={{ color: '#FBBF24', fontSize: '0.7rem' }}>➤</span>
+                      <span style={{ color: 'white', fontWeight: 700, fontSize: 'clamp(0.62rem, 1vw, 0.82rem)', fontFamily: 'Arial,sans-serif' }}>{item.title}</span>
+                    </div>
+                    <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: 'clamp(0.5rem, 0.8vw, 0.68rem)', lineHeight: 1.6, margin: 0 }}>{item.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    /* ── SEGMENTO 13 — Oportunidades de Mejora ─────────────── */
     function SegImprovements({ t }) {
       const ti = t.improvements;
 
@@ -1721,7 +1949,10 @@
       { id: 6,  Component: SegCurrentProjects },
       { id: 7,  Component: SegRegionalReach   },
       { id: 8,  Component: SegGlobalPlatforms },
-      { id: 9,  Component: SegImprovements    },
+      { id: 9,  Component: SegGBSTransition   },
+      { id: 10, Component: SegTicketStatus    },
+      { id: 11, Component: SegSecurityBaseline },
+      { id: 12, Component: SegImprovements    },
     ];
 
     /* ════════════════════════════════════════════════════════
