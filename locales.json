@@ -187,15 +187,17 @@
       "countLabel": "proyectos",
       "countLabelShort": "proy.",
       "activeLabel": "activo",
-      "areas": [
+      "frontLabel": "FRONT / SEGMENTO",
+      "backLabel": "BACK / SOPORTE",
+      "front": [
+        { "id": "seg", "name": "Segmentos / Operación", "chips": [{"l":"SoStay"},{"l":"Mejora evolutiva SoStay","a":true},{"l":"SoTrack","a":true},{"l":"Trazacheck"},{"l":"Reinserción Social"},{"l":"Fichas Médicas"},{"l":"POS - Retail","a":true},{"l":"BeeIT"},{"l":"Betterfly"},{"l":"Planta Colina"},{"l":"Exámenes Médicos"},{"l":"Exámenes Microb.","a":true}] }
+      ],
+      "back": [
         { "id": "food", "name": "Food",           "chips": [{"l":"AMD – Minutas"},{"l":"SDXO Guías"},{"l":"SDXO Waste"},{"l":"SGP Upgrade","a":true},{"l":"Monitor Precios"}] },
-        { "id": "fm",   "name": "FM",             "chips": [{"l":"SMS"},{"l":"Keystone"}] },
-        { "id": "mkt",  "name": "Marketing",      "chips": [{"l":"Puntos de Venta","a":true}] },
-        { "id": "seg",  "name": "Segmentos",      "chips": [{"l":"SoStay"},{"l":"Backlog SoStay","a":true},{"l":"Dashboard Healthcare"},{"l":"SoTrack","a":true},{"l":"Reinserción Social"},{"l":"Fichas Médicas"}] },
+        { "id": "fm",   "name": "FM",             "chips": [{"l":"SMS"},{"l":"Keystone"},{"l":"MyWay"}] },
         { "id": "log",  "name": "Logística",      "chips": [{"l":"App Inventario"},{"l":"RIO OnSite"},{"l":"Control Ramplas"}] },
-        { "id": "ops",  "name": "Operaciones",    "chips": [{"l":"Planta Colina"},{"l":"Exámenes Médicos"},{"l":"Exámenes Microb.","a":true}] },
-        { "id": "fin",  "name": "Finanzas",       "chips": [{"l":"SPRS"},{"l":"Gestión P&L"},{"l":"Flujo de Finanzas"},{"l":"Planning Finanzas"},{"l":"Migración SOVOS","a":true},{"l":"Venta Contratista","a":true}] },
-        { "id": "rrhh", "name": "Gestión RRHH",   "chips": [{"l":"Workflow HR"},{"l":"App Autoservicio"},{"l":"Control Dotación"},{"l":"Gestor Documental"},{"l":"Total Rewards"},{"l":"Certificación Laboral"},{"l":"Dashboard Capacitación"},{"l":"SGPOS","a":true},{"l":"Chatbot Contratos Colectivos","a":true}] }
+        { "id": "fin",  "name": "Finanzas",       "chips": [{"l":"SPRS"},{"l":"Gestión P&L"},{"l":"Workflow Finanzas"},{"l":"Planning"},{"l":"SOVOS - Factura X (Factura Electrónica)","a":true},{"l":"Automatización de Ticket","a":true}] },
+        { "id": "rrhh", "name": "Gestión RRHH",   "chips": [{"l":"Workflow HR"},{"l":"App Autoservicio"},{"l":"Control Dotación"},{"l":"Gestor Documental"},{"l":"Total Rewards"},{"l":"Certificación Laboral"},{"l":"SGPOS","a":true},{"l":"Contratos Colectivos","a":true}] }
       ]
     },
     "portfolio": {
@@ -751,15 +753,17 @@
       "countLabel": "projects",
       "countLabelShort": "proj.",
       "activeLabel": "active",
-      "areas": [
+      "frontLabel": "FRONT / SEGMENT",
+      "backLabel": "BACK / SUPPORT",
+      "front": [
+        { "id": "seg", "name": "Segments / Operations", "chips": [{"l":"SoStay"},{"l":"SoStay Evolutionary Improvement","a":true},{"l":"SoTrack","a":true},{"l":"Trazacheck"},{"l":"Social Reintegration"},{"l":"Medical Records"},{"l":"POS - Retail","a":true},{"l":"BeeIT"},{"l":"Betterfly"},{"l":"Planta Colina"},{"l":"Medical Exams"},{"l":"Microbiology Exams","a":true}] }
+      ],
+      "back": [
         { "id": "food", "name": "Food",              "chips": [{"l":"AMD – Menus"},{"l":"SDXO Guides"},{"l":"SDXO Waste"},{"l":"SGP Upgrade","a":true},{"l":"Price Monitor"}] },
-        { "id": "fm",   "name": "FM",                "chips": [{"l":"SMS"},{"l":"Keystone"}] },
-        { "id": "mkt",  "name": "Marketing",         "chips": [{"l":"Points of Sale","a":true}] },
-        { "id": "seg",  "name": "Segments",           "chips": [{"l":"SoStay"},{"l":"Backlog SoStay","a":true},{"l":"Dashboard Healthcare"},{"l":"SoTrack","a":true},{"l":"Social Reintegration"},{"l":"Medical Records"}] },
+        { "id": "fm",   "name": "FM",                "chips": [{"l":"SMS"},{"l":"Keystone"},{"l":"MyWay"}] },
         { "id": "log",  "name": "Logistics",         "chips": [{"l":"Inventory App"},{"l":"RIO OnSite"},{"l":"Dock Control"}] },
-        { "id": "ops",  "name": "Operations",        "chips": [{"l":"Planta Colina"},{"l":"Medical Exams"},{"l":"Microbiology Exams","a":true}] },
-        { "id": "fin",  "name": "Finance",           "chips": [{"l":"SPRS"},{"l":"P&L Mgmt."},{"l":"Finance Flow"},{"l":"Finance Planning"},{"l":"SOVOS Migration","a":true},{"l":"Contractor Sales","a":true}] },
-        { "id": "rrhh", "name": "HR Management",     "chips": [{"l":"Workflow HR"},{"l":"Self-Service App"},{"l":"Staffing Control"},{"l":"Document Mgmt."},{"l":"Total Rewards"},{"l":"Labor Certification"},{"l":"Training Dashboard"},{"l":"SGPOS","a":true},{"l":"Union Agreements Chatbot","a":true}] }
+        { "id": "fin",  "name": "Finance",           "chips": [{"l":"SPRS"},{"l":"P&L Mgmt."},{"l":"Finance Workflow"},{"l":"Planning"},{"l":"SOVOS - Factura X (Electronic Billing)","a":true},{"l":"Ticket Automation","a":true}] },
+        { "id": "rrhh", "name": "HR Management",     "chips": [{"l":"Workflow HR"},{"l":"Self-Service App"},{"l":"Staffing Control"},{"l":"Document Mgmt."},{"l":"Total Rewards"},{"l":"Labor Certification"},{"l":"SGPOS","a":true},{"l":"Union Agreements","a":true}] }
       ]
     },
     "portfolio": {
