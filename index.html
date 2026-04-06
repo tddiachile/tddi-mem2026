@@ -1818,41 +1818,52 @@
         letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.2rem',
       });
 
-      const CaseCard = ({ tag, title, subtitle, months, monthsLabel, text, bar, legend }) => (
-        <div style={{ flex: 1, background: 'white', borderRadius: 10, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.08)', display: 'flex', flexDirection: 'column' }}>
+      const CaseCard = ({ tag, title, subtitle, badges, months, monthsLabel, text, bar, legend, horizontal }) => (
+        <div style={{ flex: 1, background: 'white', borderRadius: 10, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.08)', display: 'flex', flexDirection: horizontal ? 'row' : 'column' }}>
           {/* Header oscuro */}
-          <div style={{ background: C.dark, padding: '0.6rem 1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <div style={{ background: C.dark, padding: '0.6rem 1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexShrink: 0, ...(horizontal ? { flexDirection: 'column', flex: '0 0 35%' } : {}) }}>
             <div>
               <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(0.5rem, 0.8vw, 0.65rem)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{tag}</div>
               <div style={{ color: 'white', fontSize: 'clamp(0.8rem, 1.4vw, 1.05rem)', fontWeight: 700, fontFamily: 'Arial,sans-serif' }}>{title}</div>
               <div style={{ color: 'rgba(255,255,255,0.55)', fontSize: 'clamp(0.5rem, 0.8vw, 0.68rem)' }}>{subtitle}</div>
+              {badges && (
+                <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap', marginTop: '0.3rem' }}>
+                  {badges.map((b, i) => (
+                    <span key={i} style={{ background: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.85)', borderRadius: 20, padding: '2px 8px', fontSize: 'clamp(0.4rem, 0.65vw, 0.55rem)', fontWeight: 600 }}>{b}</span>
+                  ))}
+                </div>
+              )}
             </div>
-            <div style={{ textAlign: 'right', flexShrink: 0 }}>
-              <div style={{ color: C.red, fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 700, fontFamily: 'Arial,sans-serif', lineHeight: 1 }}>{months}</div>
-              <div style={{ color: C.red, fontSize: 'clamp(0.45rem, 0.7vw, 0.58rem)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{monthsLabel}</div>
-            </div>
+            {months && (
+              <div style={{ textAlign: horizontal ? 'left' : 'right', flexShrink: 0, marginTop: horizontal ? '0.3rem' : 0 }}>
+                <span style={{ color: C.red, fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 700, fontFamily: 'Arial,sans-serif', lineHeight: 1 }}>{months}</span>
+                <span style={{ color: C.red, fontSize: 'clamp(0.45rem, 0.7vw, 0.58rem)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginLeft: horizontal ? 6 : 0, display: horizontal ? 'inline' : 'block' }}>{monthsLabel}</span>
+              </div>
+            )}
           </div>
           {/* Body */}
-          <div style={{ padding: '0.6rem 1rem 0.7rem', flex: 1, display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-            <p style={{ color: '#374151', fontSize: 'clamp(0.52rem, 0.85vw, 0.7rem)', lineHeight: 1.5, margin: 0, flex: 1 }}>{text}</p>
-            {/* Timeline bar */}
-            <div style={{ display: 'flex', borderRadius: 6, overflow: 'hidden', height: 22 }}>
-              {bar.map((seg, i) => (
-                <div key={i} style={{
-                  flex: `0 0 ${seg.w}%`, background: seg.color, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: 'white', fontSize: 'clamp(0.42rem, 0.65vw, 0.55rem)', fontWeight: 700, whiteSpace: 'nowrap', padding: '0 4px',
-                }}>{seg.label}</div>
-              ))}
-            </div>
-            {/* Legend */}
-            <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
-              {legend.map((l, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: i === 0 ? '#FBBF24' : C.red }} />
-                  <span style={{ color: '#6B7280', fontSize: 'clamp(0.4rem, 0.6vw, 0.52rem)' }}>{l}</span>
+          <div style={{ padding: '0.6rem 1rem 0.7rem', flex: 1, display: 'flex', flexDirection: 'column', gap: '0.4rem', justifyContent: 'center' }}>
+            <p style={{ color: '#374151', fontSize: 'clamp(0.52rem, 0.85vw, 0.7rem)', lineHeight: 1.5, margin: 0, flex: bar ? 1 : 0 }}>{text}</p>
+            {bar && (
+              <>
+                <div style={{ display: 'flex', borderRadius: 6, overflow: 'hidden', height: 22 }}>
+                  {bar.map((seg, i) => (
+                    <div key={i} style={{
+                      flex: `0 0 ${seg.w}%`, background: seg.color, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      color: 'white', fontSize: 'clamp(0.42rem, 0.65vw, 0.55rem)', fontWeight: 700, whiteSpace: 'nowrap', padding: '0 4px',
+                    }}>{seg.label}</div>
+                  ))}
                 </div>
-              ))}
-            </div>
+                <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
+                  {legend.map((l, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <div style={{ width: 8, height: 8, borderRadius: '50%', background: i === 0 ? '#FBBF24' : C.red }} />
+                      <span style={{ color: '#6B7280', fontSize: 'clamp(0.4rem, 0.6vw, 0.52rem)' }}>{l}</span>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
       );
@@ -1886,32 +1897,27 @@
               </div>
             </div>
 
-            {/* Derecha — Lo que se requiere hoy */}
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              {/* Header card */}
-              <div style={{ background: 'white', borderRadius: 10, boxShadow: '0 2px 12px rgba(0,0,0,0.08)', overflow: 'hidden' }}>
-                <div style={{ height: 4, background: C.red, flexShrink: 0 }} />
-                <div style={{ padding: '0.7rem 1rem' }}>
-                  <div style={tagStyle(C.red)}>{ti.needTag}</div>
-                  <h3 style={{ color: C.dark, fontSize: 'clamp(0.85rem, 1.5vw, 1.15rem)', fontWeight: 700, fontFamily: 'Arial,sans-serif', margin: '0 0 0.15rem', lineHeight: 1.25 }}>{ti.needTitle}</h3>
-                  <p style={{ color: '#374151', fontSize: 'clamp(0.5rem, 0.8vw, 0.68rem)', lineHeight: 1.5, margin: 0 }}>{ti.needText}</p>
-                </div>
+            {/* Derecha — Chile necesita + Asegurando */}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.4rem', justifyContent: 'center' }}>
+              {/* Chile necesita */}
+              <div style={{ background: 'white', borderRadius: 10, boxShadow: '0 2px 12px rgba(0,0,0,0.08)', padding: '0.7rem 1rem', border: '1px solid #E5E7EB' }}>
+                <div style={tagStyle(C.dark)}>{ti.needsTag}</div>
+                <ul style={{ margin: '0.4rem 0 0', paddingLeft: '1.2rem', listStyle: 'disc', color: '#374151' }}>
+                  {(ti.needsItems || []).map((item, i) => (
+                    <li key={i} style={{ fontSize: 'clamp(0.52rem, 0.85vw, 0.72rem)', lineHeight: 1.7 }}>{item}</li>
+                  ))}
+                </ul>
               </div>
-              {/* Dimensión: Velocidad */}
-              <div style={{ background: 'white', borderRadius: 10, boxShadow: '0 1px 6px rgba(0,0,0,0.06)', padding: '0.6rem 1rem', display: 'flex', alignItems: 'flex-start', gap: '0.6rem', borderLeft: `4px solid ${C.red}` }}>
-                <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>⚡</span>
-                <div>
-                  <div style={{ color: C.orange, fontSize: 'clamp(0.7rem, 1.1vw, 0.9rem)', fontWeight: 700 }}>{ti.needDim1Title}</div>
-                  <p style={{ color: '#374151', fontSize: 'clamp(0.48rem, 0.75vw, 0.65rem)', lineHeight: 1.5, margin: 0 }}>{ti.needDim1Text}</p>
-                </div>
-              </div>
-              {/* Dimensión: Claridad */}
-              <div style={{ background: 'white', borderRadius: 10, boxShadow: '0 1px 6px rgba(0,0,0,0.06)', padding: '0.6rem 1rem', display: 'flex', alignItems: 'flex-start', gap: '0.6rem', borderLeft: `4px solid ${C.red}` }}>
-                <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>🎯</span>
-                <div>
-                  <div style={{ color: C.red, fontSize: 'clamp(0.7rem, 1.1vw, 0.9rem)', fontWeight: 700 }}>{ti.needDim2Title}</div>
-                  <p style={{ color: '#374151', fontSize: 'clamp(0.48rem, 0.75vw, 0.65rem)', lineHeight: 1.5, margin: 0 }}>{ti.needDim2Text}</p>
-                </div>
+              {/* Flecha */}
+              <div style={{ textAlign: 'center', fontSize: 'clamp(1rem, 1.8vw, 1.4rem)', color: C.blue }}>⬇</div>
+              {/* Asegurando */}
+              <div style={{ background: 'white', borderRadius: 10, boxShadow: '0 2px 12px rgba(0,0,0,0.08)', padding: '0.7rem 1rem', border: '1px solid #E5E7EB' }}>
+                <div style={tagStyle(C.dark)}>{ti.ensuringTag}</div>
+                <ul style={{ margin: '0.4rem 0 0', paddingLeft: '1.2rem', listStyle: 'disc', color: '#374151' }}>
+                  {(ti.ensuringItems || []).map((item, i) => (
+                    <li key={i} style={{ fontSize: 'clamp(0.52rem, 0.85vw, 0.72rem)', lineHeight: 1.7 }}>{item}</li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
@@ -1924,14 +1930,17 @@
             }}>{ti.evidenceLabel}</div>
           </div>
 
-          {/* ── Mitad inferior: Casos reales ── */}
+          {/* ── Mitad inferior: Casos reales (3 columnas) ── */}
           <div style={{ flex: 1, minHeight: 0, display: 'flex', gap: '0.8rem', padding: '0 1.5rem 0.6rem' }}>
             <CaseCard tag={ti.case1Tag} title={ti.case1Title} subtitle={ti.case1Subtitle}
               months={ti.case1Months} monthsLabel={ti.case1MonthsLabel}
               text={ti.case1Text} bar={ti.case1Bar} legend={ti.case1Legend} />
             <CaseCard tag={ti.case2Tag} title={ti.case2Title} subtitle={ti.case2Subtitle}
-              months={ti.case2Months} monthsLabel={ti.case2MonthsLabel}
+              badges={ti.case2Badges} months={ti.case2Months} monthsLabel={ti.case2MonthsLabel}
               text={ti.case2Text} bar={ti.case2Bar} legend={ti.case2Legend} />
+            <CaseCard tag={ti.case3Tag} title={ti.case3Title} subtitle={ti.case3Subtitle}
+              badges={ti.case3Badges}
+              text={ti.case3Text} />
           </div>
         </div>
       );
