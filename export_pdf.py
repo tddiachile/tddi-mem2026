@@ -96,6 +96,23 @@ def export_pdf(url, output_path, lang="es", total_slides=10):
         """)
         time.sleep(1.5)
 
+        # Cargar títulos desde locales.json
+        locales_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "locales.json")
+        with open(locales_path, "r", encoding="utf-8") as f:
+            locales = json.load(f)
+        slide_titles = locales.get(lang, {}).get("segments", [])
+        while len(slide_titles) < total_slides:
+            slide_titles.append(f"Slide {len(slide_titles) + 1}")
+
+        # Ocultar header y footer para capturar solo el contenido central
+        driver.execute_script("""
+            const header = document.querySelector('.site-header');
+            const footer = document.querySelector('.slide-footer');
+            if (header) { header.style.height = '0'; header.style.overflow = 'hidden'; header.style.padding = '0'; header.style.border = 'none'; }
+            if (footer) { footer.style.height = '0'; footer.style.overflow = 'hidden'; footer.style.padding = '0'; footer.style.border = 'none'; }
+        """)
+        time.sleep(0.5)
+
         # Capturar cada slide usando los dots de navegacion
         screenshots = []
         print("  Capturando diapositivas...")
@@ -114,7 +131,7 @@ def export_pdf(url, output_path, lang="es", total_slides=10):
 
         # Ensamblar PDF
         print("  Ensamblando PDF...")
-        create_pdf(screenshots, output_path)
+        create_pdf(screenshots, slide_titles, output_path)
 
         print(f"\n  [OK] PDF generado: {output_path}")
         print(f"     {len(screenshots)} paginas - landscape")
@@ -123,25 +140,54 @@ def export_pdf(url, output_path, lang="es", total_slides=10):
         driver.quit()
 
 
-def create_pdf(png_list, output_path):
-    from PIL import Image
+def create_pdf(png_list, titles, output_path):
+    from PIL import Image, ImageDraw, ImageFont
     import io
 
-    images = []
-    for png_bytes in png_list:
-        img = Image.open(io.BytesIO(png_bytes)).convert("RGB")
-        images.append(img)
+    title_bar_h = 60  # px de alto para el título
+    sdx_dark = (0x2A, 0x29, 0x5C)
 
-    if not images:
+    # Intentar cargar fuente con soporte bold
+    try:
+        font = ImageFont.truetype("arialbd.ttf", 32)
+    except OSError:
+        try:
+            font = ImageFont.truetype("Arial Bold.ttf", 32)
+        except OSError:
+            try:
+                font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 32)
+            except OSError:
+                font = ImageFont.load_default()
+
+    pages = []
+    for idx, png_bytes in enumerate(png_list):
+        img = Image.open(io.BytesIO(png_bytes)).convert("RGB")
+        w, h = img.size
+        title_text = titles[idx] if idx < len(titles) else f"Slide {idx + 1}"
+
+        # Crear imagen con espacio para título arriba
+        page = Image.new("RGB", (w, h + title_bar_h), (255, 255, 255))
+        draw = ImageDraw.Draw(page)
+
+        # Dibujar título
+        draw.text((20, 12), title_text, fill=sdx_dark, font=font)
+        # Línea separadora azul debajo del título
+        draw.line([(0, title_bar_h - 2), (w, title_bar_h - 2)], fill=(0x28, 0x38, 0x97), width=3)
+
+        # Pegar la captura debajo
+        page.paste(img, (0, title_bar_h))
+        pages.append(page)
+
+    if not pages:
         print("  [WARN] No se capturaron imágenes")
         return
 
-    images[0].save(
+    pages[0].save(
         output_path,
         "PDF",
         resolution=150.0,
         save_all=True,
-        append_images=images[1:],
+        append_images=pages[1:],
     )
 
 

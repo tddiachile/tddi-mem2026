@@ -14,6 +14,7 @@ Opciones:
 import argparse
 import http.server
 import io
+import json
 import os
 import socket
 import sys
@@ -91,6 +92,24 @@ def export_pptx(url, output_path, lang="es", total_slides=12):
         """)
         time.sleep(1.5)
 
+        # Cargar títulos desde locales.json
+        locales_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "locales.json")
+        with open(locales_path, "r", encoding="utf-8") as f:
+            locales = json.load(f)
+        slide_titles = locales.get(lang, {}).get("segments", [])
+        # Rellenar si faltan
+        while len(slide_titles) < total_slides:
+            slide_titles.append(f"Slide {len(slide_titles) + 1}")
+
+        # Ocultar header y footer
+        driver.execute_script("""
+            const header = document.querySelector('.site-header');
+            const footer = document.querySelector('.slide-footer');
+            if (header) { header.style.height = '0'; header.style.overflow = 'hidden'; header.style.padding = '0'; header.style.border = 'none'; }
+            if (footer) { footer.style.height = '0'; footer.style.overflow = 'hidden'; footer.style.padding = '0'; footer.style.border = 'none'; }
+        """)
+        time.sleep(0.5)
+
         # Capturar cada slide
         screenshots = []
         print("  Capturando diapositivas...")
@@ -108,7 +127,7 @@ def export_pptx(url, output_path, lang="es", total_slides=12):
 
         # Ensamblar PPTX
         print("  Ensamblando PowerPoint...")
-        create_pptx(screenshots, output_path)
+        create_pptx(screenshots, slide_titles, output_path)
 
         print(f"\n  [OK] PPTX generado: {output_path}")
         print(f"     {len(screenshots)} diapositivas - widescreen 16:9")
@@ -117,9 +136,11 @@ def export_pptx(url, output_path, lang="es", total_slides=12):
         driver.quit()
 
 
-def create_pptx(png_list, output_path):
+def create_pptx(png_list, titles, output_path):
     from pptx import Presentation
-    from pptx.util import Emu
+    from pptx.util import Emu, Pt, Inches
+    from pptx.dml.color import RGBColor
+    from pptx.enum.text import PP_ALIGN
     from PIL import Image
 
     prs = Presentation()
@@ -129,26 +150,42 @@ def create_pptx(png_list, output_path):
     prs.slide_height = Emu(6858000)   # 7.5 pulgadas
 
     blank_layout = prs.slide_layouts[6]  # Layout en blanco
+    title_height = Inches(0.6)  # Altura reservada para el título
 
-    for png_bytes in png_list:
+    for idx, png_bytes in enumerate(png_list):
         slide = prs.slides.add_slide(blank_layout)
+        title_text = titles[idx] if idx < len(titles) else f"Slide {idx + 1}"
 
-        # Redimensionar imagen al tamaño del slide
+        # Agregar título en la parte superior
+        txBox = slide.shapes.add_textbox(
+            Inches(0.4), Inches(0.1), prs.slide_width - Inches(0.8), title_height
+        )
+        tf = txBox.text_frame
+        tf.word_wrap = True
+        p = tf.paragraphs[0]
+        p.text = title_text
+        p.font.size = Pt(22)
+        p.font.bold = True
+        p.font.color.rgb = RGBColor(0x2A, 0x29, 0x5C)  # sdx-dark
+        p.font.name = "Arial"
+        p.alignment = PP_ALIGN.LEFT
+
+        # Redimensionar imagen debajo del título
         img = Image.open(io.BytesIO(png_bytes))
         img_width, img_height = img.size
 
         slide_w = prs.slide_width
-        slide_h = prs.slide_height
+        available_h = prs.slide_height - title_height - Inches(0.15)
 
-        # Escalar manteniendo aspect ratio y centrar
+        # Escalar manteniendo aspect ratio
         scale_w = slide_w / img_width
-        scale_h = slide_h / img_height
+        scale_h = available_h / img_height
         scale = min(scale_w, scale_h)
 
         final_w = int(img_width * scale)
         final_h = int(img_height * scale)
         left = (slide_w - final_w) // 2
-        top = (slide_h - final_h) // 2
+        top = title_height + Inches(0.15)
 
         img_stream = io.BytesIO(png_bytes)
         slide.shapes.add_picture(img_stream, left, top, final_w, final_h)
