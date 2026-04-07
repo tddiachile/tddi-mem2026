@@ -58,16 +58,17 @@
       "investSub": "Proyectos Cerrados",
       "investValue": "1,1 M€",
       "investPeriod": "FY22–FY25",
-      "titlesub": "Estrategia tecnológica",
+      "titlesub": "Tres pilares de Sodexo Chile",
       "northTitle": "Nuestro Norte",
-      "triTop": ["Time to Market", "Eficiencia de Costos"],
+      "triTop": ["Time to Market", "Eficiencia de Costos", "Productividad"],
       "triRight": ["Sistema de Sodexo Global", "Servicios SaaS", "Desarrollo"],
       "triLeft": ["Seguridad & Cloud"],
       "northFrontCount": "26",
       "northFrontLabel": "FRONT / SEGMENTO",
       "northBackCount": "61",
       "northBackLabel": "BACK / SUPPORT",
-      "northProjectsSuffix": "proyectos"
+      "northProjectsSuffix": "proyectos",
+      "northDesc": "La estrategia de TDDI de Sodexo Chile existe para convertir la tecnología en resultados concretos para el negocio.\nNuestra estrategia se orienta por tres ejes. Primero, llegar rápido al mercado y ser eficientes en costos. Segundo, construir sobre una base segura — la seguridad es una condición no negociable, no un complemento. Tercero, usar las plataformas correctas — aprovechamos los sistemas globales de Sodexo, adoptamos soluciones SaaS cuando corresponde y desarrollamos soluciones propias cuando la necesidad local lo exige, siendo siempre dueños del código. No somos un equipo de soporte técnico. Somos un socio estratégico del negocio, alineado con los cinco pilares tecnológicos globales de Sodexo, con capacidad de generar soluciones que hoy se replican en otros países de la región."
     },
     "trajectory": {
       "heading": "trayectoria del área",
@@ -638,16 +639,17 @@
       "investSub": "Closed Projects",
       "investValue": "1.1 M€",
       "investPeriod": "FY22–FY25",
-      "titlesub": "Technology strategy",
+      "titlesub": "Three pillars of Sodexo Chile",
       "northTitle": "Our North",
-      "triTop": ["Time to Market", "Cost Efficiency"],
+      "triTop": ["Time to Market", "Cost Efficiency", "Productivity"],
       "triRight": ["Sodexo Global System", "SaaS Services", "Development"],
       "triLeft": ["Security & Cloud"],
       "northFrontCount": "26",
       "northFrontLabel": "FRONT / SEGMENT",
       "northBackCount": "61",
       "northBackLabel": "BACK / SUPPORT",
-      "northProjectsSuffix": "projects"
+      "northProjectsSuffix": "projects",
+      "northDesc": "Sodexo Chile's TDDI strategy exists to turn technology into concrete business results.\nOur strategy is guided by three axes. First, getting to market fast and being cost-efficient. Second, building on a secure foundation — security is a non-negotiable condition, not an add-on. Third, using the right platforms — we leverage Sodexo's global systems, adopt SaaS solutions when appropriate, and develop our own solutions when local needs demand it, always owning the code. We are not a technical support team. We are a strategic business partner, aligned with Sodexo's five global technology pillars, with the ability to generate solutions that are now being replicated in other countries across the region."
     },
     "trajectory": {
       "heading": "area trajectory",
