@@ -415,8 +415,10 @@
       "card2Sites": "40 sitios",
       "impactLabel": "Impacto clave",
       "sitesLabel": "Sitios activos",
-      "card3Name": "Migración a aplicaciones globales",
-      "card3Items": [
+      "card3Name": "Keystone",
+      "card3Desc": "Keystone es la nueva plataforma digital unificada de Sodexo, impulsada por Salesforce, diseñada para consolidar y reemplazar los sistemas heredados Maximo y D365 en la gestión de instalaciones (FM). Integra seis módulos: gestión de activos, órdenes de trabajo, solicitudes de servicio, programación y optimización, gestión de proveedores, y analítica e informes. Mediante inteligencia artificial, ofrece una visión 360° en tiempo real de activos, solicitudes, proveedores y dashboards de desempeño, permitiendo mantenimiento predictivo y optimización de rutas.",
+      "card4Name": "Migración a aplicaciones globales",
+      "card4Items": [
         { "from": "Checking Plan", "to": "SMS", "status": "Migración Activa" },
         { "from": "Synchroteam", "to": "SMS", "status": "Migración Activa" },
         { "from": "Máximo", "to": "Keystone", "status": "Migración Activa" },
@@ -470,12 +472,18 @@
       "devClosing": "Un equipo que no depende de un solo lenguaje ni de un solo paradigma — adaptable a cada necesidad del negocio."
     },
     "gbsTransition": {
+      "introText": "Global Business Services (GBS) supervisa la transición de tres áreas fundamentales de nuestras operaciones de TI: GSD, AMS, IMS.\nEl objetivo de esta iniciativa es transferir exitosamente estos servicios a nuestro socio estratégico, Tata Consulting Services (TCS), permitiendo una mayor eficiencia operativa, consistencia en el servicio y escalabilidad global.",
+      "introBullets": [
+        { "key": "GSD", "desc": "Servicio de Atención Global" },
+        { "key": "AMS", "desc": "Soporte de Aplicaciones" },
+        { "key": "IMS", "desc": "Soporte de Infraestructura" }
+      ],
       "achievementsTitle": "Logros",
       "nextStepsTitle": "Próximos pasos",
       "risksTitle": "Riesgos",
       "alertsTitle": "Alertas y decisiones esperadas",
       "achievements": [
-        { "label": "GSD", "sub": ["Septiembre 2026"] },
+        { "label": "GSD", "sub": ["Septiembre 2025"] },
         { "label": "AMS", "sub": ["Enero 2026: SAP", "Febrero 2026: WebReporting"] }
       ],
       "nextSteps": [
@@ -493,34 +501,23 @@
       ]
     },
     "ticketStatus": {
-      "months": ["sep-25", "oct-25", "nov-25", "dic-25", "ene-26", "feb-26", "mar-26"],
-      "rows": [
-        { "label": "Creados por TCS", "values": [805, 1080, 688, 827, 814, 763, 952], "color": "#283897" },
-        { "label": "Resueltos por TCS", "values": [794, 1053, 679, 814, 812, 756, 878], "color": "#283897" },
-        { "label": "Creados por IT Local", "values": [285, 228, 219, 273, 347, 298, 300], "color": "#EF661A" },
-        { "label": "Resueltos por IT Local", "values": [282, 222, 216, 264, 341, 283, 258], "color": "#EF661A" },
-        { "label": "Total", "values": [1090, 1308, 907, 1100, 1161, 1061, 1252], "bold": true }
-      ],
-      "pctRows": [
-        { "label": "Creados por TCS", "values": ["74%", "83%", "76%", "75%", "70%", "72%", "76%"], "color": "#283897" },
-        { "label": "Resueltos por TCS", "values": ["73%", "81%", "75%", "74%", "70%", "71%", "70%"], "color": "#283897" }
-      ],
-      "chartTitle": "Distribución de tickets por mes",
+      "period": "Septiembre 2025 – Marzo 2026",
+      "createdTitle": "Tickets creados",
+      "resolvedTitle": "Tickets resueltos",
+      "createdTotal": 7879,
+      "resolvedTotal": 7652,
+      "createdTcsPct": 75,
+      "createdLocalPct": 25,
+      "resolvedTcsPct": 76,
+      "resolvedLocalPct": 24,
       "legendTCS": "Creados por TCS",
-      "legendLocal": "Creados por IT Local",
-      "chartData": [
-        { "month": "sep-25", "tcs": 805, "local": 285 },
-        { "month": "oct-25", "tcs": 1080, "local": 228 },
-        { "month": "nov-25", "tcs": 688, "local": 219 },
-        { "month": "dic-25", "tcs": 827, "local": 273 },
-        { "month": "ene-26", "tcs": 814, "local": 347 },
-        { "month": "feb-26", "tcs": 763, "local": 298 },
-        { "month": "mar-26", "tcs": 952, "local": 300 }
-      ],
+      "legendLocal": "Creados por IT local",
+      "legendTCSResolved": "Resueltos por TCS",
+      "legendLocalResolved": "Resueltos por IT local",
       "highlightsTitle": "Puntos clave",
       "highlights": [
         "La tasa promedio de creación de tickets es 75% y la resolución promedio 74% por parte de TCS desde sep-25.",
-        "El equipo de IT local crea tickets localmente solo para el soporte de proximidad que TCS no puede entregar de forma remota."
+        "El equipo de IT local crea y resuelve tickets localmente solo para el soporte de proximidad que TCS no puede entregar de forma remota."
       ]
     },
     "securityBaseline": {
@@ -541,9 +538,9 @@
       ],
       "actionPlanTitle": "Plan de acción prioritario",
       "actionItems": [
-        { "title": "Capacitación de seguridad", "text": "Muestra una baja participación de empleados. Para revertir esta situación, se lanzará una campaña masiva y se buscará apoyo a través del CLT para impulsar los esfuerzos." },
-        { "title": "Obsolescencia", "text": "Después de múltiples intentos para que los usuarios actualicen sus sistemas operativos — incluyendo solicitudes de compra de equipos y renovaciones sin respuesta — más de 130 estaciones de trabajo fueron bloqueadas permanentemente." },
-        { "title": "Hardening", "text": "Se está desarrollando un plan para asegurar la instalación de todos los parches de seguridad en los sistemas de producción." }
+        { "title": "Annual security training competition.", "text": "El país muestra una baja participación de empleados. Para revertir esta situación, se relanzará una campaña masiva y se buscará apoyo a través del CLT para impulsar los esfuerzos." },
+        { "title": "Obsolescence management:", "text": "Tras múltiples intentos fallidos de que los usuarios actualicen sus sistemas operativos — incluyendo solicitudes de compra y renovación de equipos sin respuesta — se procedió al bloqueo permanente de más de 130 estaciones de trabajo para forzar su renovación por parte de la operación." },
+        { "title": "Hardening:", "text": "Se está desarrollando un plan para asegurar la instalación de todos los parches de seguridad en los sistemas de producción aprovechando Tanium." }
       ]
     },
     "improvements": {
@@ -554,7 +551,7 @@
       "strategyNote": "Chile ejecuta activamente esta estrategia en sus proyectos locales.",
       "strategyImage": "assets/pilares.png",
       "needsTag": "CHILE NECESITA",
-      "needsItems": ["Enfoque de tiempo al mercado", "Eficiencia en costos", "Mejora de procesos de negocio"],
+      "needsItems": ["Enfoque de time to market", "Eficiencia en costos", "Mejora de procesos de negocio"],
       "ensuringTag": "ASEGURANDO",
       "ensuringItems": ["Cumplimiento integral", "Cumplimiento de protocolos de seguridad"],
       "evidenceLabel": "Evidencia concreta · Casos reales de impacto",
@@ -998,8 +995,10 @@
       "card2Sites": "40 sites",
       "impactLabel": "Key impact",
       "sitesLabel": "Active sites",
-      "card3Name": "Migration to global applications",
-      "card3Items": [
+      "card3Name": "Keystone",
+      "card3Desc": "Keystone is Sodexo's new unified digital platform, powered by Salesforce, designed to consolidate and replace legacy systems Maximo and D365 in facilities management (FM). It integrates six modules: asset management, work orders, service requests, scheduling and optimization, vendor management, and analytics and reporting. Through artificial intelligence, it offers a 360° real-time view of assets, requests, vendors, and performance dashboards, enabling predictive maintenance and route optimization.",
+      "card4Name": "Migration to global applications",
+      "card4Items": [
         { "from": "Checking Plan", "to": "SMS", "status": "Active Migration" },
         { "from": "Synchroteam", "to": "SMS", "status": "Active Migration" },
         { "from": "Máximo", "to": "Keystone", "status": "Active Migration" },
@@ -1053,12 +1052,18 @@
       "devClosing": "A team that doesn't depend on a single language or paradigm — adaptable to every business need."
     },
     "gbsTransition": {
+      "introText": "Global Business Services (GBS) oversees the transition of three fundamental areas of our IT operations: GSD, AMS, IMS.\nThe goal of this initiative is to successfully transfer these services to our strategic partner, Tata Consulting Services (TCS), enabling greater operational efficiency, service consistency, and global scalability.",
+      "introBullets": [
+        { "key": "GSD", "desc": "Global Service Desk" },
+        { "key": "AMS", "desc": "Application Support" },
+        { "key": "IMS", "desc": "Infrastructure Support" }
+      ],
       "achievementsTitle": "Achievements",
       "nextStepsTitle": "Next Steps",
       "risksTitle": "Risks",
       "alertsTitle": "Alerts & Expected Decisions",
       "achievements": [
-        { "label": "GSD", "sub": ["September 2026"] },
+        { "label": "GSD", "sub": ["September 2025"] },
         { "label": "AMS", "sub": ["January 2026: SAP", "February 2026: WebReporting"] }
       ],
       "nextSteps": [
@@ -1076,34 +1081,23 @@
       ]
     },
     "ticketStatus": {
-      "months": ["sep-25", "oct-25", "nov-25", "dec-25", "jan-26", "feb-26", "mar-26"],
-      "rows": [
-        { "label": "Created by TCS", "values": [805, 1080, 688, 827, 814, 763, 952], "color": "#283897" },
-        { "label": "Resolved by TCS", "values": [794, 1053, 679, 814, 812, 756, 878], "color": "#283897" },
-        { "label": "Created by Local IT", "values": [285, 228, 219, 273, 347, 298, 300], "color": "#EF661A" },
-        { "label": "Resolved by Local IT", "values": [282, 222, 216, 264, 341, 283, 258], "color": "#EF661A" },
-        { "label": "Total", "values": [1090, 1308, 907, 1100, 1161, 1061, 1252], "bold": true }
-      ],
-      "pctRows": [
-        { "label": "Created by TCS", "values": ["74%", "83%", "76%", "75%", "70%", "72%", "76%"], "color": "#283897" },
-        { "label": "Resolved by TCS", "values": ["73%", "81%", "75%", "74%", "70%", "71%", "70%"], "color": "#283897" }
-      ],
-      "chartTitle": "Ticket distribution by month",
+      "period": "September 2025 – March 2026",
+      "createdTitle": "Tickets created",
+      "resolvedTitle": "Tickets resolved",
+      "createdTotal": 7879,
+      "resolvedTotal": 7652,
+      "createdTcsPct": 75,
+      "createdLocalPct": 25,
+      "resolvedTcsPct": 76,
+      "resolvedLocalPct": 24,
       "legendTCS": "Created by TCS",
       "legendLocal": "Created by Local IT",
-      "chartData": [
-        { "month": "sep-25", "tcs": 805, "local": 285 },
-        { "month": "oct-25", "tcs": 1080, "local": 228 },
-        { "month": "nov-25", "tcs": 688, "local": 219 },
-        { "month": "dec-25", "tcs": 827, "local": 273 },
-        { "month": "jan-26", "tcs": 814, "local": 347 },
-        { "month": "feb-26", "tcs": 763, "local": 298 },
-        { "month": "mar-26", "tcs": 952, "local": 300 }
-      ],
+      "legendTCSResolved": "Resolved by TCS",
+      "legendLocalResolved": "Resolved by Local IT",
       "highlightsTitle": "Key Highlights",
       "highlights": [
         "The average ticket creation rate is 75% and the average ticket resolution 74% from TCS since Sep-25.",
-        "The local IT team creates tickets locally only for the proximity support which cannot be provided by TCS remotely."
+        "The local IT team creates and resolves tickets locally only for the proximity support which cannot be provided by TCS remotely."
       ]
     },
     "securityBaseline": {
@@ -1124,9 +1118,9 @@
       ],
       "actionPlanTitle": "Priority Action Plan",
       "actionItems": [
-        { "title": "Security training", "text": "Shows poor employee participation. To reverse this situation, a massive campaign will be launched and support will be sought through the CLT to push the efforts." },
-        { "title": "Obsolescence", "text": "After multiple attempts to get users to update their operating systems — including requests for equipment purchases and renewals that received no response — more than 130 workstations were permanently blocked." },
-        { "title": "Hardening", "text": "A plan is being developed to ensure the installation of all security patches across production systems." }
+        { "title": "Annual security training competition.", "text": "The country shows a poor employee participation. To reverse this situation, a massive campaign will be relaunched, and support will be sought through the CLT to push the efforts." },
+        { "title": "Obsolescence management:", "text": "After multiple failed attempts to get users to update their operating systems — including unanswered requests for equipment purchases and renewals — more than 130 workstations were permanently blocked to force their renewal by the operation." },
+        { "title": "Hardening:", "text": "A plan is being developed to ensure the installation of all security patches across production systems leveraging Tanium." }
       ]
     },
     "improvements": {

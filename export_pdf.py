@@ -150,7 +150,7 @@ def main():
     parser.add_argument("--output", "-o", default="presentacion_tddi.pdf", help="Archivo PDF de salida")
     parser.add_argument("--port", "-p", type=int, default=0, help="Puerto del servidor (0=auto)")
     parser.add_argument("--lang", "-l", choices=["es", "en"], default="es", help="Idioma")
-    parser.add_argument("--slides", "-s", type=int, default=10, help="Número de diapositivas")
+    parser.add_argument("--slides", "-s", type=int, default=12, help="Número de diapositivas")
     parser.add_argument("--url", "-u", default=None, help="URL directa (omite servidor local)")
     args = parser.parse_args()
 
