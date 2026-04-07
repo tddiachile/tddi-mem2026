@@ -555,40 +555,40 @@
       const DecisionGate = () => (
         <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: 'clamp(68px, 8.5vw, 108px)', gap: 5 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 3, width: '100%' }}>
-            <span style={{ color: M.green, fontSize: 'clamp(0.44rem, 0.68vw, 0.58rem)', fontWeight: 800, textTransform: 'uppercase', whiteSpace: 'nowrap' }}>✓ {tm.approved}</span>
+            <span style={{ color: M.green, fontSize: 'clamp(0.55rem, 0.85vw, 0.72rem)', fontWeight: 800, textTransform: 'uppercase', whiteSpace: 'nowrap' }}>✓ {tm.approved}</span>
             <div style={{ flex: 1, height: 2, background: M.green, minWidth: 8 }} />
             <div style={{ width: 0, height: 0, borderTop: '5px solid transparent', borderBottom: '5px solid transparent', borderLeft: '7px solid ' + M.green }} />
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 4, background: '#fdecea', border: '1px solid #f5c0b8', borderRadius: 6, padding: '3px 7px' }}>
             <span style={{ color: M.red, fontSize: '0.72rem', fontWeight: 700 }}>✕</span>
-            <span style={{ color: M.red, fontSize: 'clamp(0.42rem, 0.63vw, 0.56rem)', fontWeight: 700, whiteSpace: 'nowrap' }}>{tm.notContinue}</span>
+            <span style={{ color: M.red, fontSize: 'clamp(0.52rem, 0.8vw, 0.68rem)', fontWeight: 700, whiteSpace: 'nowrap' }}>{tm.notContinue}</span>
           </div>
         </div>
       );
 
       /* Tarjeta de flujo */
       const WfCard = ({ step, color, iconEl }) => (
-        <div style={{ flex: 1, background: 'white', borderRadius: 12, border: '1px solid #e0e4f0', borderTopWidth: 3, borderTopColor: color, boxShadow: '0 2px 10px rgba(40,56,151,0.07)', padding: 'clamp(0.45rem, 0.8vw, 0.85rem) clamp(0.4rem, 0.7vw, 0.75rem)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', minWidth: 0, overflow: 'hidden' }}>
-          <div style={{ width: 'clamp(30px, 3.6vw, 44px)', height: 'clamp(30px, 3.6vw, 44px)', borderRadius: step.members ? 10 : '50%', background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'clamp(0.3rem, 0.5vw, 0.5rem)', flexShrink: 0 }}>{iconEl}</div>
-          <div style={{ color, fontSize: 'clamp(0.54rem, 0.88vw, 0.74rem)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em', fontFamily: 'Arial, sans-serif', marginBottom: 'clamp(0.2rem, 0.35vw, 0.35rem)', lineHeight: 1.25 }}>{step.title}</div>
-          <p style={{ fontSize: 'clamp(0.55rem, 0.88vw, 0.78rem)', color: '#555', lineHeight: 1.45, margin: '0 0 clamp(0.15rem, 0.3vw, 0.3rem)', flex: step.members ? 0 : 1 }}>{step.text}</p>
+        <div style={{ flex: 1, background: 'white', borderRadius: 12, border: '1px solid #e0e4f0', borderTopWidth: 3, borderTopColor: color, boxShadow: '0 2px 10px rgba(40,56,151,0.07)', padding: 'clamp(0.55rem, 0.9vw, 0.95rem) clamp(0.5rem, 0.8vw, 0.85rem)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', minWidth: 0, overflow: 'hidden' }}>
+          <div style={{ width: 'clamp(34px, 4vw, 50px)', height: 'clamp(34px, 4vw, 50px)', borderRadius: step.members ? 10 : '50%', background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'clamp(0.3rem, 0.5vw, 0.5rem)', flexShrink: 0 }}>{iconEl}</div>
+          <div style={{ color, fontSize: 'clamp(0.7rem, 1.1vw, 0.95rem)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em', fontFamily: 'Arial, sans-serif', marginBottom: 'clamp(0.2rem, 0.35vw, 0.35rem)', lineHeight: 1.25 }}>{step.title}</div>
+          <p style={{ fontSize: 'clamp(0.68rem, 1.05vw, 0.92rem)', color: '#555', lineHeight: 1.5, margin: '0 0 clamp(0.15rem, 0.3vw, 0.3rem)', flex: step.members ? 0 : 1 }}>{step.text}</p>
           {step.members && (
             <div style={{ width: '100%', borderTop: '1px solid #eef0f8', paddingTop: 'clamp(0.25rem, 0.45vw, 0.4rem)', flex: 1, minHeight: 0 }}>
-              <div style={{ fontSize: 'clamp(0.36rem, 0.5vw, 0.45rem)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#bbb', marginBottom: 2, textAlign: 'center' }}>{tm.composedBy}</div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1px 0.4rem' }}>
+              <div style={{ fontSize: 'clamp(0.45rem, 0.65vw, 0.55rem)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#bbb', marginBottom: 3, textAlign: 'center' }}>{tm.composedBy}</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px 0.5rem' }}>
                 {step.members.map((m, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '1px 0', textAlign: 'left' }}>
-                    <div style={{ width: 4, height: 4, borderRadius: '50%', background: color, flexShrink: 0 }} />
-                    <span style={{ color: '#555', fontSize: 'clamp(0.4rem, 0.62vw, 0.55rem)' }}>{m}</span>
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '1px 0', textAlign: 'left' }}>
+                    <div style={{ width: 5, height: 5, borderRadius: '50%', background: color, flexShrink: 0 }} />
+                    <span style={{ color: '#555', fontSize: 'clamp(0.52rem, 0.8vw, 0.68rem)' }}>{m}</span>
                   </div>
                 ))}
               </div>
             </div>
           )}
           {step.badges && (
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 3, marginTop: 'clamp(0.25rem, 0.45vw, 0.4rem)', width: '100%' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 4, marginTop: 'clamp(0.25rem, 0.45vw, 0.4rem)', width: '100%' }}>
               {step.badges.map((b, i) => (
-                <span key={i} style={{ background: color, color: 'white', borderRadius: 20, padding: '2px clamp(5px, 0.6vw, 8px)', fontSize: 'clamp(0.48rem, 0.75vw, 0.65rem)', fontWeight: 700 }}>{b}</span>
+                <span key={i} style={{ background: color, color: 'white', borderRadius: 20, padding: '3px clamp(6px, 0.7vw, 10px)', fontSize: 'clamp(0.58rem, 0.9vw, 0.78rem)', fontWeight: 700 }}>{b}</span>
               ))}
             </div>
           )}
@@ -606,7 +606,7 @@
           <div style={{ display: 'flex', alignItems: 'center', padding: 'clamp(0.3rem, 0.55vw, 0.5rem) 1.5rem clamp(0.2rem, 0.4vw, 0.35rem)', flexShrink: 0 }}>
             <div style={{ display: 'flex', gap: 'clamp(0.5rem, 1.2vw, 1rem)', flex: 1, justifyContent: 'center', flexWrap: 'wrap' }}>
               {bullets.map((b, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'white', border: '1px solid #e0e4f0', borderRadius: 30, padding: 'clamp(0.2rem, 0.35vw, 0.32rem) clamp(0.6rem, 1vw, 1rem)', boxShadow: '0 2px 8px rgba(40,56,151,0.07)', fontSize: 'clamp(0.58rem, 0.92vw, 0.76rem)', fontWeight: 700, color: M.dark }}>
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'white', border: '1px solid #e0e4f0', borderRadius: 30, padding: 'clamp(0.25rem, 0.4vw, 0.38rem) clamp(0.7rem, 1.1vw, 1.1rem)', boxShadow: '0 2px 8px rgba(40,56,151,0.07)', fontSize: 'clamp(0.7rem, 1.1vw, 0.92rem)', fontWeight: 700, color: M.dark }}>
                   <div style={{ width: 7, height: 7, borderRadius: '50%', background: bulletColors[i] || M.blue, flexShrink: 0 }} />
                   {b}
                 </div>
@@ -614,7 +614,7 @@
             </div>
             <a
               href="pages/metodo_trabajo.html"
-              style={{ background: M.blue, color: 'white', fontSize: 'clamp(0.53rem, 0.82vw, 0.7rem)', fontWeight: 700, padding: '0.28rem 0.85rem', borderRadius: 7, textDecoration: 'none', letterSpacing: '0.03em', transition: 'background 180ms ease', marginLeft: '0.6rem', flexShrink: 0 }}
+              style={{ background: M.blue, color: 'white', fontSize: 'clamp(0.65rem, 1vw, 0.85rem)', fontWeight: 700, padding: '0.35rem 1rem', borderRadius: 7, textDecoration: 'none', letterSpacing: '0.03em', transition: 'background 180ms ease', marginLeft: '0.6rem', flexShrink: 0 }}
               onMouseEnter={e => e.currentTarget.style.background = '#1e2c7a'}
               onMouseLeave={e => e.currentTarget.style.background = M.blue}
             >
@@ -627,7 +627,7 @@
             {wf.map((step, i) => (
               <React.Fragment key={i}>
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 0 }}>
-                  <div style={{ fontSize: 'clamp(0.47rem, 0.72vw, 0.61rem)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#b0b8d0', marginBottom: 'clamp(0.2rem, 0.38vw, 0.38rem)', textAlign: 'center' }}>{step.label}</div>
+                  <div style={{ fontSize: 'clamp(0.6rem, 0.92vw, 0.78rem)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#b0b8d0', marginBottom: 'clamp(0.2rem, 0.38vw, 0.38rem)', textAlign: 'center' }}>{step.label}</div>
                   <WfCard step={step} color={stepColors[i]} iconEl={STEP_ICONS[i]} />
                 </div>
                 {i < wf.length - 1 && (step.gate ? <DecisionGate /> : <SimpleArrow />)}
@@ -643,18 +643,18 @@
 
             {/* Seguridad */}
             <div style={{ flex: 1, background: 'white', borderRadius: 12, border: '1px solid #e0e4f0', borderTopWidth: 4, borderTopColor: M.red, boxShadow: '0 2px 10px rgba(40,56,151,0.07)', padding: 'clamp(0.5rem, 0.85vw, 0.8rem) clamp(0.55rem, 0.9vw, 0.85rem)', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-              <div style={{ color: M.red, fontWeight: 800, fontSize: 'clamp(0.63rem, 1vw, 0.83rem)', textTransform: 'uppercase', letterSpacing: '0.04em', fontFamily: 'Arial, sans-serif', marginBottom: 4 }}>{tm.securityTitle || 'Seguridad'}</div>
-              <p style={{ fontSize: 'clamp(0.6rem, 0.95vw, 0.82rem)', color: '#555', lineHeight: 1.55, margin: 0, flex: 1 }}>{tm.securityDesc || 'Todos los proyectos pasan por el proceso de seguridad regional.'}</p>
+              <div style={{ color: M.red, fontWeight: 800, fontSize: 'clamp(0.78rem, 1.2vw, 1.02rem)', textTransform: 'uppercase', letterSpacing: '0.04em', fontFamily: 'Arial, sans-serif', marginBottom: 5 }}>{tm.securityTitle || 'Seguridad'}</div>
+              <p style={{ fontSize: 'clamp(0.72rem, 1.12vw, 0.95rem)', color: '#555', lineHeight: 1.55, margin: 0, flex: 1 }}>{tm.securityDesc || 'Todos los proyectos pasan por el proceso de seguridad regional.'}</p>
               <div style={{ textAlign: 'center', fontSize: 'clamp(1.2rem, 2.2vw, 1.8rem)', marginTop: 'auto', paddingTop: 3 }}>🔒</div>
             </div>
 
             {/* Tipos de Solución */}
             <div style={{ flex: 1, background: 'white', borderRadius: 12, border: '1px solid #e0e4f0', borderTopWidth: 4, borderTopColor: M.blue, boxShadow: '0 2px 10px rgba(40,56,151,0.07)', padding: 'clamp(0.5rem, 0.85vw, 0.8rem) clamp(0.55rem, 0.9vw, 0.85rem)', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-              <div style={{ color: M.blue, fontWeight: 800, fontSize: 'clamp(0.63rem, 1vw, 0.83rem)', textTransform: 'uppercase', letterSpacing: '0.04em', fontFamily: 'Arial, sans-serif', marginBottom: 4 }}>{tm.solutionTitle || 'Tipos de Solución'}</div>
-              <p style={{ fontSize: 'clamp(0.6rem, 0.95vw, 0.82rem)', color: '#555', lineHeight: 1.55, margin: '0 0 5px' }}>{tm.solutionDesc || 'Trabajamos con las siguientes plataformas:'}</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              <div style={{ color: M.blue, fontWeight: 800, fontSize: 'clamp(0.78rem, 1.2vw, 1.02rem)', textTransform: 'uppercase', letterSpacing: '0.04em', fontFamily: 'Arial, sans-serif', marginBottom: 5 }}>{tm.solutionTitle || 'Tipos de Solución'}</div>
+              <p style={{ fontSize: 'clamp(0.72rem, 1.12vw, 0.95rem)', color: '#555', lineHeight: 1.55, margin: '0 0 6px' }}>{tm.solutionDesc || 'Trabajamos con las siguientes plataformas:'}</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                 {(tm.solutionItems || []).map((item, i) => (
-                  <div key={i} style={{ background: '#f0f2f8', borderRadius: 5, padding: 'clamp(2px, 0.3vw, 4px) clamp(5px, 0.7vw, 9px)', fontSize: 'clamp(0.5rem, 0.78vw, 0.66rem)', color: M.dark, fontWeight: 600 }}>{item}</div>
+                  <div key={i} style={{ background: '#f0f2f8', borderRadius: 5, padding: 'clamp(3px, 0.4vw, 5px) clamp(6px, 0.8vw, 10px)', fontSize: 'clamp(0.62rem, 0.95vw, 0.82rem)', color: M.dark, fontWeight: 600 }}>{item}</div>
                 ))}
               </div>
               <div style={{ textAlign: 'center', fontSize: 'clamp(1.2rem, 2.2vw, 1.8rem)', marginTop: 'auto', paddingTop: 3 }}>💻</div>
@@ -662,20 +662,20 @@
 
             {/* Inteligencia Artificial */}
             <div style={{ flex: 1, background: 'white', borderRadius: 12, border: '1px solid #e0e4f0', borderTopWidth: 4, borderTopColor: M.purple, boxShadow: '0 2px 10px rgba(40,56,151,0.07)', padding: 'clamp(0.5rem, 0.85vw, 0.8rem) clamp(0.55rem, 0.9vw, 0.85rem)', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-              <div style={{ color: M.purple, fontWeight: 800, fontSize: 'clamp(0.63rem, 1vw, 0.83rem)', textTransform: 'uppercase', letterSpacing: '0.04em', fontFamily: 'Arial, sans-serif', marginBottom: 4 }}>{tm.aiTitle || 'Inteligencia Artificial'}</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 3, flex: 1 }}>
+              <div style={{ color: M.purple, fontWeight: 800, fontSize: 'clamp(0.78rem, 1.2vw, 1.02rem)', textTransform: 'uppercase', letterSpacing: '0.04em', fontFamily: 'Arial, sans-serif', marginBottom: 5 }}>{tm.aiTitle || 'Inteligencia Artificial'}</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flex: 1 }}>
                 {(aiData.items || []).map((item, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 4 }}>
-                    <span style={{ color: '#777', fontSize: 'clamp(0.6rem, 0.9vw, 0.75rem)', lineHeight: 1.3, flexShrink: 0 }}>•</span>
-                    <span style={{ fontSize: 'clamp(0.55rem, 0.88vw, 0.75rem)', color: '#444', lineHeight: 1.4 }}>
+                  <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 5 }}>
+                    <span style={{ color: '#777', fontSize: 'clamp(0.72rem, 1.1vw, 0.92rem)', lineHeight: 1.3, flexShrink: 0 }}>•</span>
+                    <span style={{ fontSize: 'clamp(0.68rem, 1.05vw, 0.9rem)', color: '#444', lineHeight: 1.45 }}>
                       {item.text} <span style={{ color: M.green, fontWeight: 700, fontStyle: 'italic' }}>{item.status}</span>
                     </span>
                   </div>
                 ))}
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 3, marginTop: 4 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 5 }}>
                 {(aiData.stack || []).map((s, i) => (
-                  <div key={i} style={{ background: '#f0f2f8', borderRadius: 5, padding: 'clamp(2px, 0.3vw, 4px) clamp(5px, 0.7vw, 9px)', fontSize: 'clamp(0.5rem, 0.78vw, 0.66rem)', color: M.dark, fontWeight: 600 }}>{s}</div>
+                  <div key={i} style={{ background: '#f0f2f8', borderRadius: 5, padding: 'clamp(3px, 0.4vw, 5px) clamp(6px, 0.8vw, 10px)', fontSize: 'clamp(0.62rem, 0.95vw, 0.82rem)', color: M.dark, fontWeight: 600 }}>{s}</div>
                 ))}
               </div>
             </div>
@@ -2341,8 +2341,16 @@
       );
     }
 
+    /* ── Modo TV: ?tv en la URL escala para pantallas 4K ──── */
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('tv')) {
+        document.documentElement.style.zoom = '1.5';
+      }
+    })();
+
     /* ── Cargar traducciones y montar la app ────────────────── */
-    fetch('locales.json?v=23')
+    fetch('locales.json?v=24')
       .then(r => r.json())
       .then(locales => {
         ReactDOM.createRoot(document.getElementById('root')).render(<App locales={locales} />);
