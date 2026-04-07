@@ -204,20 +204,17 @@
       const NH_P = nhArea(proyStaff);   /* ≈ 112 px */
       const NH_I = nhArea(infraStaff);  /* ≈ 150 px */
 
-      /* Jerarquía D3 — sólo 3 niveles; staff va en data.staff */
+      /* Jerarquía D3 — 2 niveles; staff va en data.staff */
       const data = {
-        name: 'Francisco González', role: ta.directorRole, color: C.dark, nh: NH0,
-        children: [{
-          name: 'Marcelo Fernández', role: 'CIO', color: C.blue, nh: NH0,
-          children: [
-            { name: ta.projectsArea, color: C.sky,    nh: NH_P, staff: proyStaff, personCount: 8 },
-            { name: ta.infraSec, role: 'Erwin Morales', color: C.purple, nh: NH_I, staff: infraStaff, personCount: 11 },
-          ],
-        }],
+        name: 'Marcelo Fernández', role: 'CIO', color: C.blue, nh: NH0,
+        children: [
+          { name: ta.projectsArea, color: C.sky,    nh: NH_P, staff: proyStaff, personCount: 8 },
+          { name: ta.infraSec, role: 'Erwin Morales', color: C.purple, nh: NH_I, staff: infraStaff, personCount: 11 },
+        ],
       };
 
       /* Posiciones Y fijas por nivel (top-down manual) */
-      const yL = [0, NH0 + GAP_V, NH0 + GAP_V + NH0 + GAP_V];
+      const yL = [0, NH0 + GAP_V];
 
       /* D3 tree — sólo calcula la coordenada X (spread horizontal) */
       const root = d3.hierarchy(data);
@@ -231,11 +228,10 @@
         if (d.x > maxX) maxX = d.x;
       });
       const PAD = 14;
-      const BADGE_H = 52;   /* espacio extra en la parte superior para el badge */
       const vbX = minX - NW / 2 - PAD;
-      const vbY = -PAD - BADGE_H;
+      const vbY = -PAD - 50;
       const vbW = (maxX - minX) + NW + PAD * 2;
-      const vbH = yL[2] + Math.max(NH_P, NH_I) + PAD + BADGE_H;
+      const vbH = yL[1] + Math.max(NH_P, NH_I) + PAD * 2 + 50;
 
       d3.select(container).selectAll('svg').remove();
 
@@ -255,34 +251,6 @@
         .attr('dx', 0).attr('dy', 1).attr('stdDeviation', 2.5)
         .attr('flood-color', 'rgba(0,0,0,0.16)');
 
-      /* ── Badge: total equipo ── */
-      const rootX = root.x;
-      const badgeCy = -BADGE_H + 18;
-      const badgeG = svg.append('g').attr('filter', 'url(#nd-shadow)');
-      badgeG.append('circle')
-        .attr('cx', rootX).attr('cy', badgeCy).attr('r', 16)
-        .attr('fill', C.dark);
-      badgeG.append('text')
-        .attr('x', rootX).attr('y', badgeCy + 1)
-        .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
-        .attr('fill', 'white')
-        .attr('font-family', "'Open Sans',Arial,sans-serif")
-        .attr('font-size', '10px').attr('font-weight', '800')
-        .text(ta.teamTotal);
-      svg.append('text')
-        .attr('x', rootX).attr('y', badgeCy + 22)
-        .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
-        .attr('fill', '#aaa')
-        .attr('font-family', "'Open Sans',Arial,sans-serif")
-        .attr('font-size', '7px').attr('font-weight', '600')
-        .attr('letter-spacing', '0.08em')
-        .text(ta.teamTotalLabel.toUpperCase());
-      /* Línea conectora badge → raíz */
-      svg.append('line')
-        .attr('x1', rootX).attr('y1', badgeCy + 16)
-        .attr('x2', rootX).attr('y2', 0)
-        .attr('stroke', '#d0d5e8').attr('stroke-width', 1.5);
-
       /* ── Conectores — curvas Bézier verticales ── */
       svg.append('g')
         .selectAll('path')
@@ -300,7 +268,7 @@
 
       /* ── Nodos ── */
       root.descendants().forEach((d, i) => {
-        const isArea = d.depth === 2;
+        const isArea = d.depth === 1;
         const nh = d.data.nh;
         const g  = svg.append('g')
           .attr('transform', `translate(${d.x - NW / 2},${d.y})`)
@@ -417,6 +385,29 @@
           });
         }
       });
+
+      /* ── Badge: total equipo (entre Marcelo y las áreas, encima de todo) ── */
+      const rootX = root.x;
+      const badgeCy = yL[0] - 30;
+      const badgeG = svg.append('g').attr('filter', 'url(#nd-shadow)');
+      badgeG.append('circle')
+        .attr('cx', rootX).attr('cy', badgeCy).attr('r', 16)
+        .attr('fill', C.dark);
+      badgeG.append('text')
+        .attr('x', rootX).attr('y', badgeCy + 1)
+        .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
+        .attr('fill', 'white')
+        .attr('font-family', "'Open Sans',Arial,sans-serif")
+        .attr('font-size', '10px').attr('font-weight', '800')
+        .text(ta.teamTotal);
+      badgeG.append('text')
+        .attr('x', rootX).attr('y', badgeCy + 22)
+        .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
+        .attr('fill', '#aaa')
+        .attr('font-family', "'Open Sans',Arial,sans-serif")
+        .attr('font-size', '7px').attr('font-weight', '600')
+        .attr('letter-spacing', '0.08em')
+        .text(ta.teamTotalLabel.toUpperCase());
     }
 
     /* ── SEGMENTO 1 — Quiénes somos + Qué hacemos ────────────── */
@@ -580,22 +571,24 @@
         <div style={{ flex: 1, background: 'white', borderRadius: 12, border: '1px solid #e0e4f0', borderTopWidth: 3, borderTopColor: color, boxShadow: '0 2px 10px rgba(40,56,151,0.07)', padding: 'clamp(0.45rem, 0.8vw, 0.85rem) clamp(0.4rem, 0.7vw, 0.75rem)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', minWidth: 0, overflow: 'hidden' }}>
           <div style={{ width: 'clamp(30px, 3.6vw, 44px)', height: 'clamp(30px, 3.6vw, 44px)', borderRadius: step.members ? 10 : '50%', background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'clamp(0.3rem, 0.5vw, 0.5rem)', flexShrink: 0 }}>{iconEl}</div>
           <div style={{ color, fontSize: 'clamp(0.54rem, 0.88vw, 0.74rem)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em', fontFamily: 'Arial, sans-serif', marginBottom: 'clamp(0.2rem, 0.35vw, 0.35rem)', lineHeight: 1.25 }}>{step.title}</div>
-          <p style={{ fontSize: 'clamp(0.47rem, 0.73vw, 0.64rem)', color: '#555', lineHeight: 1.5, margin: '0 0 clamp(0.25rem, 0.4vw, 0.4rem)', flex: step.members ? 0 : 1 }}>{step.text}</p>
+          <p style={{ fontSize: step.members ? 'clamp(0.45rem, 0.72vw, 0.62rem)' : 'clamp(0.55rem, 0.88vw, 0.78rem)', color: '#555', lineHeight: 1.45, margin: '0 0 clamp(0.15rem, 0.3vw, 0.3rem)', flex: step.members ? 0 : 1 }}>{step.text}</p>
           {step.members && (
             <div style={{ width: '100%', borderTop: '1px solid #eef0f8', paddingTop: 'clamp(0.25rem, 0.45vw, 0.4rem)', flex: 1, minHeight: 0 }}>
               <div style={{ fontSize: 'clamp(0.42rem, 0.6vw, 0.53rem)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#bbb', marginBottom: 3, textAlign: 'center' }}>{tm.composedBy}</div>
-              {step.members.map((m, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '1px 0', textAlign: 'left' }}>
-                  <div style={{ width: 4, height: 4, borderRadius: '50%', background: color, flexShrink: 0 }} />
-                  <span style={{ color: '#555', fontSize: 'clamp(0.41rem, 0.63vw, 0.56rem)' }}>{m}</span>
-                </div>
-              ))}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1px 0.4rem' }}>
+                {step.members.map((m, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '1px 0', textAlign: 'left' }}>
+                    <div style={{ width: 4, height: 4, borderRadius: '50%', background: color, flexShrink: 0 }} />
+                    <span style={{ color: '#555', fontSize: 'clamp(0.48rem, 0.75vw, 0.65rem)' }}>{m}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
           {step.badges && (
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 3, marginTop: 'clamp(0.25rem, 0.45vw, 0.4rem)', width: '100%' }}>
               {step.badges.map((b, i) => (
-                <span key={i} style={{ background: color, color: 'white', borderRadius: 20, padding: '2px clamp(5px, 0.6vw, 8px)', fontSize: 'clamp(0.41rem, 0.62vw, 0.56rem)', fontWeight: 700 }}>{b}</span>
+                <span key={i} style={{ background: color, color: 'white', borderRadius: 20, padding: '2px clamp(5px, 0.6vw, 8px)', fontSize: 'clamp(0.48rem, 0.75vw, 0.65rem)', fontWeight: 700 }}>{b}</span>
               ))}
             </div>
           )}
@@ -651,14 +644,14 @@
             {/* Seguridad */}
             <div style={{ flex: 1, background: 'white', borderRadius: 12, border: '1px solid #e0e4f0', borderTopWidth: 4, borderTopColor: M.red, boxShadow: '0 2px 10px rgba(40,56,151,0.07)', padding: 'clamp(0.5rem, 0.85vw, 0.8rem) clamp(0.55rem, 0.9vw, 0.85rem)', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
               <div style={{ color: M.red, fontWeight: 800, fontSize: 'clamp(0.63rem, 1vw, 0.83rem)', textTransform: 'uppercase', letterSpacing: '0.04em', fontFamily: 'Arial, sans-serif', marginBottom: 4 }}>{tm.securityTitle || 'Seguridad'}</div>
-              <p style={{ fontSize: 'clamp(0.53rem, 0.82vw, 0.7rem)', color: '#555', lineHeight: 1.55, margin: 0, flex: 1 }}>{tm.securityDesc || 'Todos los proyectos pasan por el proceso de seguridad regional.'}</p>
+              <p style={{ fontSize: 'clamp(0.6rem, 0.95vw, 0.82rem)', color: '#555', lineHeight: 1.55, margin: 0, flex: 1 }}>{tm.securityDesc || 'Todos los proyectos pasan por el proceso de seguridad regional.'}</p>
               <div style={{ textAlign: 'center', fontSize: 'clamp(1.2rem, 2.2vw, 1.8rem)', marginTop: 'auto', paddingTop: 3 }}>🔒</div>
             </div>
 
             {/* Tipos de Solución */}
             <div style={{ flex: 1, background: 'white', borderRadius: 12, border: '1px solid #e0e4f0', borderTopWidth: 4, borderTopColor: M.blue, boxShadow: '0 2px 10px rgba(40,56,151,0.07)', padding: 'clamp(0.5rem, 0.85vw, 0.8rem) clamp(0.55rem, 0.9vw, 0.85rem)', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
               <div style={{ color: M.blue, fontWeight: 800, fontSize: 'clamp(0.63rem, 1vw, 0.83rem)', textTransform: 'uppercase', letterSpacing: '0.04em', fontFamily: 'Arial, sans-serif', marginBottom: 4 }}>{tm.solutionTitle || 'Tipos de Solución'}</div>
-              <p style={{ fontSize: 'clamp(0.53rem, 0.82vw, 0.7rem)', color: '#555', lineHeight: 1.55, margin: '0 0 5px' }}>{tm.solutionDesc || 'Trabajamos con las siguientes plataformas:'}</p>
+              <p style={{ fontSize: 'clamp(0.6rem, 0.95vw, 0.82rem)', color: '#555', lineHeight: 1.55, margin: '0 0 5px' }}>{tm.solutionDesc || 'Trabajamos con las siguientes plataformas:'}</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                 {(tm.solutionItems || []).map((item, i) => (
                   <div key={i} style={{ background: '#f0f2f8', borderRadius: 5, padding: 'clamp(2px, 0.3vw, 4px) clamp(5px, 0.7vw, 9px)', fontSize: 'clamp(0.5rem, 0.78vw, 0.66rem)', color: M.dark, fontWeight: 600 }}>{item}</div>
@@ -674,7 +667,7 @@
                 {(aiData.items || []).map((item, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 4 }}>
                     <span style={{ color: '#777', fontSize: 'clamp(0.6rem, 0.9vw, 0.75rem)', lineHeight: 1.3, flexShrink: 0 }}>•</span>
-                    <span style={{ fontSize: 'clamp(0.47rem, 0.73vw, 0.62rem)', color: '#444', lineHeight: 1.4 }}>
+                    <span style={{ fontSize: 'clamp(0.55rem, 0.88vw, 0.75rem)', color: '#444', lineHeight: 1.4 }}>
                       {item.text} <span style={{ color: M.green, fontWeight: 700, fontStyle: 'italic' }}>{item.status}</span>
                     </span>
                   </div>
@@ -949,37 +942,51 @@
             {/* Separador vertical */}
             <div style={{ width: 1, background: '#E2E8F0', margin: '1.5rem 0' }} />
 
-            {/* Columna derecha — Nuestro Norte */}
-            <div style={{ flex: 1, padding: '2rem 2.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5rem' }}>
+            {/* Columna derecha — Nuestro Norte (triángulo) */}
+            <div style={{ flex: 1, padding: '1.2rem 1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
 
-              {/* Título con línea decorativa */}
-              <div style={{ textAlign: 'center' }}>
-                <p style={{ color: C.blue, fontSize: 'clamp(0.65rem, 1.1vw, 0.8rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', letterSpacing: '0.18em', textTransform: 'uppercase', margin: '0 0 0.5rem' }}>
+              {/* Título */}
+              <div style={{ textAlign: 'center', marginBottom: '0.8rem' }}>
+                <p style={{ color: C.blue, fontSize: 'clamp(0.65rem, 1.1vw, 0.8rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', letterSpacing: '0.18em', textTransform: 'uppercase', margin: '0 0 0.3rem' }}>
                   {tm.titlesub}
                 </p>
-                <h2 style={{ color: C.dark, fontSize: 'clamp(1.5rem, 2.8vw, 2.1rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', margin: '0 0 0.6rem', lineHeight: 1.1 }}>
+                <h2 style={{ color: C.dark, fontSize: 'clamp(1.3rem, 2.4vw, 1.8rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', margin: 0, lineHeight: 1.1 }}>
                   {tm.northTitle}
                 </h2>
-                <div style={{ width: 48, height: 3, background: C.red, borderRadius: 2, margin: '0 auto' }} />
+                <div style={{ width: 48, height: 3, background: C.red, borderRadius: 2, margin: '0.4rem auto 0' }} />
               </div>
 
-              {/* Ítems 1, 2, 3 */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', width: '100%', maxWidth: 340 }}>
-                {[
-                  { label: tm.north1, accent: C.blue },
-                  { label: tm.north2, accent: C.sky  },
-                  { label: tm.north3, accent: C.green },
-                ].map((item, i) => (
-                  <div key={i} style={{
-                    display: 'flex', alignItems: 'center', gap: '0.85rem',
-                    background: '#F8FAFC', borderRadius: 10,
-                    padding: 'clamp(0.45rem, 0.9vw, 0.65rem) 1rem',
-                    borderLeft: `4px solid ${item.accent}`,
-                  }}>
-                    <span style={{ color: item.accent, fontSize: 'clamp(1.1rem, 2vw, 1.5rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', lineHeight: 1, minWidth: '1.6rem', textAlign: 'center' }}>{i + 1}</span>
-                    <span style={{ color: C.dark, fontSize: 'clamp(0.9rem, 1.6vw, 1.05rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif' }}>{item.label}</span>
-                  </div>
-                ))}
+              {/* Triángulo SVG con etiquetas */}
+              <div style={{ position: 'relative', width: '100%', maxWidth: 420, aspectRatio: '1.15 / 1' }}>
+                <svg viewBox="0 0 460 400" style={{ width: '100%', height: '100%' }}>
+                  {/* Triángulo principal */}
+                  <polygon points="230,40 430,360 30,360" fill={C.blue} opacity="0.12" stroke={C.blue} strokeWidth="3" />
+                  {/* Vértices — círculos */}
+                  <circle cx="230" cy="40" r="14" fill={C.blue} />
+                  <circle cx="430" cy="360" r="14" fill={C.green} />
+                  <circle cx="30" cy="360" r="14" fill={C.sky} />
+                </svg>
+
+                {/* Vértice superior — Time to Market + Eficiencia */}
+                <div style={{ position: 'absolute', top: '14%', left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: 'clamp(140px, 18vw, 200px)' }}>
+                  {(tm.triTop || []).map((t2, i) => (
+                    <div key={i} style={{ color: C.blue, fontSize: 'clamp(0.6rem, 1vw, 0.82rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', lineHeight: 1.4 }}>• {t2}</div>
+                  ))}
+                </div>
+
+                {/* Vértice derecho — Sistema Global, SaaS, Desarrollo */}
+                <div style={{ position: 'absolute', top: '98%', left: '93.5%', textAlign: 'left', width: 'clamp(130px, 16vw, 190px)', transform: 'translateX(-25%)' }}>
+                  {(tm.triRight || []).map((t2, i) => (
+                    <div key={i} style={{ color: C.green, fontSize: 'clamp(0.58rem, 0.95vw, 0.78rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', lineHeight: 1.5 }}>• {t2}</div>
+                  ))}
+                </div>
+
+                {/* Vértice izquierdo — Seguridad & Cloud */}
+                <div style={{ position: 'absolute', top: '98%', left: '6.5%', textAlign: 'left', width: 'clamp(130px, 16vw, 190px)', transform: 'translateX(-35%)' }}>
+                  {(tm.triLeft || []).map((t2, i) => (
+                    <div key={i} style={{ color: C.sky, fontSize: 'clamp(0.58rem, 0.95vw, 0.78rem)', fontWeight: 700, fontFamily: 'Arial, sans-serif', lineHeight: 1.5 }}>• {t2}</div>
+                  ))}
+                </div>
               </div>
 
             </div>
@@ -1002,17 +1009,18 @@
         fm:   { bg: 'linear-gradient(135deg, #34A866 0%, #4CC985 100%)', border: '#34A866' },
         log:  { bg: 'linear-gradient(135deg, #228085 0%, #2BA5AB 100%)', border: '#228085' },
         fin:  { bg: 'linear-gradient(135deg, #9E7B2F 0%, #C4A24E 100%)', border: '#9E7B2F' },
-        rrhh: { bg: 'linear-gradient(135deg, #B8860B 0%, #DAA520 100%)', border: '#B8860B' },
+        rrhh: { bg: 'linear-gradient(135deg, #7B2D8E 0%, #A855C8 100%)', border: '#7B2D8E' },
       };
 
       const AreaBlock = ({ area, style: extraStyle }) => {
-        const count = area.chips.length;
+        const count = area.count || area.chips.length;
         const s = AREA_STYLE[area.id] || AREA_STYLE.seg;
         const label = `${count} ${tp.countLabel}`;
+        const accentColor = s.border;
 
         return (
           <div style={{
-            background: s.bg,
+            background: 'white',
             borderRadius: 10,
             padding: 'clamp(0.5rem, 1vw, 0.8rem) clamp(0.6rem, 1.2vw, 1rem)',
             display: 'flex',
@@ -1021,12 +1029,12 @@
             overflow: 'hidden',
             minWidth: 0,
             minHeight: 0,
-            border: `2px solid ${s.border}`,
+            border: `2px solid ${accentColor}`,
             ...extraStyle,
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.5rem' }}>
               <h3 style={{
-                color: '#fff',
+                color: accentColor,
                 fontSize: 'clamp(0.8rem, 1.4vw, 1.1rem)',
                 fontWeight: 700,
                 fontFamily: 'Arial, sans-serif',
@@ -1034,8 +1042,8 @@
                 lineHeight: 1.2,
               }}>{area.name}</h3>
               <span style={{
-                background: 'rgba(255,255,255,0.22)',
-                color: '#fff',
+                background: accentColor,
+                color: 'white',
                 fontSize: 'clamp(0.55rem, 0.85vw, 0.7rem)',
                 fontWeight: 700,
                 padding: '2px 10px',
@@ -1051,21 +1059,25 @@
               marginTop: 'auto',
               paddingTop: '0.4rem',
             }}>
-              {area.chips.map((chip, i) => (
-                <span key={i} style={{
-                  background: chip.a ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.18)',
-                  color: '#fff',
-                  fontSize: 'clamp(0.5rem, 0.82vw, 0.68rem)',
-                  fontWeight: chip.a ? 700 : 600,
-                  padding: '2px 8px',
-                  borderRadius: 4,
-                  border: chip.a ? '1.5px solid rgba(255,255,255,0.7)' : '1px solid rgba(255,255,255,0.25)',
-                  whiteSpace: 'nowrap',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 3,
-                }}>{chip.l}{chip.a && <span style={{ color: '#4ade80', fontSize: '0.75em' }}>✔</span>}</span>
-              ))}
+              {area.chips.map((chip, i) => {
+                const CHIP_COLORS = { r: '#EE0000', b: '#283897', t: '#5CC8CD' };
+                const chipBg = chip.c ? (CHIP_COLORS[chip.c] || accentColor) : null;
+                return (
+                  <span key={i} style={{
+                    background: chipBg || (chip.a ? `${accentColor}15` : '#F8FAFC'),
+                    color: chipBg ? '#fff' : accentColor,
+                    fontSize: 'clamp(0.5rem, 0.82vw, 0.68rem)',
+                    fontWeight: 700,
+                    padding: '2px 8px',
+                    borderRadius: 4,
+                    border: chipBg ? `1.5px solid ${chipBg}` : (chip.a ? `1.5px solid ${accentColor}` : `1px solid ${accentColor}40`),
+                    whiteSpace: 'nowrap',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 3,
+                  }}>{chip.l}{chip.a && <span style={{ color: chipBg ? '#fff' : '#34A866', fontSize: '0.75em' }}>✔</span>}</span>
+                );
+              })}
             </div>
           </div>
         );
@@ -1082,8 +1094,18 @@
       return (
         <div style={{ height: '100%', display: 'flex', flexDirection: 'column', background: '#F8FAFC', overflow: 'hidden', padding: '0.5rem 1.75rem 0.6rem' }}>
 
+          {/* Leyenda descriptiva */}
+          <div style={{ display: 'flex', gap: '1.2rem', justifyContent: 'flex-end', padding: '0.1rem 0 0.3rem', flexShrink: 0 }}>
+            {(tp.legend || []).map((item, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'white', borderRadius: 4, padding: '3px 8px', border: `1px solid ${item.color}` }}>
+                <div style={{ width: 14, height: 10, borderRadius: 2, background: item.color, flexShrink: 0 }} />
+                <span style={{ color: item.color, fontSize: 'clamp(0.5rem, 0.8vw, 0.65rem)', fontWeight: 700 }}>{item.label}</span>
+              </div>
+            ))}
+          </div>
+
           {/* FRONT / SEGMENTO */}
-          <SectionLabel text={tp.frontLabel} />
+          <SectionLabel text={tp.frontCount ? `${tp.frontLabel}  ·  ${tp.frontCount} ${tp.countLabel}` : tp.frontLabel} />
           <div style={{ padding: '0.4rem 0', flexShrink: 0 }}>
             {tp.front.map((area, i) => (
               <AreaBlock key={i} area={area} />
@@ -1091,7 +1113,7 @@
           </div>
 
           {/* BACK / SOPORTE */}
-          <SectionLabel text={tp.backLabel} />
+          <SectionLabel text={tp.backCount ? `${tp.backLabel}  ·  ${tp.backCount} ${tp.countLabel}` : tp.backLabel} />
           <div style={{
             flex: 1,
             minHeight: 0,
@@ -1364,10 +1386,11 @@
             <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: '0 6px' }}>
               <thead>
                 <tr style={{ background: C.blue }}>
-                  <th style={{ ...thStyle, borderRadius: '8px 0 0 8px', width: '14%' }}>{tr.colArea}</th>
-                  <th style={{ ...thStyle, width: '22%' }}>{tr.colSystem}</th>
-                  <th style={{ ...thStyle, width: '40%' }}>{tr.colReach}</th>
-                  <th style={{ ...thStyle, borderRadius: '0 8px 8px 0', width: '24%' }}>{tr.colOwnCode}</th>
+                  <th style={{ ...thStyle, borderRadius: '8px 0 0 8px', width: '12%' }}>{tr.colArea}</th>
+                  <th style={{ ...thStyle, width: '18%' }}>{tr.colSystem}</th>
+                  <th style={{ ...thStyle, width: '26%' }}>{tr.colReach}</th>
+                  <th style={{ ...thStyle, width: '22%' }}>{tr.colImplemented}</th>
+                  <th style={{ ...thStyle, borderRadius: '0 8px 8px 0', width: '22%' }}>{tr.colOwnCode}</th>
                 </tr>
               </thead>
               <tbody>
@@ -1408,7 +1431,7 @@
                             letterSpacing: '0.03em',
                           }}>{r}</span>
                         ))}
-                        {item.countries.length > 0 && (
+                        {(item.countries || []).length > 0 && (
                           <span style={{
                             color: '#6B7280',
                             fontSize: 'clamp(0.65rem, 1vw, 0.75rem)',
@@ -1417,6 +1440,15 @@
                         )}
                       </div>
                     </td>
+
+                    {/* Implementado en */}
+                    <td style={{
+                      padding: '0.7rem 1rem',
+                      color: C.dark,
+                      fontWeight: 600,
+                      fontSize: 'clamp(0.7rem, 1.05vw, 0.82rem)',
+                      fontFamily: "'Open Sans', Arial, sans-serif",
+                    }}>{item.implemented || ''}</td>
 
                     {/* Código fuente propio */}
                     <td style={{

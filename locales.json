@@ -3,7 +3,7 @@
     "langToggle": "EN",
     "pageTitle": "Presentación del Equipo | Sodexo",
     "headerTitle": "presentación del equipo de trabajo",
-    "segments": ["home", "quiénes somos", "Governance / Comité de Tecnología", "Metrics Governance / Comité de Tecnología (2022 - 2025)", "proyectos con impacto", "proyectos actuales", "desarrollos de Chile mostrados a Región/Global", "plataformas globales", "transición GBS | TCS", "transición GBS | tickets", "seguridad baseline [MSB]", "abierto a discusión"],
+    "segments": ["home", "quiénes somos", "Governance / Comité de Tecnología", "Métricas Governance / Nuestro Norte", "proyectos principales", "proyectos actuales", "desarrollos de Chile mostrados a Región/Global", "plataformas globales", "transición GBS | TCS", "transición GBS | tickets", "seguridad baseline [MSB]", "abierto a discusión"],
     "sidebarTitle": "Presentación",
     "sidebarSubtitle": "Equipo de trabajo",
     "sidebarClose": "‹ cerrar menú",
@@ -16,7 +16,7 @@
     "ariaGoTo": "Ir a la diapositiva",
     "home": {
       "supra": "",
-      "title": "TDDI & IA — Sodexo Chile",
+      "title": "TDDI — Sodexo Chile",
       "date": "abril 2026"
     },
     "about": {
@@ -40,7 +40,7 @@
       "quote": ""
     },
     "metrics": {
-      "heading": "métricas",
+      "heading": "Métricas Governance / Nuestro Norte",
       "stat1Subtitle": "Proyectos aprobados vs rechazados",
       "stat1Approved": "91%",
       "stat1ApprovedLabel": "de proyectos aprobados (87)",
@@ -60,12 +60,12 @@
       "investPeriod": "FY22–FY25",
       "titlesub": "Estrategia tecnológica",
       "northTitle": "Nuestro Norte",
-      "north1": "Servicios SAAS",
-      "north2": "Desarrolla a la Medida donde Sodexo es dueño de los códigos",
-      "north3": "Eficiencia de Costos",
-      "northFrontCount": "16",
+      "triTop": ["Time to Market", "Eficiencia de Costos"],
+      "triRight": ["Sistema de Sodexo Global", "Servicios SaaS", "Desarrollo"],
+      "triLeft": ["Seguridad & Cloud"],
+      "northFrontCount": "26",
       "northFrontLabel": "FRONT / SEGMENTO",
-      "northBackCount": "80",
+      "northBackCount": "61",
       "northBackLabel": "BACK / SUPPORT",
       "northProjectsSuffix": "proyectos"
     },
@@ -109,7 +109,7 @@
       "composedBy": "compuesto por",
       "bullets": ["Crecimiento Sostenido", "Trabajo BackOffice / Soporte negocio", "Potencia la gestión y trazabilidad del negocio"],
       "securityTitle": "Seguridad",
-      "securityDesc": "Todos los proyectos pasan por el proceso de seguridad regional.",
+      "securityDesc": "Todos los proyectos pasan por el proceso de seguridad global.",
       "solutionTitle": "Tipos de Solución",
       "solutionDesc": "Trabajamos con las siguientes plataformas y modalidades:",
       "solutionItems": ["Power Apps", "Servicios SaaS", "Desarrollos a la medida — Sodexo es dueño del código"],
@@ -120,7 +120,7 @@
           "icon": "briefcase",
           "iconBg": "#EF661A",
           "title": "negocio",
-          "text": "La iniciativa nace desde el negocio, identificando una necesidad u oportunidad.",
+          "text": "La iniciativa nace desde el negocio, identificando una necesidad u oportunidad. Este puede ser un impulso interno o necesidad del cliente.",
           "badges": ["Iniciativa", "Demanda"],
           "gate": false
         },
@@ -129,7 +129,7 @@
           "icon": "bank",
           "iconBg": "#EF661A",
           "title": "comité de tecnología",
-          "text": "El negocio presenta el Business Case y la justificación. El Comité aprueba o rechaza.",
+          "text": "El negocio presenta el Business Case y la justificación. El Comité aprueba o rechaza, evaluando el impacto del negocio, la escalabilidad de la solución y el aporte del proyecto. También, se realiza una búsqueda en Aris para verificar si existe una solución alternativa.",
           "members": ["Director de Finanzas", "Director de Marketing", "Director de Proyectos Estratégicos", "Director de Service Operations", "CIO Local"],
           "gate": true
         },
@@ -138,7 +138,7 @@
           "icon": "globe",
           "iconBg": "#915FC8",
           "title": "global",
-          "text": "El proyecto se eleva a revisión y validación global antes de continuar.",
+          "text": "El proyecto se carga en la plataforma Triskell, donde pasa por una validación global y regional.",
           "badges": ["Validación", "Alineación"],
           "gate": true
         },
@@ -183,21 +183,28 @@
       ]
     },
     "portfolioMap": {
-      "heading": "portafolio de proyectos",
+      "heading": "proyectos principales",
+      "legend": [
+        { "label": "Regulación legal", "color": "#EE0000" },
+        { "label": "Mejoras de proceso y gestión", "color": "#283897" },
+        { "label": "Mejoras de trazabilidad", "color": "#5CC8CD" }
+      ],
       "countLabel": "proyectos",
       "countLabelShort": "proy.",
       "activeLabel": "activo",
       "frontLabel": "FRONT / SEGMENTO",
+      "frontCount": 12,
       "backLabel": "BACK / SOPORTE",
+      "backCount": 27,
       "front": [
-        { "id": "seg", "name": "Segmentos / Operación", "chips": [{"l":"SoStay"},{"l":"Mejora evolutiva SoStay","a":true},{"l":"SoTrack","a":true},{"l":"Trazacheck"},{"l":"Reinserción Social"},{"l":"Fichas Médicas"},{"l":"POS - Retail","a":true},{"l":"BeeIT"},{"l":"Betterfly"},{"l":"Planta Colina"},{"l":"Exámenes Médicos"},{"l":"Exámenes Microb.","a":true}] }
+        { "id": "seg", "name": "Segmentos / Operación", "count": 12, "chips": [{"l":"SoStay","c":"b"},{"l":"Mejora evolutiva SoStay","a":true,"c":"b"},{"l":"SoTrack","a":true,"c":"b"},{"l":"Trazacheck","c":"b"},{"l":"Reinserción Social","c":"r"},{"l":"Fichas Médicas","c":"r"},{"l":"POS - Retail","a":true,"c":"b"},{"l":"BeeIT","c":"b"},{"l":"Betterfly","c":"b"},{"l":"Planta Colina","c":"t"},{"l":"Exámenes Médicos","c":"t"},{"l":"Exámenes Microb.","a":true,"c":"t"}] }
       ],
       "back": [
-        { "id": "food", "name": "Food",           "chips": [{"l":"AMD – Minutas"},{"l":"SDXO Guías"},{"l":"SDXO Waste"},{"l":"SGP Upgrade","a":true},{"l":"Monitor Precios"}] },
-        { "id": "fm",   "name": "FM",             "chips": [{"l":"SMS"},{"l":"Keystone"},{"l":"MyWay"}] },
-        { "id": "log",  "name": "Logística",      "chips": [{"l":"App Inventario"},{"l":"RIO OnSite"},{"l":"Control Ramplas"}] },
-        { "id": "fin",  "name": "Finanzas",       "chips": [{"l":"SPRS"},{"l":"Gestión P&L"},{"l":"Workflow Finanzas"},{"l":"Planning"},{"l":"SOVOS - Factura X (Factura Electrónica)","a":true},{"l":"Automatización de Ticket","a":true}] },
-        { "id": "rrhh", "name": "Gestión RRHH",   "chips": [{"l":"Workflow HR"},{"l":"App Autoservicio"},{"l":"Control Dotación"},{"l":"Gestor Documental"},{"l":"Total Rewards"},{"l":"Certificación Laboral"},{"l":"SGPOS","a":true},{"l":"Contratos Colectivos","a":true}] }
+        { "id": "food", "name": "Food",           "chips": [{"l":"AMD – Minutas","c":"b"},{"l":"SDXO Guías","c":"b"},{"l":"SDXO Waste","c":"t"},{"l":"SGP Upgrade","a":true,"c":"b"},{"l":"Monitor Precios","c":"t"}] },
+        { "id": "fm",   "name": "FM",             "chips": [{"l":"SMS","c":"b"},{"l":"Keystone","c":"b"},{"l":"MyWay","c":"b"}] },
+        { "id": "log",  "name": "Logística",      "chips": [{"l":"App Inventario","c":"b"},{"l":"RIO OnSite","c":"b"},{"l":"Control Ramplas","c":"t"}] },
+        { "id": "fin",  "name": "Finanzas",       "chips": [{"l":"SPRS","c":"b"},{"l":"Gestión P&L","c":"b"},{"l":"Workflow Finanzas","c":"t"},{"l":"Planning","c":"b"},{"l":"SOVOS - Factura X (Factura Electrónica)","a":true,"c":"r"},{"l":"Automatización de Ticket","a":true,"c":"b"}] },
+        { "id": "rrhh", "name": "Gestión RRHH", "count": 10, "chips": [{"l":"Workflow HR","c":"t"},{"l":"App Autoservicio","c":"b"},{"l":"Control Dotación","c":"b"},{"l":"Gestor Documental","c":"t"},{"l":"Total Rewards","c":"b"},{"l":"Certificación Laboral","c":"b"},{"l":"Control de Asistencia","c":"r"},{"l":"Gestión de Turnos","c":"b"},{"l":"SGPOS","a":true,"c":"b"},{"l":"Contratos Colectivos","a":true,"c":"b"}] }
       ]
     },
     "portfolio": {
@@ -291,16 +298,12 @@
       "footnote": "* Proyecto en proceso de aprobación global.",
       "projects": [
         {
-          "segment": "Marketing", "name": "POS – Retail", "rows": 2,
+          "segment": "Marketing", "name": "POS – Retail",
           "phases": [
             [
-              {"label": "Evaluación y levantamiento", "start": "2024-07-01", "end": "2025-01-31", "color": "#34A866"},
-              {"label": "Implementación", "start": "2025-02-01", "end": "2026-08-31", "color": "#2A295C"}
-            ],
-            [
-              {"label": "Desarrollo\nIntegración Inventario", "start": "2025-05-01", "end": "2026-01-31", "color": "#EF661A"},
-              {"label": "Desarrollo\nAdaptación Totem", "start": "2026-02-01", "end": "2026-04-30", "color": "#EF661A"},
-              {"label": "Desarrollo\nIntegración Pluxee", "start": "2026-05-01", "end": "2026-08-31", "color": "#EF661A"}
+              {"label": "Evaluación", "start": "2024-06-30", "end": "2024-10-31", "color": "#34A866"},
+              {"label": "Desarrollo", "start": "2024-10-31", "end": "2025-03-31", "color": "#EF661A"},
+              {"label": "Implementación", "start": "2025-03-31", "end": "2026-08-30", "color": "#2A295C"}
             ]
           ]
         },
@@ -308,8 +311,8 @@
           "segment": "Finanzas", "name": "Automatización de Ticket",
           "phases": [
             [
-              {"label": "Evaluación", "start": "2024-06-01", "end": "2025-05-31", "color": "#34A866"},
-              {"label": "Desarrollo", "start": "2025-06-01", "end": "2026-06-30", "color": "#EF661A"}
+              {"label": "Evaluación", "start": "2024-08-22", "end": "2025-04-21", "color": "#34A866"},
+              {"label": "Desarrollo", "start": "2025-04-21", "end": "2026-05-29", "color": "#EF661A"}
             ]
           ]
         },
@@ -317,8 +320,8 @@
           "segment": "Transversal", "name": "Centro de Servicios – Exámenes Microbiológicos",
           "phases": [
             [
-              {"label": "Evaluación", "start": "2025-07-01", "end": "2025-12-31", "color": "#34A866"},
-              {"label": "Desarrollo", "start": "2026-01-01", "end": "2026-04-30", "color": "#EF661A"}
+              {"label": "Evaluación", "start": "2025-10-31", "end": "2026-02-13", "color": "#34A866"},
+              {"label": "Desarrollo", "start": "2026-02-13", "end": "2026-04-29", "color": "#EF661A"}
             ]
           ]
         },
@@ -326,17 +329,8 @@
           "segment": "HR", "name": "Gestión de Haberes E&R (SGPOS)",
           "phases": [
             [
-              {"label": "Evaluación", "start": "2025-03-01", "end": "2025-06-30", "color": "#34A866"},
-              {"label": "Desarrollo", "start": "2025-07-01", "end": "2026-05-31", "color": "#EF661A"}
-            ]
-          ]
-        },
-        {
-          "segment": "Health Care", "name": "Gestión de Tareas Salud (SoTrack) *",
-          "phases": [
-            [
-              {"label": "Evaluación", "start": "2025-04-01", "end": "2025-12-31", "color": "#34A866"},
-              {"label": "Aprobación Global", "start": "2026-01-01", "end": "2026-06-30", "color": "#915FC8"}
+              {"label": "Evaluación", "start": "2024-10-22", "end": "2025-03-31", "color": "#34A866"},
+              {"label": "Desarrollo", "start": "2025-03-31", "end": "2026-05-29", "color": "#EF661A"}
             ]
           ]
         },
@@ -344,17 +338,28 @@
           "segment": "Finanzas", "name": "Facturador Electrónico",
           "phases": [
             [
-              {"label": "Evaluación", "start": "2025-07-01", "end": "2025-12-31", "color": "#34A866"},
-              {"label": "Desarrollo", "start": "2026-01-01", "end": "2026-05-31", "color": "#EF661A"}
+              {"label": "Evaluación", "start": "2025-06-22", "end": "2025-10-31", "color": "#34A866"},
+              {"label": "Desarrollo", "start": "2025-10-31", "end": "2026-05-28", "color": "#EF661A"}
             ]
           ]
         },
         {
-          "segment": "Finanzas", "name": "Mejora Evolutivo SoStay *",
+          "segment": "Service Operations", "name": "SoStay *",
           "phases": [
             [
-              {"label": "Evaluación", "start": "2025-10-01", "end": "2026-03-31", "color": "#34A866"},
-              {"label": "Aprobación", "start": "2026-04-01", "end": "2026-06-30", "color": "#915FC8"}
+              {"label": "Implementación\nSistema SoStay", "start": "2025-01-01", "end": "2025-09-30", "color": "#2A295C"},
+              {"label": "Evaluación\nMejora Evolutivo", "start": "2025-09-30", "end": "2026-03-01", "color": "#34A866"},
+              {"label": "Aprobación\nGlobal", "start": "2026-03-01", "end": "2026-04-29", "color": "#915FC8"}
+            ]
+          ]
+        },
+        {
+          "segment": "Health Care", "name": "Gestión de Tareas Salud (SoTrack) *",
+          "phases": [
+            [
+              {"label": "Funcionamiento\nTrazacheck", "start": "2024-06-30", "end": "2025-04-01", "color": "#2A295C"},
+              {"label": "Evaluación", "start": "2025-04-01", "end": "2025-08-31", "color": "#34A866"},
+              {"label": "Aprobación\nGlobal", "start": "2025-08-31", "end": "2026-04-29", "color": "#915FC8"}
             ]
           ]
         },
@@ -362,8 +367,17 @@
           "segment": "Service Operations", "name": "Upgrade Food Platform",
           "phases": [
             [
-              {"label": "Evaluación", "start": "2025-11-01", "end": "2026-03-31", "color": "#34A866"},
-              {"label": "Desarrollo", "start": "2026-04-01", "end": "2026-08-31", "color": "#EF661A"}
+              {"label": "Evaluación", "start": "2025-11-06", "end": "2026-03-17", "color": "#34A866"},
+              {"label": "Desarrollo", "start": "2026-03-17", "end": "2026-08-31", "color": "#EF661A"}
+            ]
+          ]
+        },
+        {
+          "segment": "Marketing", "name": "Betterfly",
+          "phases": [
+            [
+              {"label": "Desarrollo", "start": "2025-10-01", "end": "2025-12-31", "color": "#EF661A"},
+              {"label": "Implementación", "start": "2026-01-01", "end": "2026-06-30", "color": "#2A295C"}
             ]
           ]
         }
@@ -373,18 +387,19 @@
       "heading": "desarrollos de Chile mostrados a Región/Global",
       "colArea": "Área",
       "colSystem": "Sistema",
-      "colReach": "Alcance",
+      "colReach": "Mostrado a",
+      "colImplemented": "Implementado en",
       "colOwnCode": "Código fuente propio",
-      "yes": "Sí",
-      "no": "No (SaaS)",
+      "yes": "Sodexo Chile",
+      "no": "Proveedor (SaaS)",
       "items": [
-        { "area": "Finance",   "system": "SPRS",             "reach": ["Región"],           "countries": [],                    "ownCode": true  },
-        { "area": "Food",      "system": "AMD",              "reach": ["Región", "Global"],  "countries": [],                    "ownCode": true  },
-        { "area": "Logística", "system": "RIO",              "reach": ["Región"],           "countries": ["MEX"],               "ownCode": true  },
-        { "area": "Food",      "system": "SGP",              "reach": ["Región"],           "countries": ["Perú", "Colombia"],  "ownCode": true  },
-        { "area": "HR",        "system": "App Autoservicio", "reach": ["Región"],           "countries": ["Colombia"],          "ownCode": true  },
-        { "area": "E&R",       "system": "SO STAY",          "reach": ["Región"],           "countries": ["MEX"],               "ownCode": true  },
-        { "area": "Retail",    "system": "Toteat - POS",     "reach": ["Región"],           "countries": ["Colombia"],          "ownCode": false }
+        { "area": "Finance",   "system": "SPRS",             "reach": ["Región", "Global"],  "implemented": "",                  "ownCode": true  },
+        { "area": "Food",      "system": "AMD",              "reach": ["Región", "Global"],  "implemented": "",                  "ownCode": true  },
+        { "area": "Logística", "system": "RIO",              "reach": ["Región", "MEX"],      "implemented": "México",            "ownCode": true  },
+        { "area": "Food",      "system": "SGP",              "reach": ["Región", "Perú", "Colombia"], "implemented": "Perú / Colombia", "ownCode": true  },
+        { "area": "HR",        "system": "App Autoservicio", "reach": ["Región", "MEX"],      "implemented": "",                  "ownCode": true  },
+        { "area": "E&R",       "system": "SO STAY",          "reach": ["Región", "MEX"],      "implemented": "",                  "ownCode": true  },
+        { "area": "Retail",    "system": "Toteat - POS Retail",     "reach": ["Región", "Colombia"], "implemented": "",                  "ownCode": false }
       ]
     },
     "globalPlatforms": {
@@ -403,6 +418,7 @@
       "card3Items": [
         { "from": "Checking Plan", "to": "SMS", "status": "Migración Activa" },
         { "from": "Synchroteam", "to": "SMS", "status": "Migración Activa" },
+        { "from": "Máximo", "to": "Keystone", "status": "Migración Activa" },
         { "from": "Otros sitios con Synchroteam", "to": "Keystone", "status": "FY27" }
       ]
     },
@@ -552,7 +568,7 @@
       "case2Tag": "Caso 02",
       "case2Title": "Proyecto SoTrack",
       "case2Subtitle": "7 meses de aprobación · 5 en herramienta que no aplica",
-      "case2Badges": ["19 clínicas", "1.800+ camas", "30 usuarios/clínica", "Facturación anual aprox.: € 20M"],
+      "case2Badges": ["19 clínicas", "1.800+ camas", "30 usuarios/clínica", "Anual Revenue.: € 20M"],
       "case2Months": "7",
       "case2MonthsLabel": "meses impacto",
       "case2Text": "5 meses se destinaron a evaluar si el SMS global cubría los requerimientos locales — concluyendo que no lo hace. El resultado: vuelta al inicio en búsqueda de alternativas.",
@@ -561,7 +577,7 @@
       "case3Tag": "Caso 03",
       "case3Title": "Proyecto SoStay",
       "case3Subtitle": "Solicitud de mejora evolutiva pendiente de respuesta",
-      "case3Badges": ["Facturación anual: € 319M", "34.987 habitaciones", "104.961 personas en rotación"],
+      "case3Badges": ["Anual Revenue: € 319M", "34.987 habitaciones", "104.961 personas en rotación mensual"],
       "case3Text": "Se solicita una mejora evolutiva sobre la plataforma SoStay para responder a las necesidades actuales del negocio. El tamaño del contrato y la escala operacional justifican priorizar una respuesta ágil desde global."
     }
   },
@@ -569,7 +585,7 @@
     "langToggle": "ES",
     "pageTitle": "Team Presentation | Sodexo",
     "headerTitle": "work team presentation",
-    "segments": ["home", "who we are", "Governance / Technology Committee", "Metrics Governance / Technology Committee (2022 - 2025)", "high-impact projects", "current projects", "Chile developments shown to Region/Global", "global platforms", "GBS transition | TCS", "GBS transition | tickets", "security baseline [MSB]", "open for discussion"],
+    "segments": ["home", "who we are", "Governance / Technology Committee", "Metrics Governance / Our North", "main projects", "current projects", "Chile developments shown to Region/Global", "global platforms", "GBS transition | TCS", "GBS transition | tickets", "security baseline [MSB]", "open for discussion"],
     "sidebarTitle": "Presentation",
     "sidebarSubtitle": "Work team",
     "sidebarClose": "‹ close menu",
@@ -582,7 +598,7 @@
     "ariaGoTo": "Go to slide",
     "home": {
       "supra": "",
-      "title": "TDDI & AI — Sodexo Chile",
+      "title": "TDDI — Sodexo Chile",
       "date": "April 2026"
     },
     "about": {
@@ -606,7 +622,7 @@
       "quote": ""
     },
     "metrics": {
-      "heading": "metrics",
+      "heading": "Metrics Governance / Our North",
       "stat1Subtitle": "Approved vs rejected projects",
       "stat1Approved": "91%",
       "stat1ApprovedLabel": "of projects approved (87)",
@@ -626,12 +642,12 @@
       "investPeriod": "FY22–FY25",
       "titlesub": "Technology strategy",
       "northTitle": "Our North",
-      "north1": "SAAS Services",
-      "north2": "Custom Development where Sodexo owns the code",
-      "north3": "Cost Efficiency",
-      "northFrontCount": "16",
+      "triTop": ["Time to Market", "Cost Efficiency"],
+      "triRight": ["Sodexo Global System", "SaaS Services", "Development"],
+      "triLeft": ["Security & Cloud"],
+      "northFrontCount": "26",
       "northFrontLabel": "FRONT / SEGMENT",
-      "northBackCount": "80",
+      "northBackCount": "61",
       "northBackLabel": "BACK / SUPPORT",
       "northProjectsSuffix": "projects"
     },
@@ -675,7 +691,7 @@
       "composedBy": "composed by",
       "bullets": ["Sustained Growth", "BackOffice / Business Support", "Enhances business management & traceability"],
       "securityTitle": "Security",
-      "securityDesc": "All projects go through the regional security process.",
+      "securityDesc": "All projects go through the global security process.",
       "solutionTitle": "Solution Types",
       "solutionDesc": "We work with the following platforms and modalities:",
       "solutionItems": ["Power Apps", "SaaS Services", "Custom Development — Sodexo owns the code"],
@@ -686,7 +702,7 @@
           "icon": "briefcase",
           "iconBg": "#EF661A",
           "title": "business",
-          "text": "The initiative is born from the business, identifying a need or opportunity.",
+          "text": "The initiative is born from the business, identifying a need or opportunity. This can be an internal drive or a client need.",
           "badges": ["Initiative", "Demand"],
           "gate": false
         },
@@ -695,7 +711,7 @@
           "icon": "bank",
           "iconBg": "#EF661A",
           "title": "technology committee",
-          "text": "The business presents the Business Case and justification. The Committee approves or rejects.",
+          "text": "The business presents the Business Case and justification. The Committee approves or rejects, evaluating the business impact, solution scalability, and project contribution. Additionally, a search is performed in Aris to verify if an alternative solution exists.",
           "members": ["Finance Director", "Marketing Director", "Strategic Projects Director", "Service Operations Director", "Local CIO"],
           "gate": true
         },
@@ -704,7 +720,7 @@
           "icon": "globe",
           "iconBg": "#915FC8",
           "title": "global",
-          "text": "The project is elevated for global review and validation before continuing.",
+          "text": "The project is uploaded to the Triskell platform, where it undergoes global and regional validation.",
           "badges": ["Validation", "Alignment"],
           "gate": true
         },
@@ -749,21 +765,28 @@
       ]
     },
     "portfolioMap": {
-      "heading": "project portfolio",
+      "heading": "main projects",
+      "legend": [
+        { "label": "Legal regulation", "color": "#EE0000" },
+        { "label": "Process & management improvements", "color": "#283897" },
+        { "label": "Traceability improvements", "color": "#5CC8CD" }
+      ],
       "countLabel": "projects",
       "countLabelShort": "proj.",
       "activeLabel": "active",
       "frontLabel": "FRONT / SEGMENT",
+      "frontCount": 12,
       "backLabel": "BACK / SUPPORT",
+      "backCount": 27,
       "front": [
-        { "id": "seg", "name": "Segments / Operations", "chips": [{"l":"SoStay"},{"l":"SoStay Evolutionary Improvement","a":true},{"l":"SoTrack","a":true},{"l":"Trazacheck"},{"l":"Social Reintegration"},{"l":"Medical Records"},{"l":"POS - Retail","a":true},{"l":"BeeIT"},{"l":"Betterfly"},{"l":"Planta Colina"},{"l":"Medical Exams"},{"l":"Microbiology Exams","a":true}] }
+        { "id": "seg", "name": "Segments / Operations", "count": 12, "chips": [{"l":"SoStay","c":"b"},{"l":"SoStay Evolutionary Improvement","a":true,"c":"b"},{"l":"SoTrack","a":true,"c":"b"},{"l":"Trazacheck","c":"b"},{"l":"Social Reintegration","c":"r"},{"l":"Medical Records","c":"r"},{"l":"POS - Retail","a":true,"c":"b"},{"l":"BeeIT","c":"b"},{"l":"Betterfly","c":"b"},{"l":"Planta Colina","c":"t"},{"l":"Medical Exams","c":"t"},{"l":"Microbiology Exams","a":true,"c":"t"}] }
       ],
       "back": [
-        { "id": "food", "name": "Food",              "chips": [{"l":"AMD – Menus"},{"l":"SDXO Guides"},{"l":"SDXO Waste"},{"l":"SGP Upgrade","a":true},{"l":"Price Monitor"}] },
-        { "id": "fm",   "name": "FM",                "chips": [{"l":"SMS"},{"l":"Keystone"},{"l":"MyWay"}] },
-        { "id": "log",  "name": "Logistics",         "chips": [{"l":"Inventory App"},{"l":"RIO OnSite"},{"l":"Dock Control"}] },
-        { "id": "fin",  "name": "Finance",           "chips": [{"l":"SPRS"},{"l":"P&L Mgmt."},{"l":"Finance Workflow"},{"l":"Planning"},{"l":"SOVOS - Factura X (Electronic Billing)","a":true},{"l":"Ticket Automation","a":true}] },
-        { "id": "rrhh", "name": "HR Management",     "chips": [{"l":"Workflow HR"},{"l":"Self-Service App"},{"l":"Staffing Control"},{"l":"Document Mgmt."},{"l":"Total Rewards"},{"l":"Labor Certification"},{"l":"SGPOS","a":true},{"l":"Union Agreements","a":true}] }
+        { "id": "food", "name": "Food",              "chips": [{"l":"AMD – Menus","c":"b"},{"l":"SDXO Guides","c":"b"},{"l":"SDXO Waste","c":"t"},{"l":"SGP Upgrade","a":true,"c":"b"},{"l":"Price Monitor","c":"t"}] },
+        { "id": "fm",   "name": "FM",                "chips": [{"l":"SMS","c":"b"},{"l":"Keystone","c":"b"},{"l":"MyWay","c":"b"}] },
+        { "id": "log",  "name": "Logistics",         "chips": [{"l":"Inventory App","c":"b"},{"l":"RIO OnSite","c":"b"},{"l":"Dock Control","c":"t"}] },
+        { "id": "fin",  "name": "Finance",           "chips": [{"l":"SPRS","c":"b"},{"l":"P&L Mgmt.","c":"b"},{"l":"Finance Workflow","c":"t"},{"l":"Planning","c":"b"},{"l":"SOVOS - Factura X (Electronic Billing)","a":true,"c":"r"},{"l":"Ticket Automation","a":true,"c":"b"}] },
+        { "id": "rrhh", "name": "HR Management", "count": 10, "chips": [{"l":"Workflow HR","c":"t"},{"l":"Self-Service App","c":"b"},{"l":"Staffing Control","c":"b"},{"l":"Document Mgmt.","c":"t"},{"l":"Total Rewards","c":"b"},{"l":"Labor Certification","c":"b"},{"l":"Attendance Control","c":"r"},{"l":"Shift Management","c":"b"},{"l":"SGPOS","a":true,"c":"b"},{"l":"Union Agreements","a":true,"c":"b"}] }
       ]
     },
     "portfolio": {
@@ -857,16 +880,12 @@
       "footnote": "* Project in global approval process.",
       "projects": [
         {
-          "segment": "Marketing", "name": "POS – Retail", "rows": 2,
+          "segment": "Marketing", "name": "POS – Retail",
           "phases": [
             [
-              {"label": "Evaluation & assessment", "start": "2024-07-01", "end": "2025-01-31", "color": "#34A866"},
-              {"label": "Implementation", "start": "2025-02-01", "end": "2026-08-31", "color": "#2A295C"}
-            ],
-            [
-              {"label": "Development\nInventory Integration", "start": "2025-05-01", "end": "2026-01-31", "color": "#EF661A"},
-              {"label": "Development\nTotem Adaptation", "start": "2026-02-01", "end": "2026-04-30", "color": "#EF661A"},
-              {"label": "Development\nPluxee Integration", "start": "2026-05-01", "end": "2026-08-31", "color": "#EF661A"}
+              {"label": "Evaluation", "start": "2024-06-30", "end": "2024-10-31", "color": "#34A866"},
+              {"label": "Development", "start": "2024-10-31", "end": "2025-12-31", "color": "#EF661A"},
+              {"label": "Implementation", "start": "2026-01-01", "end": "2026-08-30", "color": "#2A295C"}
             ]
           ]
         },
@@ -874,8 +893,8 @@
           "segment": "Finance", "name": "Ticket Automation",
           "phases": [
             [
-              {"label": "Evaluation", "start": "2024-06-01", "end": "2025-05-31", "color": "#34A866"},
-              {"label": "Development", "start": "2025-06-01", "end": "2026-06-30", "color": "#EF661A"}
+              {"label": "Evaluation", "start": "2024-08-22", "end": "2025-04-21", "color": "#34A866"},
+              {"label": "Development", "start": "2025-04-21", "end": "2026-05-29", "color": "#EF661A"}
             ]
           ]
         },
@@ -883,8 +902,8 @@
           "segment": "Cross-functional", "name": "Service Center – Microbiology Exams",
           "phases": [
             [
-              {"label": "Evaluation", "start": "2025-07-01", "end": "2025-12-31", "color": "#34A866"},
-              {"label": "Development", "start": "2026-01-01", "end": "2026-04-30", "color": "#EF661A"}
+              {"label": "Evaluation", "start": "2025-10-31", "end": "2026-02-13", "color": "#34A866"},
+              {"label": "Development", "start": "2026-02-13", "end": "2026-04-29", "color": "#EF661A"}
             ]
           ]
         },
@@ -892,17 +911,8 @@
           "segment": "HR", "name": "E&R Compensation Management (SGPOS)",
           "phases": [
             [
-              {"label": "Evaluation", "start": "2025-03-01", "end": "2025-06-30", "color": "#34A866"},
-              {"label": "Development", "start": "2025-07-01", "end": "2026-05-31", "color": "#EF661A"}
-            ]
-          ]
-        },
-        {
-          "segment": "Health Care", "name": "Health Task Management (SoTrack) *",
-          "phases": [
-            [
-              {"label": "Evaluation", "start": "2025-04-01", "end": "2025-12-31", "color": "#34A866"},
-              {"label": "Global Approval", "start": "2026-01-01", "end": "2026-06-30", "color": "#915FC8"}
+              {"label": "Evaluation", "start": "2024-10-22", "end": "2025-03-31", "color": "#34A866"},
+              {"label": "Development", "start": "2025-03-31", "end": "2026-05-29", "color": "#EF661A"}
             ]
           ]
         },
@@ -910,17 +920,28 @@
           "segment": "Finance", "name": "Electronic Billing",
           "phases": [
             [
-              {"label": "Evaluation", "start": "2025-07-01", "end": "2025-12-31", "color": "#34A866"},
-              {"label": "Development", "start": "2026-01-01", "end": "2026-05-31", "color": "#EF661A"}
+              {"label": "Evaluation", "start": "2025-06-22", "end": "2025-10-31", "color": "#34A866"},
+              {"label": "Development", "start": "2025-10-31", "end": "2026-05-28", "color": "#EF661A"}
             ]
           ]
         },
         {
-          "segment": "Finance", "name": "SoStay Evolutionary Improvement *",
+          "segment": "Service Operations", "name": "SoStay *",
           "phases": [
             [
-              {"label": "Evaluation", "start": "2025-10-01", "end": "2026-03-31", "color": "#34A866"},
-              {"label": "Approval", "start": "2026-04-01", "end": "2026-06-30", "color": "#915FC8"}
+              {"label": "Implementation\nSoStay System", "start": "2025-01-01", "end": "2025-09-30", "color": "#2A295C"},
+              {"label": "Evaluation\nEvolutionary Improvement", "start": "2025-09-30", "end": "2026-03-01", "color": "#34A866"},
+              {"label": "Global\nApproval", "start": "2026-03-01", "end": "2026-04-29", "color": "#915FC8"}
+            ]
+          ]
+        },
+        {
+          "segment": "Health Care", "name": "Health Task Management (SoTrack) *",
+          "phases": [
+            [
+              {"label": "Trazacheck\nOperation", "start": "2024-06-30", "end": "2025-04-01", "color": "#2A295C"},
+              {"label": "Evaluation", "start": "2025-04-01", "end": "2025-08-31", "color": "#34A866"},
+              {"label": "Global\nApproval", "start": "2025-08-31", "end": "2026-04-29", "color": "#915FC8"}
             ]
           ]
         },
@@ -928,8 +949,17 @@
           "segment": "Service Operations", "name": "Upgrade Food Platform",
           "phases": [
             [
-              {"label": "Evaluation", "start": "2025-11-01", "end": "2026-03-31", "color": "#34A866"},
-              {"label": "Development", "start": "2026-04-01", "end": "2026-08-31", "color": "#EF661A"}
+              {"label": "Evaluation", "start": "2025-11-06", "end": "2026-03-17", "color": "#34A866"},
+              {"label": "Development", "start": "2026-03-17", "end": "2026-08-31", "color": "#EF661A"}
+            ]
+          ]
+        },
+        {
+          "segment": "Marketing", "name": "Betterfly",
+          "phases": [
+            [
+              {"label": "Development", "start": "2025-10-01", "end": "2025-12-31", "color": "#EF661A"},
+              {"label": "Implementation", "start": "2026-01-01", "end": "2026-06-30", "color": "#2A295C"}
             ]
           ]
         }
@@ -939,18 +969,19 @@
       "heading": "Chile developments shown to Region/Global",
       "colArea": "Area",
       "colSystem": "System",
-      "colReach": "Reach",
+      "colReach": "Shown to",
+      "colImplemented": "Implemented in",
       "colOwnCode": "Own source code",
-      "yes": "Yes",
-      "no": "No (SaaS)",
+      "yes": "Sodexo Chile",
+      "no": "Vendor (SaaS)",
       "items": [
-        { "area": "Finance",   "system": "SPRS",             "reach": ["Region"],           "countries": [],                    "ownCode": true  },
-        { "area": "Food",      "system": "AMD",              "reach": ["Region", "Global"],  "countries": [],                    "ownCode": true  },
-        { "area": "Logistics", "system": "RIO",              "reach": ["Region"],           "countries": ["MEX"],               "ownCode": true  },
-        { "area": "Food",      "system": "SGP",              "reach": ["Region"],           "countries": ["Peru", "Colombia"],  "ownCode": true  },
-        { "area": "HR",        "system": "App Autoservicio", "reach": ["Region"],           "countries": ["Colombia"],          "ownCode": true  },
-        { "area": "E&R",       "system": "SO STAY",          "reach": ["Region"],           "countries": ["MEX"],               "ownCode": true  },
-        { "area": "Retail",    "system": "Toteat - POS",     "reach": ["Region"],           "countries": ["Colombia"],          "ownCode": false }
+        { "area": "Finance",   "system": "SPRS",             "reach": ["Region", "Global"],  "implemented": "",                  "ownCode": true  },
+        { "area": "Food",      "system": "AMD",              "reach": ["Region", "Global"],  "implemented": "",                  "ownCode": true  },
+        { "area": "Logistics", "system": "RIO",              "reach": ["Region", "MEX"],      "implemented": "Mexico",            "ownCode": true  },
+        { "area": "Food",      "system": "SGP",              "reach": ["Region", "Peru", "Colombia"], "implemented": "Peru / Colombia", "ownCode": true  },
+        { "area": "HR",        "system": "App Autoservicio", "reach": ["Region", "MEX"],      "implemented": "",                  "ownCode": true  },
+        { "area": "E&R",       "system": "SO STAY",          "reach": ["Region", "MEX"],      "implemented": "",                  "ownCode": true  },
+        { "area": "Retail",    "system": "Toteat - POS Retail",     "reach": ["Region", "Colombia"], "implemented": "",                  "ownCode": false }
       ]
     },
     "globalPlatforms": {
@@ -969,6 +1000,7 @@
       "card3Items": [
         { "from": "Checking Plan", "to": "SMS", "status": "Active Migration" },
         { "from": "Synchroteam", "to": "SMS", "status": "Active Migration" },
+        { "from": "Máximo", "to": "Keystone", "status": "Active Migration" },
         { "from": "Other sites with Synchroteam", "to": "Keystone", "status": "FY27" }
       ]
     },
@@ -1118,7 +1150,7 @@
       "case2Tag": "Case 02",
       "case2Title": "SoTrack Project",
       "case2Subtitle": "7 months of approval · 5 on a non-applicable tool",
-      "case2Badges": ["19 clinics", "1,800+ beds", "30 users/clinic", "Annual billing approx.: € 20M"],
+      "case2Badges": ["19 clinics", "1,800+ beds", "30 users/clinic", "Anual Revenue.: € 20M"],
       "case2Months": "7",
       "case2MonthsLabel": "months impact",
       "case2Text": "5 months were spent evaluating whether the global SMS covered local requirements — concluding it does not. The result: back to square one searching for alternatives.",
@@ -1127,7 +1159,7 @@
       "case3Tag": "Case 03",
       "case3Title": "SoStay Project",
       "case3Subtitle": "Evolutionary improvement request pending response",
-      "case3Badges": ["Annual billing: € 319M", "34,987 rooms", "104,961 people in rotation"],
+      "case3Badges": ["Anual Revenue: € 319M", "34,987 rooms", "104,961 people in monthly rotation"],
       "case3Text": "An evolutionary improvement is requested on the SoStay platform to meet current business needs. The contract size and operational scale justify prioritizing an agile response from global."
     }
   }

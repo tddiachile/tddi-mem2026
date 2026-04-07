@@ -38,7 +38,7 @@ def start_server(directory, port):
     return httpd
 
 
-def export_pptx(url, output_path, lang="es", total_slides=10):
+def export_pptx(url, output_path, lang="es", total_slides=12):
     from pptx import Presentation  # noqa: F401 — validar antes de capturar
     from selenium import webdriver
     from selenium.webdriver.chrome.options import Options
