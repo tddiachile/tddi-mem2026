@@ -303,7 +303,7 @@
             [
               {"label": "Evaluación", "start": "2024-06-30", "end": "2024-10-31", "color": "#34A866"},
               {"label": "Desarrollo", "start": "2024-10-31", "end": "2025-03-31", "color": "#EF661A"},
-              {"label": "Implementación", "start": "2025-03-31", "end": "2026-08-30", "color": "#2A295C"}
+              {"label": "Despliegue", "start": "2025-03-31", "end": "2026-08-30", "color": "#2A295C"}
             ]
           ]
         },
@@ -377,7 +377,7 @@
           "phases": [
             [
               {"label": "Desarrollo", "start": "2025-10-01", "end": "2025-12-31", "color": "#EF661A"},
-              {"label": "Implementación", "start": "2026-01-01", "end": "2026-06-30", "color": "#2A295C"}
+              {"label": "Despliegue", "start": "2026-01-01", "end": "2026-06-30", "color": "#2A295C"}
             ]
           ]
         }
@@ -396,6 +396,7 @@
         { "area": "Finance",   "system": "SPRS",             "reach": ["Región", "Global"],  "implemented": "",                  "ownCode": true  },
         { "area": "Food",      "system": "AMD",              "reach": ["Región", "Global"],  "implemented": "",                  "ownCode": true  },
         { "area": "Logística", "system": "RIO",              "reach": ["Región", "MEX"],      "implemented": "México",            "ownCode": true  },
+        { "area": "Logística", "system": "Ramplas",          "reach": ["Región", "MEX"],      "implemented": "",                  "ownCode": true  },
         { "area": "Food",      "system": "SGP",              "reach": ["Región", "Perú", "Colombia"], "implemented": "Perú / Colombia", "ownCode": true  },
         { "area": "HR",        "system": "App Autoservicio", "reach": ["Región", "MEX"],      "implemented": "",                  "ownCode": true  },
         { "area": "E&R",       "system": "SO STAY",          "reach": ["Región", "MEX"],      "implemented": "",                  "ownCode": true  },
@@ -884,8 +885,8 @@
           "phases": [
             [
               {"label": "Evaluation", "start": "2024-06-30", "end": "2024-10-31", "color": "#34A866"},
-              {"label": "Development", "start": "2024-10-31", "end": "2025-12-31", "color": "#EF661A"},
-              {"label": "Implementation", "start": "2026-01-01", "end": "2026-08-30", "color": "#2A295C"}
+              {"label": "Development", "start": "2024-10-31", "end": "2025-03-31", "color": "#EF661A"},
+              {"label": "Deployment", "start": "2025-03-31", "end": "2026-08-30", "color": "#2A295C"}
             ]
           ]
         },
@@ -959,7 +960,7 @@
           "phases": [
             [
               {"label": "Development", "start": "2025-10-01", "end": "2025-12-31", "color": "#EF661A"},
-              {"label": "Implementation", "start": "2026-01-01", "end": "2026-06-30", "color": "#2A295C"}
+              {"label": "Deployment", "start": "2026-01-01", "end": "2026-06-30", "color": "#2A295C"}
             ]
           ]
         }
@@ -978,6 +979,7 @@
         { "area": "Finance",   "system": "SPRS",             "reach": ["Region", "Global"],  "implemented": "",                  "ownCode": true  },
         { "area": "Food",      "system": "AMD",              "reach": ["Region", "Global"],  "implemented": "",                  "ownCode": true  },
         { "area": "Logistics", "system": "RIO",              "reach": ["Region", "MEX"],      "implemented": "Mexico",            "ownCode": true  },
+        { "area": "Logistics", "system": "Ramplas",          "reach": ["Region", "MEX"],      "implemented": "",                  "ownCode": true  },
         { "area": "Food",      "system": "SGP",              "reach": ["Region", "Peru", "Colombia"], "implemented": "Peru / Colombia", "ownCode": true  },
         { "area": "HR",        "system": "App Autoservicio", "reach": ["Region", "MEX"],      "implemented": "",                  "ownCode": true  },
         { "area": "E&R",       "system": "SO STAY",          "reach": ["Region", "MEX"],      "implemented": "",                  "ownCode": true  },

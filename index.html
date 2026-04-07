@@ -182,7 +182,7 @@
       const S_ITEM   = 19;     /* alto por ítem de personal               */
       const S_PAD    = 5;      /* padding interno antes/después de ítems  */
       const GAP_H    = 24;     /* gap horizontal entre nodos de nivel 2   */
-      const GAP_V    = 48;     /* gap vertical entre niveles              */
+      const GAP_V    = 72;     /* gap vertical entre niveles              */
 
       /* Staff de cada área (no forman parte de la jerarquía D3) */
       const proyStaff = [
@@ -301,14 +301,14 @@
           /* Contador de personas sobre el nodo de área */
           if (d.data.personCount) {
             g.append('text')
-              .attr('x', NW / 2).attr('y', -18)
+              .attr('x', NW / 2).attr('y', -28)
               .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
               .attr('fill', d.data.color)
               .attr('font-family', "'Open Sans',Arial,sans-serif")
               .attr('font-size', '16px').attr('font-weight', '800')
               .text(d.data.personCount);
             g.append('text')
-              .attr('x', NW / 2).attr('y', -5)
+              .attr('x', NW / 2).attr('y', -15)
               .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
               .attr('fill', '#aaa')
               .attr('font-family', "'Open Sans',Arial,sans-serif")
@@ -446,7 +446,7 @@
             </div>
             <p style={{
               color: '#374151',
-              fontSize: 'clamp(0.68rem, 1.1vw, 0.82rem)',
+              fontSize: 'clamp(0.78rem, 1.3vw, 0.95rem)',
               lineHeight: 1.6,
               margin: 0,
               flex: 1,
@@ -571,15 +571,15 @@
         <div style={{ flex: 1, background: 'white', borderRadius: 12, border: '1px solid #e0e4f0', borderTopWidth: 3, borderTopColor: color, boxShadow: '0 2px 10px rgba(40,56,151,0.07)', padding: 'clamp(0.45rem, 0.8vw, 0.85rem) clamp(0.4rem, 0.7vw, 0.75rem)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', minWidth: 0, overflow: 'hidden' }}>
           <div style={{ width: 'clamp(30px, 3.6vw, 44px)', height: 'clamp(30px, 3.6vw, 44px)', borderRadius: step.members ? 10 : '50%', background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'clamp(0.3rem, 0.5vw, 0.5rem)', flexShrink: 0 }}>{iconEl}</div>
           <div style={{ color, fontSize: 'clamp(0.54rem, 0.88vw, 0.74rem)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em', fontFamily: 'Arial, sans-serif', marginBottom: 'clamp(0.2rem, 0.35vw, 0.35rem)', lineHeight: 1.25 }}>{step.title}</div>
-          <p style={{ fontSize: step.members ? 'clamp(0.45rem, 0.72vw, 0.62rem)' : 'clamp(0.55rem, 0.88vw, 0.78rem)', color: '#555', lineHeight: 1.45, margin: '0 0 clamp(0.15rem, 0.3vw, 0.3rem)', flex: step.members ? 0 : 1 }}>{step.text}</p>
+          <p style={{ fontSize: 'clamp(0.55rem, 0.88vw, 0.78rem)', color: '#555', lineHeight: 1.45, margin: '0 0 clamp(0.15rem, 0.3vw, 0.3rem)', flex: step.members ? 0 : 1 }}>{step.text}</p>
           {step.members && (
             <div style={{ width: '100%', borderTop: '1px solid #eef0f8', paddingTop: 'clamp(0.25rem, 0.45vw, 0.4rem)', flex: 1, minHeight: 0 }}>
-              <div style={{ fontSize: 'clamp(0.42rem, 0.6vw, 0.53rem)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#bbb', marginBottom: 3, textAlign: 'center' }}>{tm.composedBy}</div>
+              <div style={{ fontSize: 'clamp(0.36rem, 0.5vw, 0.45rem)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#bbb', marginBottom: 2, textAlign: 'center' }}>{tm.composedBy}</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1px 0.4rem' }}>
                 {step.members.map((m, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '1px 0', textAlign: 'left' }}>
                     <div style={{ width: 4, height: 4, borderRadius: '50%', background: color, flexShrink: 0 }} />
-                    <span style={{ color: '#555', fontSize: 'clamp(0.48rem, 0.75vw, 0.65rem)' }}>{m}</span>
+                    <span style={{ color: '#555', fontSize: 'clamp(0.4rem, 0.62vw, 0.55rem)' }}>{m}</span>
                   </div>
                 ))}
               </div>
@@ -2296,7 +2296,7 @@
     }
 
     /* ── Cargar traducciones y montar la app ────────────────── */
-    fetch('locales.json?v=22')
+    fetch('locales.json?v=23')
       .then(r => r.json())
       .then(locales => {
         ReactDOM.createRoot(document.getElementById('root')).render(<App locales={locales} />);
